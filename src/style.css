@@ -5,15 +5,92 @@
 }
 
 .box {
-    width: 80%;
-    height: 500px;
+    width: 1500px;
+    height: 600px;
     border: 1px solid black;
     margin: 0 auto;
+    position: relative;
+    background: linear-gradient(#7dd6ff, rgb(255, 255, 255));
+    overflow: hidden;
+}
+
+.nuvem {
+    position: absolute;
+    top: 5%;
+    width: 550px;
+    animation: nuvem-pass 10s infinite linear;
+}
+
+.nuvem-invertida {
+    transform: scaleX(-1);
+}
+
+.parede {
+    position: absolute;
+    bottom: 80px;
+    width: 150px;
+    right: 50%;
+}
+
+.tiles {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 80px;
+    mask-repeat: repeat;
 }
 
 
 .player {
-    width: 40px;
-    height: auto;
+    width: 50px;
+    height: 50px;
+    background-color: red;
     border: 1px red solid;
+    position: absolute;
+    animation: player-animation 2s infinite linear;
+    bottom: 80px;
+}
+
+@keyframes player-animation {
+
+    from {
+        left: -3%;
+    }
+
+    to {
+        left: 100%;
+    }
+
+}
+
+@keyframes nuvem-pass {
+    from{
+        right: -45%;
+    }
+
+    to{
+        right: 110%;
+    }
+}
+
+
+@keyframes game-over {
+    0%{
+        bottom: 80px;
+    }
+    
+    40%{
+        bottom: 150px;
+        width: 80px;
+        height: 80px;
+    }
+
+    60%{
+        bottom: 150px;
+    }
+
+    100%{
+        bottom: -80px;
+    }
+
 }
