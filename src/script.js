@@ -45,9 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Redefine a posição e o estilo do player
 
             player.style.left = '-3%'; 
-            player.style.bottom = '80px';
-            player.style.width = '50px';
-            player.style.height = '50px';
+            player.style.bottom = '60px';
+            player.style.width = '200px';
+            player.style.height = '100px';
             player.style.backgroundColor = ''; // Remove a cor azul
             player.style.animation = ''; // Remove a animação 'game-over'
     
