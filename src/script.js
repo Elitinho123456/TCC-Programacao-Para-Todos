@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Player
     const player = document.querySelector('.player');
+    const parede = document.querySelector('.parede');
 
     // Função: Verificação Player colidiu ou não com a Parede e Reinicio Automatico.
     let loop = setInterval(() => {
@@ -9,8 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
         function iniciarLoop() {
             loop = setInterval(() => {
                 const playerPosition = player.offsetLeft; // Pega a posição do player
+                const paredePostion = parede.offsetLeft; // Pega a posição da parede
     
-                if (playerPosition >= 560) { // Caso o player esteja dentro do px designado, executa:
+                if (playerPosition >= (paredePostion)) { // Caso o player esteja dentro do px designado, executa:
 
                     // Seta a animação para nenhuma, "reseta o personagem"
                     player.style.animation = 'none';
@@ -21,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     player.style.bottom = '-80px';
     
                     // Troca a cor do personagem para fins visuais
-                    player.style.backgroundColor = 'blue';
+                    player.src = './images/Level-1 ref-Super-Mario/playerT.png';
     
                     // Encerra a verificação
                     clearInterval(loop);
@@ -46,9 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             player.style.left = '-3%'; 
             player.style.bottom = '60px';
-            player.style.width = '200px';
+            player.style.width = '250px';
             player.style.height = '100px';
-            player.style.backgroundColor = ''; // Remove a cor azul
+            player.src = './images/Level-1 ref-Super-Mario/playerT.gif'; // Remove a cor azul
             player.style.animation = ''; // Remove a animação 'game-over'
     
             // Reinicia o loop de verificação de colisão
