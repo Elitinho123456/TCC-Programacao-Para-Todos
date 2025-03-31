@@ -12,17 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 const playerPosition = player.offsetLeft; // Pega a posição do player
                 const paredePostion = parede.offsetLeft; // Pega a posição da parede
     
-                if (playerPosition >= (paredePostion)) { // Caso o player esteja dentro do px designado, executa:
+                if (playerPosition + 50 >= (paredePostion)) { // Caso o player esteja dentro do px designado, executa:
 
                     // Seta a animação para nenhuma, "reseta o personagem"
                     player.style.animation = 'none';
+                    
                     // Seta o Player para a posição onde colidiu com a "Parede"
                     player.style.left = `${playerPosition}px`;
     
-                    player.style.animation = 'game-over 1s ease-out';
-                    player.style.bottom = '-80px';
+                    player.style.animation = 'game-over 2s ease-out';
+                    player.style.bottom = '60px';
     
-                    // Troca a cor do personagem para fins visuais
+                    // Animação de "Game Over"
                     player.src = './images/Level-1 ref-Super-Mario/playerT.png';
     
                     // Encerra a verificação
@@ -47,9 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Redefine a posição e o estilo do player
 
             player.style.left = '-3%'; 
-            player.style.bottom = '60px';
-            player.style.width = '250px';
-            player.style.height = '100px';
+            player.style.bottom = '70px';
+            player.style.width = '100px';
+            player.style.height = '80px';
             player.src = './images/Level-1 ref-Super-Mario/playerT.gif'; // volta a animação
             player.style.animation = ''; // Remove a animação 'game-over'
     

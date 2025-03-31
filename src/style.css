@@ -48,11 +48,11 @@
 
 
 .player {
-    width: 250px;
-    height: 100px;
+    width: 100px;
+    height: 80px;
     position: absolute;
     animation: player-animation 5s infinite linear;
-    bottom: 60px;
+    bottom: 70px;
 }
 
 @keyframes player-animation {
@@ -80,13 +80,13 @@
 
 @keyframes game-over {
     0%{
-        bottom: 80px;
+        bottom: 60px;
     }
     
     40%{
         bottom: 150px;
-        width: 80px;
-        height: 80px;
+        width: 120px;
+        height: 120px;
     }
 
     60%{
