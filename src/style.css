@@ -5,6 +5,7 @@
 }
 
 .box {
+    display: flex;
     width: 1500px;
     height: 600px;
     border: 1px solid black;
@@ -12,6 +13,8 @@
     position: relative;
     background: linear-gradient(#7dd6ff, rgb(255, 255, 255));
     overflow: hidden;
+    max-width: 1060px;
+    max-height: 600px;
 }
 
 .nuvem {
@@ -25,11 +28,12 @@
     transform: scaleX(-1);
 }
 
-.parede {
-    position: absolute;
-    bottom: 80px;
-    width: 150px;
+.desafio {
+    position: relative;
+    width: 180px;
+    height: 140px;
     right: 50%;
+    top: 381px;
 }
 .bandeira{
     position: absolute;
@@ -39,11 +43,10 @@
 }
 
 .tiles {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+    position: relative;
+    width: 120%;
     height: 80px;
-    mask-repeat: repeat;
+    margin-top: 520px;
 }
 
 
@@ -51,14 +54,14 @@
     width: 250px;
     height: 100px;
     position: absolute;
+    margin-top: 41%;
     animation: player-animation 5s infinite linear;
-    bottom: 60px;
 }
 
 @keyframes player-animation {
 
     from {
-        left: -3%;
+        left: -15%;
     }
 
     to {
@@ -85,16 +88,20 @@
     
     40%{
         bottom: 150px;
-        width: 80px;
-        height: 80px;
+        width: 70px;
+        height: 70px;
     }
 
     60%{
         bottom: 150px;
+        width: 100px;
+        height: 100px;
     }
 
     100%{
-        bottom: -80px;
+        bottom: -100px;
+        width: 100px;
+        height: 100px;
     }
 
 }
