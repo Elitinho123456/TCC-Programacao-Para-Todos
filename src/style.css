@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 * {
     margin: 0px;
     padding: 0px;
@@ -35,7 +36,8 @@
     right: 50%;
     top: 381px;
 }
-.bandeira{
+
+.bandeira {
     position: absolute;
     bottom: 45px;
     width: 300px;
@@ -51,12 +53,69 @@
 
 
 .player {
-    width: 250px;
+    width: 80px;
     height: 100px;
     position: absolute;
-    margin-top: 41%;
+    margin-top: 40%;
     animation: player-animation 5s infinite linear;
 }
+
+.pause {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px 30px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 24px;
+    color: white;
+    background-color: #e52521;
+    border: 5px solid white;
+    border-radius: 10px;
+    box-shadow:
+        0 0 0 5px #e52521,
+        0 0 0 10px white,
+        0 0 0 15px #e52521;
+    text-shadow: 3px 3px 0 #000;
+    cursor: pointer;
+    z-index: 100;
+    animation: pulse 0.5s infinite alternate;
+}
+
+.pause:hover {
+    background-color: #ff1d1a;
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+.pause:active {
+    transform: translate(-50%, -50%) scale(0.95);
+}
+
+.mario-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+@keyframes pulse {
+    from {
+        box-shadow:
+            0 0 0 5px #e52521,
+            0 0 0 10px white,
+            0 0 0 15px #e52521;
+    }
+
+    to {
+        box-shadow:
+            0 0 0 5px #e52521,
+            0 0 0 10px white,
+            0 0 0 15px #e52521,
+            0 0 20px 10px rgba(255, 255, 255, 0.5);
+    }
+}
+
 
 @keyframes player-animation {
 
@@ -71,37 +130,35 @@
 }
 
 @keyframes nuvem-pass {
-    from{
+    from {
         right: -45%;
     }
 
-    to{
+    to {
         right: 110%;
     }
 }
 
 
 @keyframes game-over {
-    0%{
+    0% {
         bottom: 80px;
     }
-    
-    40%{
+
+    40% {
         bottom: 150px;
-        width: 70px;
-        height: 70px;
     }
 
-    60%{
+    60% {
         bottom: 150px;
-        width: 100px;
-        height: 100px;
+        width: 150px;
+        height: 150px;
     }
 
-    100%{
-        bottom: -100px;
-        width: 100px;
-        height: 100px;
+    100% {
+        bottom: -120px;
+        width: 150px;
+        height: 150px;
     }
 
 }
