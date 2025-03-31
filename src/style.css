@@ -31,7 +31,12 @@
     width: 150px;
     right: 50%;
 }
-
+.bandeira{
+    position: absolute;
+    bottom: 45px;
+    width: 300px;
+    right: 10%;
+}
 
 .tiles {
     position: absolute;

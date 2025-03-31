@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             player.style.bottom = '60px';
             player.style.width = '250px';
             player.style.height = '100px';
-            player.src = './images/Level-1 ref-Super-Mario/playerT.gif'; // Remove a cor azul
+            player.src = './images/Level-1 ref-Super-Mario/playerT.gif'; // volta a animação
             player.style.animation = ''; // Remove a animação 'game-over'
     
             // Reinicia o loop de verificação de colisão
@@ -107,3 +107,4 @@ document.addEventListener('DOMContentLoaded', () => {
     //Fim Nuvens
 
 });
+
