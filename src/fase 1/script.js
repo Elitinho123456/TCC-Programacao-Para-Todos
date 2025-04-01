@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         player.style.bottom = '-80px';
 
         // Troca a imagem do Personagem
-        player.src = './images/Level-1 ref-Super-Mario/playerT.png';
+        player.src = '/src/images/Level-1 ref-Super-Mario/playerT.png';
         player.style.width = '100px';
         player.style.height = '100px';
 
@@ -54,13 +54,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function vitoria(){
+        
+    }
+
     function resetPlayer() {
         // Redefine a posição e o estilo do player
         player.style.left = '-3%';
         player.style.bottom = '72px';
         player.style.width = '80px';
         player.style.height = '100px';
-        player.src = './images/Level-1 ref-Super-Mario/playerT.gif';
+        player.src = '/src/images/Level-1 ref-Super-Mario/playerT.gif';
         player.style.animation = '';
         
         // Esconde o botão
@@ -83,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function criarNuvem() {
         const nuvem = document.createElement('img');
-        nuvem.src = './images/Level-1 ref-Super-Mario/clouds.png';
+        nuvem.src = '/src/images/Level-1 ref-Super-Mario/clouds.png';
         nuvem.classList.add('nuvem');
 
         const tamanhoAleatorio = Math.floor(Math.random() * (600 - 350 + 1)) + 350;
