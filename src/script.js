@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Animação de game over
         const playerPosition = player.offsetLeft;
         player.style.animation = 'none';
-        player.style.left = `${playerPosition - player.width}px`;
+        player.style.left = `${playerPosition}px`;
         player.style.animation = 'game-over 1s ease-out';
         player.style.bottom = '-80px';
 
