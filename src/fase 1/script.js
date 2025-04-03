@@ -1,65 +1,78 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Player
+    // ============= SELEÇÃO DE ELEMENTOS =============
     const player = document.querySelector('.player');
     const parede = document.querySelector('.desafio');
     const pauseButton = document.querySelector('.pause');
-
+    const bandeira = document.querySelector('.bandeira');
+    const vitoriaBotao = document.querySelector('.vitoria-conteiner');
+    
+    // ============= VARIÁVEIS DE CONTROLE =============
     let loop;
-    let isGameOver = false; // Adicionamos uma flag para controlar o estado do jogo
+    let isGameOver = false;
 
-    // Função: Verificação Player colidiu ou não com a Parede e Reinicio Automatico.
+    // ============= LÓGICA PRINCIPAL DO JOGO =============
     function iniciarLoop() {
-        if (loop) clearInterval(loop); // Limpa qualquer loop existente
+        if (loop) clearInterval(loop);
         
         loop = setInterval(() => {
-            if (isGameOver) return; // Não verifica colisões se o jogo estiver pausado
+            if (isGameOver) return;
 
+            // Verificação de colisão com a parede
             const playerPosition = player.offsetLeft;
             const paredePostion = parede.offsetLeft;
             const paredetop = parede.offsetTop;
 
-            if (paredetop < 520) {
-                if (playerPosition >= (paredePostion - (player.width - 30))) {
-                    gameOver();
-                }
+            if (paredetop < 520 && playerPosition >= (paredePostion - (player.width - 20))) {
+                gameOver();
+            }
+
+            // Verificação de chegada na bandeira
+            const bandeiraPosition = bandeira.offsetLeft;
+            if (playerPosition >= (bandeiraPosition - (player.width - 85))) {
+                vitoria();
             }
         }, 10);
     }
 
+    // ============= ESTADOS DO JOGO =============
     function gameOver() {
         console.log('Game Over');
-        
-        // Para o loop
         clearInterval(loop);
         isGameOver = true;
 
-        // Animação de game over
+        // Animação e efeitos visuais
         const playerPosition = player.offsetLeft;
         player.style.animation = 'none';
-        player.style.left = `${playerPosition}px`;
+        player.style.left = `${playerPosition - player.width}px`;
         player.style.animation = 'game-over 1s ease-out';
         player.style.bottom = '-80px';
 
-        // Troca a imagem do Personagem
+        // Atualização do sprite
         player.src = '../images/Level-1 ref-Super-Mario/playerT.png';
         player.style.width = '100px';
         player.style.height = '100px';
 
-        // Mostra o botão de pause (que agora funciona como botão de reinício)
+        // Controles de interface
         pauseButton.style.display = 'block';
-
-        // Adiciona o evento 'animationend'
-        player.addEventListener('animationend', () => {
-            // Não chamamos resetPlayer() aqui, esperamos pelo clique no botão
-        });
+        player.addEventListener('animationend', () => {});
     }
 
-    function vitoria(){
+    function vitoria() {
+        console.log("Vitória!");
+        clearInterval(loop);
+        isGameOver = true;
         
+        // Posicionamento final do jogador
+        player.style.left = `${bandeira.offsetLeft - player.width + 85}px`;
+        player.style.animation = 'none';
+        
+        // Exibição dos elementos de vitória
+        vitoriaBotao.style.display = 'block';
     }
 
+    // ============= SISTEMA DE RESET =============
     function resetPlayer() {
-        // Redefine a posição e o estilo do player
+        // Reset de posição e estilo
         player.style.left = '-3%';
         player.style.bottom = '72px';
         player.style.width = '80px';
@@ -67,22 +80,21 @@ document.addEventListener('DOMContentLoaded', () => {
         player.src = '../images/Level-1 ref-Super-Mario/playerT.gif';
         player.style.animation = '';
         
-        // Esconde o botão
+        // Controles de interface
         pauseButton.style.display = 'none';
+        vitoriaBotao.style.display = 'none';
         
-        // Reseta o estado do jogo
+        // Reinicialização do jogo
         isGameOver = false;
-        
-        // Reinicia o loop
         iniciarLoop();
     }
 
-    // Inicia o loop pela primeira vez
+    // ============= INICIALIZAÇÃO DO JOGO =============
     iniciarLoop();
-
     pauseButton.addEventListener('click', resetPlayer);
+    vitoriaBotao.addEventListener('click', resetPlayer);
 
-    // Restante do código das nuvens...
+    // ============= SISTEMA DE NUVENS =============
     const container = document.getElementById('nuvens-container');
 
     function criarNuvem() {
@@ -90,27 +102,18 @@ document.addEventListener('DOMContentLoaded', () => {
         nuvem.src = '../images/Level-1 ref-Super-Mario/clouds.png';
         nuvem.classList.add('nuvem');
 
-        const tamanhoAleatorio = Math.floor(Math.random() * (600 - 350 + 1)) + 350;
-        nuvem.style.width = `${tamanhoAleatorio}px`;
-
-        const posicaoVertical = Math.random() * 50;
-        nuvem.style.top = `${posicaoVertical}%`;
-
-        if (Math.random() < 0.3) {
-            nuvem.classList.add('nuvem-invertida');
-        }
+        // Configurações aleatórias
+        nuvem.style.width = `${Math.floor(Math.random() * 251) + 350}px`;
+        nuvem.style.top = `${Math.random() * 50}%`;
+        if (Math.random() < 0.3) nuvem.classList.add('nuvem-invertida');
 
         container.appendChild(nuvem);
-
-        nuvem.addEventListener('animationiteration', () => {
-            nuvem.remove();
-        });
+        nuvem.addEventListener('animationiteration', () => nuvem.remove());
     }
 
     function gerarNuvensAleatoriamente() {
-        const intervalo = Math.random() * 5000 + 1000;
         criarNuvem();
-        setTimeout(gerarNuvensAleatoriamente, intervalo);
+        setTimeout(gerarNuvensAleatoriamente, Math.random() * 5000 + 1000);
     }
 
     gerarNuvensAleatoriamente();
