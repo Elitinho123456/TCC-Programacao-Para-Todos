@@ -17,12 +17,18 @@ document.addEventListener('DOMContentLoaded', () => {
         loop = setInterval(() => {
             if (isGameOver) return;
 
-            // Verificação de colisão com a parede
-            const playerPosition = player.offsetLeft;
-            const paredePostion = parede.offsetLeft;
-            const paredetop = parede.offsetTop;
+            const playerRect = player.getBoundingClientRect();
+            const paredeRect = parede.getBoundingClientRect();
 
-            if (paredetop < 520 && playerPosition >= (paredePostion - (player.width - 20))) {
+            // Verifica se há sobreposição (colisão)
+            const colidiu = !(
+                (playerRect.right - 25) < paredeRect.left ||
+                playerRect.left > paredeRect.right ||
+                playerRect.bottom < paredeRect.top ||
+                playerRect.top > paredeRect.bottom
+            );
+
+            if (colidiu) {
                 gameOver();
             }
 
@@ -118,8 +124,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     gerarNuvensAleatoriamente();
 
-    function pegarValor() {
-        var valorDigitado = document.getElementById("meuInput").value;
-        console.log("O valor digitado foi: " + valorDigitado);
-    }
 });
+
+function pegaValor() {
+    var valorDigitado = document.getElementById("meuInput").value;
+    console.log("O valor digitado foi: " + valorDigitado);
+
+    let pipe = document.querySelector('.desafio');
+
+    pipe.style.top = valorDigitado + 'px';
+
+}
+
+

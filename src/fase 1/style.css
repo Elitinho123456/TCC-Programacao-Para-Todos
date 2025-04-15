@@ -63,6 +63,10 @@
     animation: player-animation 5s infinite linear;
     border: 2px black solid;
 }
+.divPlayer{
+    width: 100px;
+    height: 100px;
+}
 
 .pause {
     display: none;
