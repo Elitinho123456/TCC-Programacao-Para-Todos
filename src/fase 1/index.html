@@ -14,21 +14,23 @@
     <!--<audio autoplay>
         <source src="./images/Level-1 ref-Super-Mario/musicaT.m4a" type="audio/mpeg">
       </audio>-->
-    
+
 
     <div class="box">
 
-        <div id="nuvens-container"></div>  <!--Aqui será adicionado as nuvens pelo js-->
+        <div id="nuvens-container"></div> <!--Aqui será adicionado as nuvens pelo js-->
         <div id="chao">
             <img src="../images/Level-1 ref-Super-Mario/tiles.png" class="tiles">
         </div> <!--Define o Chão-->
 
-        <img src="../images/Level-1 ref-Super-Mario/pipe.png" class="desafio"> <!--Define o Objetivo a ser ultrapassdo-->
+        <img src="../images/Level-1 ref-Super-Mario/pipe.png" class="desafio">
+        <!--Define o Objetivo a ser ultrapassdo-->
 
         <div>
-            <img src="../images/Level-1 ref-Super-Mario/playerT.gif" class="player" id="playerT"> <!--Define o Personagem-->
-        </div> 
-        
+            <img src="../images/Level-1 ref-Super-Mario/playerT.gif" class="player" id="playerT">
+            <!--Define o Personagem-->
+        </div>
+
         <img src="../images/Level-1 ref-Super-Mario/bandeira.png" class="bandeira"> <!--Define a bandeira-->
 
         <div class="vitoria-conteiner">
@@ -44,6 +46,10 @@
         </button>
 
     </div>
+
+    <label for="meuInput">Digite algo:</label>
+    <input type="text" id="meuInput" name="meuInput">
+    <button onclick="pegarValor()">Pegar Valor</button>
 
 </body>
 

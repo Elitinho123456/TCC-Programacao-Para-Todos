@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pauseButton = document.querySelector('.pause');
     const bandeira = document.querySelector('.bandeira');
     const vitoriaBotao = document.querySelector('.vitoria-conteiner');
-    
+
     // ============= VARIÁVEIS DE CONTROLE =============
     let loop;
     let isGameOver = false;
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============= LÓGICA PRINCIPAL DO JOGO =============
     function iniciarLoop() {
         if (loop) clearInterval(loop);
-        
+
         loop = setInterval(() => {
             if (isGameOver) return;
 
@@ -54,18 +54,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Controles de interface
         pauseButton.style.display = 'block';
-        player.addEventListener('animationend', () => {});
+        player.addEventListener('animationend', () => { });
     }
 
     function vitoria() {
         console.log("Vitória!");
         clearInterval(loop);
         isGameOver = true;
-        
+
         // Posicionamento final do jogador
         player.style.left = `${bandeira.offsetLeft - player.width + 85}px`;
         player.style.animation = 'none';
-        
+
         // Exibição dos elementos de vitória
         vitoriaBotao.style.display = 'block';
     }
@@ -79,11 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
         player.style.height = '100px';
         player.src = '../images/Level-1 ref-Super-Mario/playerT.gif';
         player.style.animation = '';
-        
+
         // Controles de interface
         pauseButton.style.display = 'none';
         vitoriaBotao.style.display = 'none';
-        
+
         // Reinicialização do jogo
         isGameOver = false;
         iniciarLoop();
@@ -117,4 +117,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     gerarNuvensAleatoriamente();
+
+    function pegarValor() {
+        var valorDigitado = document.getElementById("meuInput").value;
+        console.log("O valor digitado foi: " + valorDigitado);
+    }
 });
