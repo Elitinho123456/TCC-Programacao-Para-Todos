@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const playerRect = player.getBoundingClientRect();
             const paredeRect = parede.getBoundingClientRect();
+            const bandeiraRect = bandeira.getBoundingClientRect();
 
             // Verifica se há sobreposição (colisão)
             const colidiu = !(
@@ -33,8 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Verificação de chegada na bandeira
-            const bandeiraPosition = bandeira.offsetLeft;
-            if (playerPosition >= (bandeiraPosition - (player.width - 85))) {
+            const CBandeira = !((playerRect.right - 85) < bandeiraRect.left)
+
+            if (CBandeira) {
                 vitoria();
             }
         }, 10);
