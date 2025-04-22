@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         player.style.bottom = '-80px';
 
         // Atualização do sprite
-        player.src = '../images/Level-1 ref-Super-Mario/playerT.png';
+        player.src = 'imagem-level-1/playerT.png';
         player.style.width = '100px';
         player.style.height = '100px';
 
@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Posicionamento final do jogador
         player.style.left = `${bandeira.offsetLeft - player.width + 85}px`;
         player.style.animation = 'none';
+        player.src = ''
 
         // Exibição dos elementos de vitória
         vitoriaBotao.style.display = 'block';
@@ -85,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         player.style.bottom = '72px';
         player.style.width = '80px';
         player.style.height = '100px';
-        player.src = '../images/Level-1 ref-Super-Mario/playerT.gif';
+        player.src = 'imagem-level-1/playerT.gif';
         player.style.animation = '';
 
         // Controles de interface
@@ -107,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function criarNuvem() {
         const nuvem = document.createElement('img');
-        nuvem.src = '../images/Level-1 ref-Super-Mario/clouds.png';
+        nuvem.src = 'imagem-level-1/clouds.png';
         nuvem.classList.add('nuvem');
 
         // Configurações aleatórias
