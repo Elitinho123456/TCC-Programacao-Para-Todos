@@ -121,11 +121,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function gerarNuvensAleatoriamente() {
+        if (!nuvensAtivas) return; // Só gera nuvens se 'nuvensAtivas' for true
         criarNuvem();
         setTimeout(gerarNuvensAleatoriamente, Math.random() * 5000 + 1000);
     }
 
-    gerarNuvensAleatoriamente();
+    // Adiciona o event listener para iniciar as nuvens ao receber o foco
+    inputNuvens.addEventListener('focus', () => {
+        if (!nuvensAtivas) {
+            nuvensAtivas = true;
+            gerarNuvensAleatoriamente();
+        }
+    });
 
 });
 
