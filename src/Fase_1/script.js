@@ -1,4 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    // ============= Editor de Codigo =============
+
+    const code = document.getElementById('meu-editor-codigo');
+
+    const editor = CodeMirror(code, {
+        value: "/* Escreva seu código CSS aqui */\n",
+        mode: "css", // Linguagem (css, htmlmixed, javascript)
+        theme: "dracula", // Tema
+        lineNumbers: true, // Mostrar números das linhas
+    });
+
+    // Guardar a referência ao editor para usar depois
+    window.meuEditor = editor;
+
     // ============= SELEÇÃO DE ELEMENTOS =============
     const player = document.querySelector('.player');
     const parede = document.querySelector('.desafio');
@@ -105,45 +120,72 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ============= SISTEMA DE NUVENS =============
     const container = document.getElementById('nuvens-container');
+    let timeoutId; // Variável para guardar o ID do timeout
 
     function criarNuvem() {
+
         const nuvem = document.createElement('img');
+
         nuvem.src = 'imagem-level-1/clouds.png';
+
         nuvem.classList.add('nuvem');
 
         // Configurações aleatórias
-        nuvem.style.width = `${Math.floor(Math.random() * 251) + 350}px`;
-        nuvem.style.top = `${Math.random() * 50}%`;
-        if (Math.random() < 0.3) nuvem.classList.add('nuvem-invertida');
+        nuvem.style.width = `${Math.floor(Math.random() * 251) + 350}px`; // Largura entre 350px e 600px
+        nuvem.style.top = `${Math.random() * 50}%`; // Posição vertical aleatória na metade superior
+
+        if (Math.random() < 0.4) { // 40% de chance de inverter a nuvem horizontalmente
+            nuvem.classList.add('nuvem-invertida');
+        }
 
         container.appendChild(nuvem);
-        nuvem.addEventListener('animationiteration', () => nuvem.remove());
+
+        nuvem.addEventListener('animationiteration', () => {
+            console.log('Removendo nuvem após iteração da animação'); // Log para debug
+            nuvem.remove();
+        });
+
+        // Remover a nuvem após um tempo fixo caso a animação não funcione como esperado
+        setTimeout(() => {
+            if (container.contains(nuvem)) { // Verifica se a nuvem ainda existe antes de remover
+                console.log('Removendo nuvem por tempo limite'); // Log para debug
+                nuvem.remove();
+            }
+        }, 20000); // Remove após 20 segundos
     }
 
     function gerarNuvensAleatoriamente() {
-        if (!nuvensAtivas) return; // Só gera nuvens se 'nuvensAtivas' for true
-        criarNuvem();
-        setTimeout(gerarNuvensAleatoriamente, Math.random() * 5000 + 1000);
+        criarNuvem(); // Cria a nuvem imediatamente
+
+
+        // Guarda o ID do timeout para cancelá-lo depois se a página ficar oculta
+        timeoutId = setTimeout(gerarNuvensAleatoriamente, Math.random() * 5000 + 1000); // Próxima nuvem entre 1 e 6 segundos
     }
 
-    // Adiciona o event listener para iniciar as nuvens ao receber o foco
-    inputNuvens.addEventListener('focus', () => {
-        if (!nuvensAtivas) {
-            nuvensAtivas = true;
+    // Função que será chamada quando a visibilidade da página mudar
+    function handleVisibilityChange() {
+        if (document.hidden) {
+            // Se a página ficou OCULTA
+            // Cancela o próximo agendamento de criarNuvem
+            clearTimeout(timeoutId);
+            console.log("Geração de nuvens pausada (página oculta)."); // Para debug
+        } else {
+            console.log("Geração de nuvens retomada (página visível)."); // Para debug
+            // Limpa qualquer timeout residual (segurança extra) e inicia o ciclo
+            clearTimeout(timeoutId);
             gerarNuvensAleatoriamente();
         }
-    });
+    }
+
+    // --- Inicialização ---
+    // Este evento dispara sempre que o estado de visibilidade da aba muda.
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    // Inicia a geração de nuvens APENAS se a página já estiver visível quando o script for carregado.
+    if (!document.hidden) {
+        gerarNuvensAleatoriamente();
+    } else {
+        console.log("Página carregada oculta. Geração de nuvens aguardando visibilidade."); //Para debug
+    }
 
 });
-
-function pegaValor() {
-    var valorDigitado = document.getElementById("meuInput").value;
-    console.log("O valor digitado foi: " + valorDigitado);
-
-    let pipe = document.querySelector('.desafio');
-
-    pipe.style.top = valorDigitado + 'px';
-
-}
-
-

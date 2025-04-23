@@ -7,6 +7,13 @@
     <title>Game</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    ```
 </head>
 
 <body>
@@ -46,9 +53,7 @@
 
     </div>
 
-    <label for="meuInput">Altere a Altura:</label>
-    <input type="text" id="meuInput" name="meuInput">
-    <button onclick="pegaValor()">Pegar Valor</button>
+    <div id="meu-editor-codigo"></div>
 
 </body>
 

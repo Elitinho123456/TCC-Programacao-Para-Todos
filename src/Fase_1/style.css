@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 * {
     margin: 0px;
     padding: 0px;
@@ -44,7 +45,7 @@
     bottom: 72px;
     width: 100px;
     right: 5%;
-    border: 1px #000 solid ;
+    border: 1px #000 solid;
 }
 
 .tiles {
@@ -63,7 +64,8 @@
     animation: player-animation 5s infinite linear;
     border: 2px black solid;
 }
-.divPlayer{
+
+.divPlayer {
     width: 100px;
     height: 100px;
 }
@@ -100,7 +102,7 @@
     transform: translate(-50%, -50%) scale(0.95);
 }
 
-.vitoria-conteiner{
+.vitoria-conteiner {
     display: none;
     position: fixed;
     top: 25%;
@@ -112,7 +114,7 @@
     font-family: 'Press Start 2P', cursive;
 }
 
-.mensagemV{
+.mensagemV {
     color: #FFD700;
     font-size: 24px;
     text-shadow: 3px 3px 0 #000;
@@ -120,7 +122,7 @@
     animation: float 2s ease-in-out infinite;
 }
 
-.Pfase{
+.Pfase {
     position: relative;
     left: 80%;
     padding: 15px 30px;
@@ -129,10 +131,10 @@
     background-color: #4caf50;
     border: 5px solid white;
     border-radius: 10px;
-    box-shadow: 
-    0 0 0 5px #4caf50,
-    0 0 0 10px white,
-    0 0 0 15px #4caf50;
+    box-shadow:
+        0 0 0 5px #4caf50,
+        0 0 0 10px white,
+        0 0 0 15px #4caf50;
     text-shadow: 2px 2px 0 #000;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -142,19 +144,32 @@
     transform: 'none';
 }
 
-.Pfase:hover{
+.Pfase:hover {
     background-color: #45a049;
     transform: scale(1.05);
 }
 
-.Pfase:active{
+.Pfase:active {
     transform: scale(0.95);
 }
 
-@keyframes float{
-    0% {transform: translateY(0);}
-    50% {transform: translateY(-10px);}
-    100% {transform: translateY(0);}
+#meu-editor-codigo {
+    margin: 10px;
+    max-width: 600px;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
 
 @keyframes pulse {
