@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const code = document.getElementById('meu-editor-codigo');
 
     const editor = CodeMirror(code, {
-        value: "/* Escreva seu código CSS aqui */\n",
+        value: "/* Escreva seu código CSS aqui */\n .desafio{\nwidth: 140px;\nheight: 140px;\nright: 50%;\ntop: 381px;\n}",
         mode: "css", // Linguagem (css, htmlmixed, javascript)
         theme: "dracula", // Tema
         lineNumbers: true, // Mostrar números das linhas
@@ -13,6 +13,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Guardar a referência ao editor para usar depois
     window.meuEditor = editor;
+
+    //função para alterar as informações do css
+    function alteraJogo(){
+        const codigo = editor.getValue(); //pega o codigo css do editor
+        console.log("aplicando css", codigo); //debug
+
+        //verifica a tag style ou cria uma nova
+        const styleTagId = 'estilos-editor';
+        let styleTag = document.getElementById(styleTagId);
+        if(!styleTag){
+            styleTag = document.createElement('style');
+            styleTag.id = styleTagId;
+            document.head.appendChild(styleTag);
+        }
+
+        styleTag.textContent = codigo;
+        console.log("aplicado" + styleTagId);
+    }
+
+    alteraJogo();
+
+
+    let timeout
+    window.meuEditor.on('change', () =>{
+        clearTimeout(timeout); //cancela timeout anterior
+        timeout = setTimeout(alteraJogo, 500);
+    });
 
     // ============= SELEÇÃO DE ELEMENTOS =============
     const player = document.querySelector('.player');
