@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const code = document.getElementById('meu-editor-codigo');
 
     const editor = CodeMirror(code, {
-        value: "/* Escreva seu código CSS aqui */\n .desafio{\nwidth: 140px;\nheight: 140px;\nright: 50%;\ntop: 381px;\n}",
-        mode: "css", // Linguagem (css, htmlmixed, javascript)
+        value: "/* Olá como está? Sou o Console e irei te ajudar nessa jornada da programação. */\n /* Primeiro, vamos apresentar como o mundo JavaSrcipt é */ ",
+        mode: "javascript", // Linguagem (css, htmlmixed, javascript)
         theme: "dracula", // Tema
         lineNumbers: true, // Mostrar números das linhas
     });
@@ -14,32 +14,48 @@ document.addEventListener('DOMContentLoaded', () => {
     // Guardar a referência ao editor para usar depois
     window.meuEditor = editor;
 
+    const rodaConsoleBotao = document.querySelector('rodar-codigo');
+    
     //função para alterar as informações do css
     function alteraJogo(){
         const codigo = editor.getValue(); //pega o codigo css do editor
-        console.log("aplicando css", codigo); //debug
+        console.log("aplicando java", codigo); //debug
 
-        //verifica a tag style ou cria uma nova
-        const styleTagId = 'estilos-editor';
-        let styleTag = document.getElementById(styleTagId);
-        if(!styleTag){
-            styleTag = document.createElement('style');
-            styleTag.id = styleTagId;
-            document.head.appendChild(styleTag);
+        //try catch para erro na execução do jogador
+        try{
+            //Codigo que o jogador pode usar
+            const elementosUsu = {
+                jogador: player, //elemento DOM do player
+                obstaculo: parede, //elemento DOM da parede
+                meta: bandeira //elemento DOM da Bandeira
+            };
+
+            const funcoesUsua = {
+                reiniar: resetPlayer,
+                perder: gameOver
+            };
+
+            const funcaoDoUsuario = new Function('elementos', 'acoes', `'use strict';\n ${codigo}`);
+
+            funcaoDoUsuario(elementosUsu, funcoesUsua);
+
+            console.log("Codigo será executado aqui...")
+        
+        }catch (error){
+            alert("Erro no seu código: " + erro.message);
         }
-
-        styleTag.textContent = codigo;
-        console.log("aplicado" + styleTagId);
+        
     }
 
-    alteraJogo();
+    //alteraJogo();
 
 
-    let timeout
-    window.meuEditor.on('change', () =>{
-        clearTimeout(timeout); //cancela timeout anterior
-        timeout = setTimeout(alteraJogo, 500);
-    });
+    if(rodaConsoleBotao){
+        rodaConsoleBotao.addEventListener('click', alteraJogo);
+        console.log("alterou o jogo");
+    }else{
+        console.log("Não foi achado o botão");
+    }
 
     // ============= SELEÇÃO DE ELEMENTOS =============
     const player = document.querySelector('.player');
