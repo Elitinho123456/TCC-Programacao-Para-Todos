@@ -1,68 +1,106 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 * {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
-.box {
+html {
+    height: 100%;
+}
+
+body {
     display: flex;
-    width: 1500px;
-    height: 600px;
-    border: 1px solid black;
-    margin: 0 auto;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100%;
+    background: linear-gradient(#b0e0e6, #ffffff); /* Gradiente para a página inteira */
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-family: 'Press Start 2P', cursive;
+}
+
+.box { /* Contêiner do Jogo */
+    width: 90vw;
+    max-width: 1080px; /* Como no seu CSS original */
+    height: 50vh;     /* Altura do jogo, ajuste se necessário. O original era 600px fixo */
+    max-height: 500px; /* Limite, o original era 600px */
+    border: 2px solid black;
     position: relative;
     background: linear-gradient(#7dd6ff, rgb(255, 255, 255));
     overflow: hidden;
-    max-width: 1080px;
-    max-height: 600px;
+    margin-bottom: 20px;
 }
 
+#meu-editor-codigo { /* Contêiner do CodeMirror */
+    width: 90vw;
+    max-width: 700px;  /* Como no seu CSS para o editor */
+    height: 35vh;      /* Altura do editor, ajuste se necessário */
+    max-height: 300px; /* Limite de altura para o editor */
+    border: 1px solid #333;
+    position: relative;
+    overflow: hidden;
+    background-color: #1e1e1e;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.CodeMirror {
+    height: 100% !important;
+    font-family: monospace;
+    font-size: 14px;
+}
+
+/* ESTILOS DOS ELEMENTOS DO JOGO */
 .nuvem {
     position: absolute;
     top: 5%;
-    width: 550px;
-    animation: nuvem-pass 10s infinite linear;
+    width: 550px; /* Tamanho original */
+    animation: nuvem-pass 10s infinite linear; /* Duração original */
 }
 
 .nuvem-invertida {
     transform: scaleX(-1);
 }
 
-
-.desafio {
+.desafio { /* Obstáculo */
     position: absolute;
-    width: 140px;
-    height: 140px;
+    width: 140px; /* Tamanho original */
+    height: 140px; /* Tamanho original */
     right: 50%;
-    top: 381px;
+    bottom: 80px; /* Posicionado em relação à base, alinhado com tiles/player */
     border: 2px black solid;
+    /* background-color foi removido */
 }
 
-.bandeira {
+.bandeira { /* Objetivo */
     position: absolute;
-    bottom: 72px;
-    width: 100px;
+    bottom: 80px;
+    width: 100px; /* Tamanho original */
+    /* A altura será definida pela imagem ou conteúdo */
+    height: auto; /* Ou defina uma altura específica se necessário */
     right: 5%;
-    border: 1px #000 solid;
+    border: 1px #000 solid; /* Mantendo a borda original */
+    bottom: 72px;
 }
 
-.tiles {
-    position: relative;
-    width: 110%;
+.tiles { /* Chão do jogo */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%; /* Seu original era 110%, o que pode causar scroll horizontal. 100% é mais seguro. */
     height: 80px;
-    margin-top: 520px;
+    background-color: #78c850;
+    border-top: 2px solid #508830;
 }
-
 
 .player {
-    width: 80px;
-    height: 100px;
+    width: 80px;  /* Tamanho original */
+    height: 100px; /* Tamanho original */
     position: absolute;
-    margin-top: 40%;
+    bottom: 75px; /* Movido 5 pixels para baixo (80px - 5px) */
     animation: player-animation 5s infinite linear;
-    border: 2px black solid;
+    border: 2px black solid; /* Borda original */
 }
 
 .divPlayer {
@@ -70,15 +108,14 @@
     height: 100px;
 }
 
-.pause {
+.pause { /* Botão/Mensagem de Pause */
     display: none;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 15px 30px;
-    font-family: 'Press Start 2P', cursive;
-    font-size: 24px;
+    padding: 15px 30px; /* Valores originais */
+    font-size: 24px;   /* Tamanho original */
     color: white;
     background-color: #e52521;
     border: 5px solid white;
@@ -102,31 +139,31 @@
     transform: translate(-50%, -50%) scale(0.95);
 }
 
-.vitoria-conteiner {
+.vitoria-conteiner { /* Contêiner da Mensagem de Vitória */
     display: none;
     position: fixed;
-    top: 25%;
+    top: 25%; /* Movido mais para cima, como no seu CSS original */
     left: 50%;
-    width: 100%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); /* Ajusta o centro após o 'top' */
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 15px;
     text-align: center;
     z-index: 101;
-    font-family: 'Press Start 2P', cursive;
+    width: auto; /* Para se ajustar ao conteúdo */
 }
 
-.mensagemV {
+.mensagemV { /* Texto da Mensagem de Vitória */
     color: #FFD700;
-    font-size: 24px;
-    text-shadow: 3px 3px 0 #000;
+    font-size: 24px; /* Tamanho original */
+    text-shadow: 3px 3px 0 #000, 0 0 10px #FFD700;
     margin-bottom: 30px;
     animation: float 2s ease-in-out infinite;
 }
 
-.Pfase {
-    position: relative;
-    left: 80%;
+.Pfase { /* Botão de Próxima Fase/Reiniciar */
     padding: 15px 30px;
-    font-size: 18px;
+    font-size: 18px; /* Mantido, não foi especificado no pedido de retorno */
     color: white;
     background-color: #4caf50;
     border: 5px solid white;
@@ -139,9 +176,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     display: inline-block;
-    margin: 0 auto;
-    left: 0;
-    transform: 'none';
+    transform: none; /* Estava 'none' no seu original, mas sem aspas. Corrigido. */
 }
 
 .Pfase:hover {
@@ -153,23 +188,11 @@
     transform: scale(0.95);
 }
 
-#meu-editor-codigo {
-    margin: 10px;
-    max-width: 700px;
-}
-
+/* ANIMAÇÕES KEYFRAMES */
 @keyframes float {
-    0% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
 }
 
 @keyframes pulse {
@@ -179,59 +202,28 @@
             0 0 0 10px white,
             0 0 0 15px #e52521;
     }
-
     to {
         box-shadow:
             0 0 0 5px #e52521,
             0 0 0 10px white,
             0 0 0 15px #e52521,
-            0 0 20px 10px rgba(255, 255, 255, 0.5);
+            0 0 20px 10px rgba(229, 37, 33, 0.5);
     }
 }
 
-
 @keyframes player-animation {
-
-    from {
-        left: -15%;
-    }
-
-    to {
-        left: 100%;
-    }
-
+    from { left: -10%; }
+    to { left: 110%; }
 }
 
 @keyframes nuvem-pass {
-    from {
-        right: -45%;
-    }
-
-    to {
-        right: 110%;
-    }
+    from { right: -30%; } /* Ajuste se 550px de largura da nuvem for muito para -30% */
+    to { right: 110%; }
 }
 
-
 @keyframes game-over {
-    0% {
-        bottom: 80px;
-    }
-
-    40% {
-        bottom: 150px;
-    }
-
-    60% {
-        bottom: 150px;
-        width: 150px;
-        height: 150px;
-    }
-
-    100% {
-        bottom: -120px;
-        width: 150px;
-        height: 150px;
-    }
-
+    0% { bottom: 75px; opacity: 1; } /* Posição inicial ajustada do jogador */
+    30% { bottom: 145px; transform: rotate(-15deg); } /* Ajustado para a nova base */
+    60% { bottom: 115px; transform: rotate(15deg); } /* Ajustado */
+    100% { bottom: -120px; opacity: 0; transform: rotate(30deg); }
 }
