@@ -58,6 +58,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 10);
     }
 
+    // ============= FUNCIONALIDADE DO BOTÃO DE DICA =============
+    const botaoDica = document.getElementById('botao-dica');
+    const textoDica = document.getElementById('texto-dica');
+
+    // Verifica se ambos os elementos (botão e parágrafo da dica) existem na página
+    if (botaoDica && textoDica) {
+        botaoDica.addEventListener('click', () => {
+            // Verifica o estado atual de exibição do texto da dica
+            if (textoDica.style.display === 'none' || textoDica.style.display === '') {
+                // Se estiver escondido, mostra o texto e muda o texto do botão
+                textoDica.style.display = 'block'; // Ou 'inline', 'flex', dependendo do seu layout para o parágrafo
+                botaoDica.textContent = 'Esconder Dica';
+            } else {
+                // Se estiver visível, esconde o texto e volta o texto original do botão
+                textoDica.style.display = 'none';
+                botaoDica.textContent = 'Ver Dica';
+            }
+        });
+    } else {
+        // Opcional: Avisa no console se os elementos não forem encontrados
+        if (!botaoDica) {
+            console.warn("Elemento com ID 'botao-dica' não encontrado.");
+        }
+        if (!textoDica) {
+            console.warn("Elemento com ID 'texto-dica' não encontrado.");
+        }
+    }
+
     // ============= ESTADOS DO JOGO =============
     function gameOver() {
         console.log('Game Over');
@@ -69,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         player.style.animation = 'none';
         player.style.left = `${playerPosition}px`;
         player.style.animation = 'game-over 1s ease-out';
-        player.style.bottom = '-100px';
+        player.style.hidden = 'none';
 
         // Atualização do sprite
         player.src = 'imagem-level-1/playerT.png';

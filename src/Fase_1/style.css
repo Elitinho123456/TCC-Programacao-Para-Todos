@@ -6,56 +6,173 @@
     box-sizing: border-box;
 }
 
-html {
+html, body {
     height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Press Start 2P', cursive;
+    background: linear-gradient(90deg, rgb(30, 30, 30) 0%, rgb(15, 15, 15) 50%, rgb(30, 30, 30) 100%);
+    color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
 }
 
-body {
+.container-geral {
+    display: flex;
+    flex-grow: 1;
+    width: 100%; /* Ocupa toda a largura da janela */
+    /* max-width: 1600px; */ /* Remova ou comente esta linha se quiser que as abas colem nas bordas da TELA */
+    /* margin: 0 auto; */    /* Remova ou comente esta linha para o container ocupar 100% e não centralizar */
+    padding: 20px;       /* Aumentei um pouco o padding para dar mais respiro geral */
+    gap: 25px;           /* Aumentei o gap para dar mais separação visual */
+    box-sizing: border-box;
+    align-items: flex-start;
+}
+
+.aba-lateral-esquerda, .aba-lateral-direita {
+    background-color: rgba(40, 40, 40, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+    width: 400px; /* Ou a largura que você definiu */
+    flex-shrink: 0;
+    height: fit-content;
+    max-height: calc(100vh - 40px - 70px); /* Ajuste conforme o padding do container e altura do rodapé */
+
+    /* CONTROLE DE OVERFLOW: */
+    overflow-y: auto;   /* Permite scroll vertical SE o conteúdo for maior que a max-height */
+    overflow-x: hidden; /* ESCONDE qualquer conteúdo que ultrapasse a largura e desabilita o scroll horizontal */
+
+    box-shadow: 0px 0px 12px rgba(0,0,0,0.4);
+     word-wrap: break-word;
+}
+
+.aba-lateral-esquerda h2, .aba-lateral-direita h2 { /* Adicionei estilo para o h2 que faltava */
+    font-size: 1.3em;
+    color: #FFD700;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #555;
+}
+
+.aba-lateral-esquerda h3, .aba-lateral-direita h3 {
+    margin-top: 0; /* Já estava OK */
+    border-bottom: 1px solid #444;
+    padding-bottom: 5px;
+    font-size: 1em;
+    color: #ccc; /* Adicionei uma cor para melhor contraste */
+    margin-bottom: 10px;
+}
+
+.aba-lateral-esquerda p, .aba-lateral-esquerda ul,
+.aba-lateral-direita p, .aba-lateral-direita ul { /* Unifiquei para aplicar em ambas */
+    font-size: 0.85em; /* Um pouco maior para legibilidade */
+    line-height: 1.5;
+    margin-bottom: 10px;
+    color: #ddd; /* Cor mais clara para o texto */
+}
+.aba-lateral-esquerda ul, .aba-lateral-direita ul { /* Unifiquei */
+    padding-left: 20px;
+    list-style: square; /* Adicionei um marcador */
+}
+
+.aba-lateral-esquerda button#botao-dica { /* Deixei mais específico com o ID */
+    background-color: #c00000;
+    color: white;
+    border: 1px solid #ff4d4d;
+    padding: 10px 15px;
+    font-family: 'Press Start 2P', cursive;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 15px; /* Aumentei o espaço acima */
+    font-size: 0.8em;
+    display: block;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+.aba-lateral-esquerda button#botao-dica:hover {
+    background-color: #e52521;
+    border-color: #fff;
+}
+p#texto-dica { /* Estilo para o parágrafo da dica */
+    background-color: rgba(0,0,0,0.3);
+    padding: 10px;
+    border-radius: 4px;
+    margin-top:10px;
+    font-size:0.8em;
+}
+
+
+.conteudo-principal {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100%;
-    background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 158, 158) 25%, rgb(255, 41, 41) 75%, rgb(255, 0, 0) 100%);
-    padding-top: 20px;
-    padding-bottom: 20px;
-    font-family: 'Press Start 2P', cursive;
+    gap: 20px;
+    min-width: 320px; /* Garante que o conteúdo principal não fique esmagado */
 }
 
-.box { /* Contêiner do Jogo */
-    width: 90vw;
-    max-width: 1080px; /* Como no seu CSS original */
-    height: 50vh;     /* Altura do jogo, ajuste se necessário. O original era 600px fixo */
-    max-height: 500px; /* Limite, o original era 600px */
+/* O .box e #meu-editor-codigo já devem se ajustar bem com width: 100% e max-width */
+.box {
+    width: 100%;
+    max-width: 900px; /* Ou o valor que preferir para o jogo */
+    height: 480px; /* Ajuste conforme necessidade */
+    /* ... seus outros estilos do .box ... */
     border: 2px solid white;
     position: relative;
     background: linear-gradient(#7dd6ff, rgb(255, 255, 255));
     overflow: hidden;
-    margin-bottom: 20px;
-}
-.dicas {
-    position: fixed;
-    background-color: #ffffff;
-    color: #e52521;
-    width: 400px;          /* Largura da sua barra de dicas */
-    left: 0;
-    top: 0;
-    bottom: 0;             /* Faz ocupar toda a altura */
-    padding: 20px;
-    z-index: 1000;
-    overflow-y: auto;   
-    border: solid, 2px #000;   /* Adiciona scroll vertical se o conteúdo for maior que a altura */
 }
 
-#meu-editor-codigo { /* Contêiner do CodeMirror */
-    width: 90vw;
-    max-width: 700px;  /* Como no seu CSS para o editor */
-    height: 35vh;      /* Altura do editor, ajuste se necessário */
-    max-height: 300px; /* Limite de altura para o editor */
+#meu-editor-codigo {
+    width: 100%;
+    max-width: 900px; /* Mesmo max-width do jogo para alinhamento */
+    height: 300px; /* Ajuste conforme necessidade */
+    /* ... seus outros estilos do #meu-editor-codigo ... */
     border: 1px solid white;
-    position: relative;
     overflow: hidden;
     background-color: #1e1e1e;
     box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.CodeMirror {
+    height: 100% !important;
+    /* font-family e font-size já estavam no seu CSS original, mantidos */
+}
+
+/* Estilo para o título do jogo na aba lateral (se você o moveu para o HTML correto) */
+#titulo-jogo {
+  font-size: 1.5em;
+  color: #FFD700;
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #FFD700; /* Linha decorativa */
+  text-shadow: 2px 2px 0 #000;
+}
+
+
+/* Rodapé */
+footer {
+    width: 100%;
+    padding: 15px 0; /* Aumentei o padding */
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.8); /* Fundo para destacar */
+    font-size: 0.85em;
+    border-top: 1px solid #333; /* Linha sutil acima */
+    flex-shrink: 0;
+    /* margin-top: auto; /* Isso empurra para o final se o conteúdo for pequeno, já que body é flex-column */
+}
+
+/* Estilo para o título do jogo na aba lateral */
+#titulo-jogo {
+  font-size: 1.5em; /* Tamanho do título do jogo */
+  color: #FFD700; /* Cor dourada para destaque */
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 0 #000;
 }
 
 .CodeMirror {
@@ -197,14 +314,6 @@ body {
     transform: scale(0.95);
 }
 
-footer {
-    width: 100%;
-    padding: 10px 0;
-    text-align: center;
-    font-size: 0.8em;
-    flex-shrink: 0;
-    margin-top: 5%;
-}
 
 footer p {
     margin: 0;
