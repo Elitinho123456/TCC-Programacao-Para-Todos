@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const code = document.getElementById('meu-editor-codigo');
 
     const editor = CodeMirror(code, {
-        value: '',
+        value: '// Elementos disponíveis:\n// - elementos.jogador\n// - elementos.obstaculo\n// - elementos.meta\n\n// Ações disponíveis:\n// - acoes.reiniciar()\n// - acoes.perder()\n\n// Exemplo: Se o jogador estiver perto do obstáculo, faça algo\n// if (elementos.jogador.offsetLeft > elementos.obstaculo.offsetLeft - 50) {\n//   console.log("Jogador perto do obstáculo!");\n// }\n',
         mode: "javascript", // Linguagem (css, htmlmixed, javascript)
         theme: "dracula", // Tema
         lineNumbers: true, // Mostrar números das linhas
@@ -67,9 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Animação e efeitos visuais
         const playerPosition = player.offsetLeft;
         player.style.animation = 'none';
-        player.style.left = `${playerPosition - player.width}px`;
+        player.style.left = `${playerPosition}px`;
         player.style.animation = 'game-over 1s ease-out';
-        player.style.bottom = '-80px';
+        player.style.bottom = '-100px';
 
         // Atualização do sprite
         player.src = 'imagem-level-1/playerT.png';
