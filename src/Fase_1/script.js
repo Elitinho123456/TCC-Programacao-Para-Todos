@@ -107,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Controles de interface
         pauseButton.style.display = 'block';
         player.addEventListener('animationend', () => { });
+        player.style.opacity = 0
     }
 
     function vitoria() {
@@ -134,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============= SISTEMA DE RESET =============
     function resetPlayer() {
         // Reset de posição e estilo
+        player.style.opacity = 100
         player.style.left = '-3%';
         player.style.bottom = '72px';
         player.style.width = '80px';

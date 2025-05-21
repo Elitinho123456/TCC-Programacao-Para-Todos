@@ -362,7 +362,7 @@ footer a:hover {
 }
 
 @keyframes game-over {
-    0% { bottom: 75px; opacity: 1; } /* Posição inicial ajustada do jogador */
+    0% { bottom: 75px; opacity: 1; width: 100px; } /* Posição inicial ajustada do jogador */
     30% { bottom: 145px; transform: rotate(-15deg); } /* Ajustado para a nova base */
     60% { bottom: 115px; transform: rotate(15deg); } /* Ajustado */
     70% {  bottom: 80; transform: rotate(25deg);}
