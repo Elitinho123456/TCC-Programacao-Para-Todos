@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const code = document.getElementById('meu-editor-codigo');
 
     const editor = CodeMirror(code, {
-        value: '// Elementos disponíveis:\n// - elementos.jogador\n// - elementos.obstaculo\n// - elementos.meta\n\n// Ações disponíveis:\n// - acoes.reiniciar()\n// - acoes.perder()\n\n// Exemplo: Se o jogador estiver perto do obstáculo, faça algo\n// if (elementos.jogador.offsetLeft > elementos.obstaculo.offsetLeft - 50) {\n//   console.log("Jogador perto do obstáculo!");\n// }\n',
+        value: '// Elementos disponíveis:\n// - elementos.jogador\n// - elementos.obstaculo\n// - elementos.meta\n\n// Ações disponíveis:\n// - acoes.reiniciar()\n// - acoes.perder()\n\n// Exemplo: Se o jogador estiver perto do obstáculo, faça algo\n// if (elementos.jogador.offsetLeft > elementos.obstaculo.offsetLeft - 50) {\n//    console.log("Jogador perto do obstáculo!");\n// }\n',
         mode: "javascript", // Linguagem (css, htmlmixed, javascript)
         theme: "dracula", // Tema
         lineNumbers: true, // Mostrar números das linhas
@@ -21,10 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const pauseButton = document.querySelector('.pause');
     const bandeira = document.querySelector('.bandeira');
     const vitoriaBotao = document.querySelector('.vitoria-conteiner');
+    const tentativasDisplay = document.getElementById('tentativas-jogador'); // Corrigido
 
     // ============= VARIÁVEIS DE CONTROLE =============
     let loop;
     let isGameOver = false;
+    let tentativas = 0;
 
     // ============= LÓGICA PRINCIPAL DO JOGO =============
     function iniciarLoop() {
@@ -92,6 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(loop);
         isGameOver = true;
 
+        //incrementa tentativa
+        incrementarTentativas();
+
         // Animação e efeitos visuais
         const playerPosition = player.offsetLeft;
         player.style.animation = 'none';
@@ -107,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Controles de interface
         pauseButton.style.display = 'block';
         player.addEventListener('animationend', () => { });
-        player.style.opacity = 0
+        player.style.opacity = 0;
     }
 
     function vitoria() {
@@ -130,6 +135,23 @@ document.addEventListener('DOMContentLoaded', () => {
         vitoriaBotao.style.display = 'block';
 
         player.addEventListener('animationend', () => { });
+        // Ao vencer, podemos resetar as tentativas para a próxima fase ou manter, dependendo da lógica do jogo.
+        // Por enquanto, vamos resetar.
+        tentativas = 0;
+        atualizaTentativas(); // Atualiza o display de tentativas
+    }
+
+    // ============= SISTEMA DE CONTAGEM DE TENTATIVAS =============
+
+    function incrementarTentativas(){
+        tentativas++;
+        atualizaTentativas();
+    }
+
+    function atualizaTentativas(){
+        if(tentativasDisplay){ // É importante verificar se o elemento existe antes de tentar manipulá-lo
+            tentativasDisplay.textContent = tentativas;
+        }
     }
 
     // ============= SISTEMA DE RESET =============
@@ -156,6 +178,8 @@ document.addEventListener('DOMContentLoaded', () => {
     iniciarLoop();
     
     vitoriaBotao.addEventListener('click', resetPlayer);
+
+    atualizaTentativas(); 
 
     // ============= SISTEMA DE NUVENS =============
     const container = document.getElementById('nuvens-container');
@@ -243,7 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             const funcoesUsua = {
-                reiniar: resetPlayer,
+                reiniciar: resetPlayer, // Renomeado para 'reiniciar' para maior clareza
                 perder: gameOver
             };
 

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Slabo+13px&display=swap');
 
 * {
     margin: 0;
@@ -10,7 +10,8 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Press Start 2P', cursive;
+    /* Fonte alterada */
+    font-family: "Slabo 13px", serif;
     background: linear-gradient(90deg, rgb(30, 30, 30) 0%, rgb(15, 15, 15) 50%, rgb(30, 30, 30) 100%);
     color: #f0f0f0;
     display: flex;
@@ -20,11 +21,9 @@ html, body {
 .container-geral {
     display: flex;
     flex-grow: 1;
-    width: 100%; /* Ocupa toda a largura da janela */
-    /* max-width: 1600px; */ /* Remova ou comente esta linha se quiser que as abas colem nas bordas da TELA */
-    /* margin: 0 auto; */    /* Remova ou comente esta linha para o container ocupar 100% e não centralizar */
-    padding: 20px;       /* Aumentei um pouco o padding para dar mais respiro geral */
-    gap: 25px;           /* Aumentei o gap para dar mais separação visual */
+    width: 100%;
+    padding: 20px;
+    gap: 25px;
     box-sizing: border-box;
     align-items: flex-start;
 }
@@ -33,20 +32,21 @@ html, body {
     background-color: rgba(40, 40, 40, 0.9);
     padding: 15px;
     border-radius: 8px;
-    width: 400px; /* Ou a largura que você definiu */
+    width: 400px;
     flex-shrink: 0;
-    height: fit-content;
-    max-height: calc(100vh - 40px - 70px); /* Ajuste conforme o padding do container e altura do rodapé */
+    /* Estender barras laterais até o fim da página (ajustado para ocupar o espaço disponível) */
+    height: 100%; /* Isso fará com que as barras laterais ocupem a altura total do container-geral */
+    display: flex; /* Adicionado para permitir flex-direction column e push content down */
+    flex-direction: column; /* Conteúdo interno se organiza em coluna */
 
-    /* CONTROLE DE OVERFLOW: */
-    overflow-y: auto;   /* Permite scroll vertical SE o conteúdo for maior que a max-height */
-    overflow-x: hidden; /* ESCONDE qualquer conteúdo que ultrapasse a largura e desabilita o scroll horizontal */
+    overflow-y: auto;
+    overflow-x: hidden;
 
     box-shadow: 0px 0px 12px rgba(0,0,0,0.4);
-     word-wrap: break-word;
+    word-wrap: break-word;
 }
 
-.aba-lateral-esquerda h2, .aba-lateral-direita h2 { /* Adicionei estilo para o h2 que faltava */
+.aba-lateral-esquerda h2, .aba-lateral-direita h2 {
     font-size: 1.3em;
     color: #FFD700;
     text-align: center;
@@ -57,35 +57,35 @@ html, body {
 }
 
 .aba-lateral-esquerda h3, .aba-lateral-direita h3 {
-    margin-top: 0; /* Já estava OK */
+    margin-top: 0;
     border-bottom: 1px solid #444;
     padding-bottom: 5px;
     font-size: 1em;
-    color: #ccc; /* Adicionei uma cor para melhor contraste */
+    color: #ccc;
     margin-bottom: 10px;
 }
 
 .aba-lateral-esquerda p, .aba-lateral-esquerda ul,
-.aba-lateral-direita p, .aba-lateral-direita ul { /* Unifiquei para aplicar em ambas */
-    font-size: 0.85em; /* Um pouco maior para legibilidade */
+.aba-lateral-direita p, .aba-lateral-direita ul {
+    font-size: 0.85em;
     line-height: 1.5;
     margin-bottom: 10px;
-    color: #ddd; /* Cor mais clara para o texto */
+    color: #ddd;
 }
-.aba-lateral-esquerda ul, .aba-lateral-direita ul { /* Unifiquei */
+.aba-lateral-esquerda ul, .aba-lateral-direita ul {
     padding-left: 20px;
-    list-style: square; /* Adicionei um marcador */
+    list-style: square;
 }
 
-.aba-lateral-esquerda button#botao-dica { /* Deixei mais específico com o ID */
+.aba-lateral-esquerda button#botao-dica {
     background-color: #c00000;
     color: white;
     border: 1px solid #ff4d4d;
     padding: 10px 15px;
-    font-family: 'Press Start 2P', cursive;
+    font-family: "Slabo 13px", serif;
     cursor: pointer;
     border-radius: 5px;
-    margin-top: 15px; /* Aumentei o espaço acima */
+    margin-top: 15px;
     font-size: 0.8em;
     display: block;
     width: 100%;
@@ -96,7 +96,7 @@ html, body {
     background-color: #e52521;
     border-color: #fff;
 }
-p#texto-dica { /* Estilo para o parágrafo da dica */
+p#texto-dica {
     background-color: rgba(0,0,0,0.3);
     padding: 10px;
     border-radius: 4px;
@@ -111,15 +111,13 @@ p#texto-dica { /* Estilo para o parágrafo da dica */
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    min-width: 320px; /* Garante que o conteúdo principal não fique esmagado */
+    min-width: 320px;
 }
 
-/* O .box e #meu-editor-codigo já devem se ajustar bem com width: 100% e max-width */
 .box {
     width: 100%;
-    max-width: 900px; /* Ou o valor que preferir para o jogo */
-    height: 480px; /* Ajuste conforme necessidade */
-    /* ... seus outros estilos do .box ... */
+    max-width: 900px;
+    height: 480px;
     border: 2px solid white;
     position: relative;
     background: linear-gradient(#7dd6ff, rgb(255, 255, 255));
@@ -128,9 +126,8 @@ p#texto-dica { /* Estilo para o parágrafo da dica */
 
 #meu-editor-codigo {
     width: 100%;
-    max-width: 900px; /* Mesmo max-width do jogo para alinhamento */
-    height: 300px; /* Ajuste conforme necessidade */
-    /* ... seus outros estilos do #meu-editor-codigo ... */
+    max-width: 900px;
+    height: 300px;
     border: 1px solid white;
     overflow: hidden;
     background-color: #1e1e1e;
@@ -139,93 +136,75 @@ p#texto-dica { /* Estilo para o parágrafo da dica */
 
 .CodeMirror {
     height: 100% !important;
-    /* font-family e font-size já estavam no seu CSS original, mantidos */
+    font-family: monospace;
+    font-size: 14px;
 }
 
-/* Estilo para o título do jogo na aba lateral (se você o moveu para o HTML correto) */
 #titulo-jogo {
   font-size: 1.5em;
   color: #FFD700;
   text-align: center;
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 2px solid #FFD700; /* Linha decorativa */
+  border-bottom: 2px solid #FFD700;
   text-shadow: 2px 2px 0 #000;
 }
 
 
-/* Rodapé */
 footer {
     width: 100%;
-    padding: 15px 0; /* Aumentei o padding */
+    padding: 15px 0;
     text-align: center;
-    background-color: rgba(0, 0, 0, 0.8); /* Fundo para destacar */
+    background-color: rgba(0, 0, 0, 0.8);
     font-size: 0.85em;
-    border-top: 1px solid #333; /* Linha sutil acima */
+    border-top: 1px solid #333;
     flex-shrink: 0;
-    /* margin-top: auto; /* Isso empurra para o final se o conteúdo for pequeno, já que body é flex-column */
-}
-
-/* Estilo para o título do jogo na aba lateral */
-#titulo-jogo {
-  font-size: 1.5em; /* Tamanho do título do jogo */
-  color: #FFD700; /* Cor dourada para destaque */
-  text-align: center;
-  margin-bottom: 20px;
-  text-shadow: 2px 2px 0 #000;
-}
-
-.CodeMirror {
-    height: 100% !important;
-    font-family: monospace;
-    font-size: 14px;
 }
 
 /* ESTILOS DOS ELEMENTOS DO JOGO */
 .nuvem {
     position: absolute;
     top: 5%;
-    width: 550px; /* Tamanho original */
-    animation: nuvem-pass 10s infinite linear; /* Duração original */
+    width: 550px;
+    animation: nuvem-pass 10s infinite linear;
 }
 
 .nuvem-invertida {
     transform: scaleX(-1);
 }
 
-.desafio { /* Obstáculo */
+.desafio {
     position: absolute;
-    width: 140px; /* Tamanho original */
-    height: 140px; /* Tamanho original */
+    width: 140px;
+    height: 140px;
     right: 50%;
-    bottom: 80px; /* Posicionado em relação à base, alinhado com tiles/player */
+    bottom: 80px;
 }
 
-.bandeira { /* Objetivo */
+.bandeira {
     position: absolute;
     bottom: 80px;
-    width: 100px; /* Tamanho original */
-    /* A altura será definida pela imagem ou conteúdo */
-    height: auto; /* Ou defina uma altura específica se necessário */
+    width: 100px;
+    height: auto;
     right: 5%;
     bottom: 72px;
 }
 
-.tiles { /* Chão do jogo */
+.tiles {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%; /* Seu original era 110%, o que pode causar scroll horizontal. 100% é mais seguro. */
+    width: 100%;
     height: 80px;
     background-color: #78c850;
     border-top: 2px solid #508830;
 }
 
 .player {
-    width: 80px;  /* Tamanho original */
-    height: 100px; /* Tamanho original */
+    width: 80px;
+    height: 100px;
     position: absolute;
-    bottom: 75px; /* Movido 5 pixels para baixo (80px - 5px) */
+    bottom: 75px;
     animation: player-animation 5s infinite linear;
 }
 
@@ -234,14 +213,14 @@ footer {
     height: 100px;
 }
 
-.pause { /* Botão/Mensagem de Pause */
+.pause {
     display: none;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 15px 30px; /* Valores originais */
-    font-size: 24px;   /* Tamanho original */
+    padding: 15px 30px;
+    font-size: 24px;
     color: white;
     background-color: #e52521;
     border: 5px solid white;
@@ -265,31 +244,31 @@ footer {
     transform: translate(-50%, -50%) scale(0.95);
 }
 
-.vitoria-conteiner { /* Contêiner da Mensagem de Vitória */
+.vitoria-conteiner {
     display: none;
     position: fixed;
-    top: 25%; /* Movido mais para cima, como no seu CSS original */
+    top: 25%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Ajusta o centro após o 'top' */
+    transform: translate(-50%, -50%);
     padding: 30px;
     background-color: rgba(0, 0, 0, 0.75);
     border-radius: 15px;
     text-align: center;
     z-index: 101;
-    width: auto; /* Para se ajustar ao conteúdo */
+    width: auto;
 }
 
-.mensagemV { /* Texto da Mensagem de Vitória */
+.mensagemV {
     color: #FFD700;
-    font-size: 24px; /* Tamanho original */
+    font-size: 24px;
     text-shadow: 3px 3px 0 #000, 0 0 10px #FFD700;
     margin-bottom: 30px;
     animation: float 2s ease-in-out infinite;
 }
 
-.Pfase { /* Botão de Próxima Fase/Reiniciar */
+.Pfase {
     padding: 15px 30px;
-    font-size: 18px; /* Mantido, não foi especificado no pedido de retorno */
+    font-size: 18px;
     color: white;
     background-color: #4caf50;
     border: 5px solid white;
@@ -302,7 +281,7 @@ footer {
     cursor: pointer;
     transition: all 0.3s ease;
     display: inline-block;
-    transform: none; /* Estava 'none' no seu original, mas sem aspas. Corrigido. */
+    transform: none;
 }
 
 .Pfase:hover {
@@ -357,15 +336,15 @@ footer a:hover {
 }
 
 @keyframes nuvem-pass {
-    from { right: -30%; } /* Ajuste se 550px de largura da nuvem for muito para -30% */
+    from { right: -30%; }
     to { right: 110%; }
 }
 
 @keyframes game-over {
-    0% { bottom: 75px; opacity: 1; width: 100px; } /* Posição inicial ajustada do jogador */
-    30% { bottom: 145px; transform: rotate(-15deg); } /* Ajustado para a nova base */
-    60% { bottom: 115px; transform: rotate(15deg); } /* Ajustado */
-    70% {  bottom: 80; transform: rotate(25deg);}
+    0% { bottom: 75px; opacity: 1; width: 100px; }
+    30% { bottom: 145px; transform: rotate(-15deg); }
+    60% { bottom: 115px; transform: rotate(15deg); }
+    70% { bottom: 80; transform: rotate(25deg);}
     80% { bottom: 30px; transform: rotate(30deg);}
     100% { bottom: -120px; opacity: 0; transform: rotate(25deg); }
 }
