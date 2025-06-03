@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Slabo+13px&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 * {
     margin: 0;
@@ -54,20 +55,21 @@ html, body {
     margin-bottom: 15px;
     padding-bottom: 10px;
     border-bottom: 1px solid #555;
+    font-family: "Press Start 2P", cursive;
 }
 
 .aba-lateral-esquerda h3, .aba-lateral-direita h3 {
     margin-top: 0;
     border-bottom: 1px solid #444;
     padding-bottom: 5px;
-    font-size: 1em;
+    font-size: 2em;
     color: #ccc;
     margin-bottom: 10px;
 }
 
 .aba-lateral-esquerda p, .aba-lateral-esquerda ul,
 .aba-lateral-direita p, .aba-lateral-direita ul {
-    font-size: 0.85em;
+    font-size: 1.3em;
     line-height: 1.5;
     margin-bottom: 10px;
     color: #ddd;
@@ -86,7 +88,7 @@ html, body {
     cursor: pointer;
     border-radius: 5px;
     margin-top: 15px;
-    font-size: 0.8em;
+    font-size: 1em;
     display: block;
     width: 100%;
     text-align: center;
@@ -101,7 +103,7 @@ p#texto-dica {
     padding: 10px;
     border-radius: 4px;
     margin-top:10px;
-    font-size:0.8em;
+    font-size:1em;
 }
 
 
@@ -148,6 +150,8 @@ p#texto-dica {
   padding-bottom: 10px;
   border-bottom: 2px solid #FFD700;
   text-shadow: 2px 2px 0 #000;
+  font-family: "Press Start 2P", cursive;
+
 }
 
 
@@ -233,6 +237,7 @@ footer {
     cursor: pointer;
     z-index: 100;
     animation: pulse 0.5s infinite alternate;
+    font-family: "Press Start 2P", cursive;
 }
 
 .pause:hover {
@@ -246,7 +251,7 @@ footer {
 
 .vitoria-conteiner {
     display: none;
-    position: fixed;
+    position: absolute;
     top: 25%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -264,6 +269,7 @@ footer {
     text-shadow: 3px 3px 0 #000, 0 0 10px #FFD700;
     margin-bottom: 30px;
     animation: float 2s ease-in-out infinite;
+    font-family: "Press Start 2P", cursive;
 }
 
 .Pfase {

@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fase 1</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Fase 2</title>
+    <link rel="stylesheet" href="/src/Fase_1/style.css">
     <link rel="website icon" type="png" href="imagem-level-1/playerV.png">
-    <script src="script.js"></script>
+    <script src="/src/Fase_1/script.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
@@ -15,12 +14,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/htmlmixed/htmlmixed.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
 </head>
-
 <body>
+
     <div class="container-geral">
         <aside class="aba-lateral-esquerda">
             <h2 id="titulo-jogo">AVENTURA DO CÓDIGO</h2>
-            <h3 id="titulo-fase">Fase 1: O primeiro Run</h3>
+            <h3 id="titulo-fase">Fase 2: O Primeiro Salto</h3>
             <p id="info-fase-descricao">Use o editor abaixo para mover o jogador e ajudá-lo a chegar na bandeira, desviando do cano!</p>
             <ul>
                 <li><strong>Jogador:</strong> `elementos.jogador`</li>
@@ -29,19 +28,19 @@
             </ul>
             <p>No editor, você pode alterar propriedades como `elementos.jogador.style.left` ou `elementos.jogador.style.bottom`.</p>
             <button id="botao-dica">Ver Dica</button>
-            <p id="texto-dica" style="display:none;">Tente trocar a posição do player ou do obstaculo, usando talvez 'style.top' ou 'bottom'.</p>
+            <p id="texto-dica" style="display:none;">Tente trocar a posição do player ou do obstaculo, usando talvez 'style.top' ou 'button'.</p>
         </aside>
 
         <main class="conteudo-principal">
             <div class="box">
                 <div id="nuvens-container"></div>
                 <div id="chao">
-                    <img src="imagem-level-1/tiles.png" class="tiles">
+                    <img src="imagem-level-2/tiles.png" class="tiles">
                 </div>
-                <img src="imagem-level-1/pipe.png" class="desafio" id="desafioCano">
-                <img src="imagem-level-1/bandeira.png" class="bandeira">
+                <img src="imagem-level-2/pipe.png" class="desafio" id="desafioCano">
+                <img src="imagem-level-2/bandeira.png" class="bandeira">
                 <div class="divPlayer">
-                    <img src="imagem-level-1/playerT.gif" class="player" id="playerT">
+                    <img src="imagem-level-2/playerT.gif" class="player" id="playerT">
                 </div>
                 <div class="vitoria-conteiner">
                     <h1 class="mensagemV">Você conseguiu!!</h1>
@@ -70,7 +69,5 @@
             Parceria: Instituto Federal de Mato Grosso do Sul (IFMS)
         </p>
     </footer>
-
 </body>
-
 </html>
