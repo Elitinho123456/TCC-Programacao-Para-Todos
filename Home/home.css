@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Slabo+13px&display=swap');
+
+/* Estilos gerais do corpo da página */
+body {
+    background-color: #252525;
+    font-family: 'Slabo 27px', serif;
+    color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Estilização do Header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #333;
+    border-bottom: 2px solid #4caf50;
+}
+
+.infoPrincipal {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    /* Espaço entre a logo e o texto */
+}
+
+.infoPrincipal img {
+    height: 80px;
+    /* Altura da logo */
+}
+
+.infoPrincipal p {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+/* Estilização do Conteúdo Principal (main) */
+main {
+    flex: 1;
+    /* Faz o main ocupar o espaço restante */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.fases {
+    display: flex;
+    flex-wrap: wrap;
+    /* Permite que os itens quebrem a linha em telas menores */
+    justify-content: center;
+    gap: 30px;
+    /* Espaço entre os containers das fases */
+}
+
+/* Estilização dos links de cada fase */
+.fases a {
+    text-decoration: none;
+    color: inherit;
+    background-color: #3a3a3a;
+    border-radius: 10px;
+    padding: 15px;
+    border: 2px solid #555;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    /* Necessário para posicionar o detalhe */
+    width: 150px;
+    /* Largura fixa para cada fase */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.fases a:hover {
+    transform: translateY(-5px);
+    /* Efeito de elevação ao passar o mouse */
+    border-color: #4caf50;
+}
+
+/* Detalhe/Ícone na parte superior */
+.fase-detalhe {
+    position: absolute;
+    top: -15px;
+    /* Posição acima do container */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4caf50;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #252525;
+}
+
+.fase-detalhe img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Quadrado da foto da fase */
+.fase-foto {
+    width: 100px;
+    height: 100px;
+    background-color: #555;
+    margin-top: 30px;
+    /* Espaço para o detalhe não sobrepor */
+    margin-bottom: 10px;
+    border-radius: 8px;
+    overflow: hidden;
+    /* Garante que a imagem não saia do container */
+}
+
+.fase-foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Garante que a imagem cubra todo o espaço */
+}
+
+.fase-titulo {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+/* Estilização do Rodapé */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    border-top: 2px solid #4caf50;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer a {
+    color: #4caf50;
+    /* Cor verde para os links */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}

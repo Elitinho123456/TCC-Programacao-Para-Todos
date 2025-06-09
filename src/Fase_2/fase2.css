@@ -1,0 +1,43 @@
+.loop{
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    right: 18%;
+    bottom: 80px;
+    top: 28.5%;
+}
+
+/* NOVO KEYFRAME PARA O LOOP DO SONIC */
+@keyframes sonic-loop {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        /* Começa na posição normal, sem rotação */
+    }
+
+    25% {
+        transform: translateY(-50px) rotate(90deg);
+        /* Sobe e gira 90 graus */
+    }
+
+    50% {
+        transform: translateY(-80px) rotate(180deg);
+        /* Atinge o ponto mais alto e gira 180 graus */
+    }
+
+    75% {
+        transform: translateY(-50px) rotate(270deg);
+        /* Desce e gira 270 graus */
+    }
+
+    100% {
+        transform: translateY(0) rotate(360deg);
+        /* Volta à posição inicial e completa a rotação */
+    }
+}
+
+/* Aplica a animação ao .player */
+.player-looping {
+    /* Criaremos uma nova classe para ativar o loop */
+    animation: sonic-loop 1s ease-in-out infinite;
+    /* 1 segundo de duração, suaviza o início/fim, repete infinitamente */
+}

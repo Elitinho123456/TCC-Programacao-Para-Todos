@@ -19,9 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const player = document.querySelector('.player');
     const parede = document.querySelector('.desafio');
     const pauseButton = document.querySelector('.pause');
+    const homeButton = document.querySelector('.pause1');
     const bandeira = document.querySelector('.bandeira');
     const vitoriaBotao = document.querySelector('.vitoria-conteiner');
-    const tentativasDisplay = document.getElementById('tentativas-jogador'); // Corrigido
+    const tentativasDisplay = document.getElementById('tentativas-jogador');
 
     // ============= VARIÁVEIS DE CONTROLE =============
     let loop;
@@ -105,12 +106,13 @@ document.addEventListener('DOMContentLoaded', () => {
         player.style.hidden = 'none';
 
         // Atualização do sprite
-        player.src = 'imagem-level-1/playerT.png';
+        player.src = '/src/Fase_1/imagem-level-1/playerT.png';
         player.style.width = '100px';
         player.style.height = '100px';
 
         // Controles de interface
         pauseButton.style.display = 'block';
+        homeButton.style.display = 'block';
         player.addEventListener('animationend', () => { });
         player.style.opacity = 0;
     }
@@ -125,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //player.style.marginTop == 30;
 
         player.style.animation = 'none';
-        player.src = 'imagem-level-1/playerV.png';
+        player.src = '/src/Fase_1/imagem-level-1/playerV.png';
 
         // Atualiza elementos
         player.style.width = '100px';
@@ -162,11 +164,12 @@ document.addEventListener('DOMContentLoaded', () => {
         player.style.bottom = '72px';
         player.style.width = '80px';
         player.style.height = '100px';
-        player.src = 'imagem-level-1/playerT.gif';
+        player.src = '/src/Fase_1/imagem-level-1/playerT.gif';
         player.style.animation = '';
 
         // Controles de interface
         pauseButton.style.display = 'none';
+        homeButton.style.display = 'none';
         vitoriaBotao.style.display = 'none';
 
         // Reinicialização do jogo
@@ -189,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const nuvem = document.createElement('img');
 
-        nuvem.src = 'imagem-level-1/clouds.png';
+        nuvem.src = '/src/Fase_1/imagem-level-1/clouds.png';
 
         nuvem.classList.add('nuvem');
 
@@ -299,3 +302,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
+
+module.exports = alteraERoda, gameOver, vitoria, incrementarTentativas;

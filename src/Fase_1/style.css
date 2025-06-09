@@ -7,7 +7,8 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -29,25 +30,30 @@ html, body {
     align-items: flex-start;
 }
 
-.aba-lateral-esquerda, .aba-lateral-direita {
+.aba-lateral-esquerda,
+.aba-lateral-direita {
     background-color: rgba(40, 40, 40, 0.9);
     padding: 15px;
     border-radius: 8px;
     width: 400px;
     flex-shrink: 0;
     /* Estender barras laterais até o fim da página (ajustado para ocupar o espaço disponível) */
-    height: 100%; /* Isso fará com que as barras laterais ocupem a altura total do container-geral */
-    display: flex; /* Adicionado para permitir flex-direction column e push content down */
-    flex-direction: column; /* Conteúdo interno se organiza em coluna */
+    height: 100%;
+    /* Isso fará com que as barras laterais ocupem a altura total do container-geral */
+    display: flex;
+    /* Adicionado para permitir flex-direction column e push content down */
+    flex-direction: column;
+    /* Conteúdo interno se organiza em coluna */
 
     overflow-y: auto;
     overflow-x: hidden;
 
-    box-shadow: 0px 0px 12px rgba(0,0,0,0.4);
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4);
     word-wrap: break-word;
 }
 
-.aba-lateral-esquerda h2, .aba-lateral-direita h2 {
+.aba-lateral-esquerda h2,
+.aba-lateral-direita h2 {
     font-size: 1.3em;
     color: #FFD700;
     text-align: center;
@@ -58,7 +64,8 @@ html, body {
     font-family: "Press Start 2P", cursive;
 }
 
-.aba-lateral-esquerda h3, .aba-lateral-direita h3 {
+.aba-lateral-esquerda h3,
+.aba-lateral-direita h3 {
     margin-top: 0;
     border-bottom: 1px solid #444;
     padding-bottom: 5px;
@@ -67,14 +74,18 @@ html, body {
     margin-bottom: 10px;
 }
 
-.aba-lateral-esquerda p, .aba-lateral-esquerda ul,
-.aba-lateral-direita p, .aba-lateral-direita ul {
+.aba-lateral-esquerda p,
+.aba-lateral-esquerda ul,
+.aba-lateral-direita p,
+.aba-lateral-direita ul {
     font-size: 1.3em;
     line-height: 1.5;
     margin-bottom: 10px;
     color: #ddd;
 }
-.aba-lateral-esquerda ul, .aba-lateral-direita ul {
+
+.aba-lateral-esquerda ul,
+.aba-lateral-direita ul {
     padding-left: 20px;
     list-style: square;
 }
@@ -94,16 +105,18 @@ html, body {
     text-align: center;
     box-sizing: border-box;
 }
+
 .aba-lateral-esquerda button#botao-dica:hover {
     background-color: #e52521;
     border-color: #fff;
 }
+
 p#texto-dica {
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0, 0, 0, 0.3);
     padding: 10px;
     border-radius: 4px;
-    margin-top:10px;
-    font-size:1em;
+    margin-top: 10px;
+    font-size: 1em;
 }
 
 
@@ -133,7 +146,7 @@ p#texto-dica {
     border: 1px solid white;
     overflow: hidden;
     background-color: #1e1e1e;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 
 .CodeMirror {
@@ -143,14 +156,14 @@ p#texto-dica {
 }
 
 #titulo-jogo {
-  font-size: 1.5em;
-  color: #FFD700;
-  text-align: center;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #FFD700;
-  text-shadow: 2px 2px 0 #000;
-  font-family: "Press Start 2P", cursive;
+    font-size: 1.5em;
+    color: #FFD700;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #FFD700;
+    text-shadow: 2px 2px 0 #000;
+    font-family: "Press Start 2P", cursive;
 
 }
 
@@ -198,7 +211,7 @@ footer {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
+    width: 150%;
     height: 80px;
     background-color: #78c850;
     border-top: 2px solid #508830;
@@ -246,6 +259,38 @@ footer {
 }
 
 .pause:active {
+    transform: translate(-50%, -50%) scale(0.95);
+}
+
+.pause1 {
+    display: none;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 8px 20px;
+    font-size: 20px;
+    color: white;
+    background-color: #4CAF50;
+    border: 5px solid white;
+    border-radius: 10px;
+    box-shadow:
+        0 0 0 5px #4CAF50,
+        0 0 0 10px white,
+        0 0 0 15px #4CAF50;
+    text-shadow: 2px 2px 0 #000;
+    cursor: pointer;
+    z-index: 100;
+    animation: pulse 0.5s infinite alternate;
+    font-family: "Press Start 2P", cursive;
+}
+
+.pause1:hover {
+    background-color: #45a049;
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+.pause1:active {
     transform: translate(-50%, -50%) scale(0.95);
 }
 
@@ -315,9 +360,17 @@ footer a:hover {
 
 /* ANIMAÇÕES KEYFRAMES */
 @keyframes float {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0); }
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
 
 @keyframes pulse {
@@ -327,6 +380,7 @@ footer a:hover {
             0 0 0 10px white,
             0 0 0 15px #e52521;
     }
+
     to {
         box-shadow:
             0 0 0 5px #e52521,
@@ -337,20 +391,90 @@ footer a:hover {
 }
 
 @keyframes player-animation {
-    from { left: -10%; }
-    to { left: 110%; }
+    from {
+        left: -10%;
+    }
+
+    to {
+        left: 110%;
+    }
 }
 
 @keyframes nuvem-pass {
-    from { right: -30%; }
-    to { right: 110%; }
+    from {
+        right: -60%;
+    }
+
+    to {
+        right: 110%;
+    }
 }
 
 @keyframes game-over {
-    0% { bottom: 75px; opacity: 1; width: 100px; }
-    30% { bottom: 145px; transform: rotate(-15deg); }
-    60% { bottom: 115px; transform: rotate(15deg); }
-    70% { bottom: 80; transform: rotate(25deg);}
-    80% { bottom: 30px; transform: rotate(30deg);}
-    100% { bottom: -120px; opacity: 0; transform: rotate(25deg); }
+    0% {
+        bottom: 75px;
+        opacity: 1;
+        width: 100px;
+    }
+
+    30% {
+        bottom: 145px;
+        transform: rotate(-15deg);
+    }
+
+    60% {
+        bottom: 115px;
+        transform: rotate(15deg);
+    }
+
+    70% {
+        bottom: 80;
+        transform: rotate(25deg);
+    }
+
+    80% {
+        bottom: 30px;
+        transform: rotate(30deg);
+    }
+
+    100% {
+        bottom: -120px;
+        opacity: 0;
+        transform: rotate(25deg);
+    }
+}
+
+/* NOVO KEYFRAME PARA O LOOP DO SONIC */
+@keyframes sonic-loop {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        /* Começa na posição normal, sem rotação */
+    }
+
+    25% {
+        transform: translateY(-50px) rotate(90deg);
+        /* Sobe e gira 90 graus */
+    }
+
+    50% {
+        transform: translateY(-80px) rotate(180deg);
+        /* Atinge o ponto mais alto e gira 180 graus */
+    }
+
+    75% {
+        transform: translateY(-50px) rotate(270deg);
+        /* Desce e gira 270 graus */
+    }
+
+    100% {
+        transform: translateY(0) rotate(360deg);
+        /* Volta à posição inicial e completa a rotação */
+    }
+}
+
+/* Aplica a animação ao .player */
+.player-looping {
+    /* Criaremos uma nova classe para ativar o loop */
+    animation: sonic-loop 1s ease-in-out infinite;
+    /* 1 segundo de duração, suaviza o início/fim, repete infinitamente */
 }
