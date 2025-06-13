@@ -9,18 +9,16 @@
 .loop1{
     position: absolute;
     width: 200px;
-    height: 200px;
-    right: 18%;
-    bottom: 85px;
-    top: 41.5%;
+    height: 280px;
+    right: 38%;
+    top: 39.2%;
 }
 .loop2{
     position: absolute;
     width: 200px;
-    height: 220px;
-    right: -1.4%;
-    bottom: 85px;
-    top: 38.5%;
+    height: 280px;
+    right: 15.7%;
+    top: 39.2%;
 }
 /* NOVO KEYFRAME PARA O LOOP DO SONIC */
 @keyframes sonic-loop {
