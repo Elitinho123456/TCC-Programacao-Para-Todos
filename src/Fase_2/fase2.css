@@ -1,56 +1,375 @@
-.loop{
-    position: absolute;
-    width: 350px;
-    height: 350px;
-    right: 18%;
-    bottom: 80px;
-    top: 28.5%;
+@import url('https://fonts.googleapis.com/css2?family=Slabo+13px&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    /* Fonte alterada */
+    font-family: "Slabo 13px", serif;
+    background: linear-gradient(90deg, rgb(30, 30, 30) 0%, rgb(15, 15, 15) 50%, rgb(30, 30, 30) 100%);
+    color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+}
+
+.container-geral {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    padding: 20px;
+    gap: 25px;
+    box-sizing: border-box;
+    align-items: flex-start;
+}
+
+.aba-lateral-esquerda,
+.aba-lateral-direita {
+    background-color: rgba(40, 40, 40, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+    width: 400px;
+    flex-shrink: 0;
+    /* Estender barras laterais até o fim da página (ajustado para ocupar o espaço disponível) */
+    height: 100%;
+    /* Isso fará com que as barras laterais ocupem a altura total do container-geral */
+    display: flex;
+    /* Adicionado para permitir flex-direction column e push content down */
+    flex-direction: column;
+    /* Conteúdo interno se organiza em coluna */
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4);
+    word-wrap: break-word;
+}
+
+.aba-lateral-esquerda h2,
+.aba-lateral-direita h2 {
+    font-size: 1.3em;
+    color: #FFD700;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #555;
+    font-family: "Press Start 2P", cursive;
+}
+
+.aba-lateral-esquerda h3,
+.aba-lateral-direita h3 {
+    margin-top: 0;
+    border-bottom: 1px solid #444;
+    padding-bottom: 5px;
+    font-size: 2em;
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.aba-lateral-esquerda p,
+.aba-lateral-esquerda ul,
+.aba-lateral-direita p,
+.aba-lateral-direita ul {
+    font-size: 1.3em;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    color: #ddd;
+}
+
+.aba-lateral-esquerda ul,
+.aba-lateral-direita ul {
+    padding-left: 20px;
+    list-style: square;
+}
+
+.aba-lateral-esquerda button#botao-dica {
+    background-color: #c00000;
+    color: white;
+    border: 1px solid #ff4d4d;
+    padding: 10px 15px;
+    font-family: "Slabo 13px", serif;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 15px;
+    font-size: 1em;
+    display: block;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.aba-lateral-esquerda button#botao-dica:hover {
+    background-color: #e52521;
+    border-color: #fff;
+}
+
+p#texto-dica {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    font-size: 1em;
+}
+
+
+.conteudo-principal {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    min-width: 320px;
+}
+
+.box {
+    width: 100%;
+    max-width: 900px;
+    height: 480px;
+    border: 2px solid white;
+    position: relative;
+    background: linear-gradient(#7dd6ff, rgb(255, 255, 255));
+    overflow: hidden;
+}
+
+#meu-editor-codigo {
+    width: 100%;
+    max-width: 900px;
+    height: 300px;
+    border: 1px solid white;
+    overflow: hidden;
+    background-color: #1e1e1e;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.CodeMirror {
+    height: 100% !important;
+    font-family: monospace;
+    font-size: 14px;
+}
+
+#titulo-jogo {
+    font-size: 1.5em;
+    color: #FFD700;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #FFD700;
+    text-shadow: 2px 2px 0 #000;
+    font-family: "Press Start 2P", cursive;
+
+}
+
+
+footer {
+    width: 100%;
+    padding: 15px 0;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    font-size: 0.85em;
+    border-top: 1px solid #333;
+    flex-shrink: 0;
+}
+
+/* ESTILOS DOS ELEMENTOS DO JOGO */
+.nuvem {
+    position: absolute;
+    top: 5%;
+    width: 550px;
+    animation: nuvem-pass 10s infinite linear;
+}
+
+.nuvem-invertida {
+    transform: scaleX(-1);
+}
+
+.desafio {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    right: 50%;
+    bottom: 80px;
+}
+
+.bandeira {
+    position: absolute;
+    bottom: 80px;
+    width: 100px;
+    height: auto;
+    right: 5%;
+    bottom: 72px;
+}
+
+.tiles {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 150%;
+    height: 80px;
+    background-color: #78c850;
+    border-top: 2px solid #508830;
+}
+
+.player {
+    width: 80px;
+    height: 100px;
+    position: absolute;
+    bottom: 75px;
+    animation: player-animation 5s infinite linear;
+}
+
+.divPlayer {
+    width: 100px;
+    height: 100px;
+}
+
+.pause {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px 30px;
+    font-size: 24px;
+    color: white;
+    background-color: #e52521;
+    border: 5px solid white;
+    border-radius: 10px;
+    box-shadow:
+        0 0 0 5px #e52521,
+        0 0 0 10px white,
+        0 0 0 15px #e52521;
+    text-shadow: 3px 3px 0 #000;
+    cursor: pointer;
+    z-index: 100;
+    animation: pulse 0.5s infinite alternate;
+    font-family: "Press Start 2P", cursive;
+}
+
+.pause:hover {
+    background-color: #ff1d1a;
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+.pause:active {
+    transform: translate(-50%, -50%) scale(0.95);
+}
+
+.pause1 {
+    display: none;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 8px 20px;
+    font-size: 20px;
+    color: white;
+    background-color: #4CAF50;
+    border: 5px solid white;
+    border-radius: 10px;
+    box-shadow:
+        0 0 0 5px #4CAF50,
+        0 0 0 10px white,
+        0 0 0 15px #4CAF50;
+    text-shadow: 2px 2px 0 #000;
+    cursor: pointer;
+    z-index: 100;
+    animation: pulse 0.5s infinite alternate;
+    font-family: "Press Start 2P", cursive;
+}
+
+.pause1:hover {
+    background-color: #45a049;
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+.pause1:active {
+    transform: translate(-50%, -50%) scale(0.95);
+}
+
+.vitoria-conteiner {
+    display: none;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 15px;
+    text-align: center;
+    z-index: 101;
+    width: auto;
+}
+
+.mensagemV {
+    color: #FFD700;
+    font-size: 24px;
+    text-shadow: 3px 3px 0 #000, 0 0 10px #FFD700;
+    margin-bottom: 30px;
+    animation: float 2s ease-in-out infinite;
+    font-family: "Press Start 2P", cursive;
+}
+
+.Pfase {
+    padding: 15px 30px;
+    font-size: 18px;
+    color: white;
+    background-color: #4caf50;
+    border: 5px solid white;
+    border-radius: 10px;
+    box-shadow:
+        0 0 0 5px #4caf50,
+        0 0 0 10px white,
+        0 0 0 15px #4caf50;
+    text-shadow: 2px 2px 0 #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    transform: none;
+}
+
+.Pfase:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.Pfase:active {
+    transform: scale(0.95);
+}
+
+
+footer p {
+    margin: 0;
+}
+
+footer a {
+    color: #7dd6ff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
 .loop1{
     position: absolute;
     width: 200px;
-    height: 280px;
-    right: 38%;
-    top: 39.2%;
+    height: 200px;
+    right: 18%;
+    bottom: 85px;
+    top: 48.5%;
 }
 .loop2{
     position: absolute;
     width: 200px;
     height: 280px;
-    right: 15.7%;
+    right: 18.7%;
     top: 39.2%;
-}
-/* NOVO KEYFRAME PARA O LOOP DO SONIC */
-@keyframes sonic-loop {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        /* Começa na posição normal, sem rotação */
-    }
-
-    25% {
-        transform: translateY(-50px) rotate(90deg);
-        /* Sobe e gira 90 graus */
-    }
-
-    50% {
-        transform: translateY(-80px) rotate(180deg);
-        /* Atinge o ponto mais alto e gira 180 graus */
-    }
-
-    75% {
-        transform: translateY(-50px) rotate(270deg);
-        /* Desce e gira 270 graus */
-    }
-
-    100% {
-        transform: translateY(0) rotate(360deg);
-        /* Volta à posição inicial e completa a rotação */
-    }
-}
-
-/* Aplica a animação ao .player */
-.player-looping {
-    /* Criaremos uma nova classe para ativar o loop */
-    animation: sonic-loop 1s ease-in-out infinite;
-    /* 1 segundo de duração, suaviza o início/fim, repete infinitamente */
 }

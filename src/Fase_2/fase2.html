@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fase 2</title>
-    <link rel="stylesheet" href="/src/Fase_1/style.css">
+
     <link rel="stylesheet" href="/src/Fase_2/fase2.css">
     <link rel="website icon" type="png" href="imagem-level-1/playerV.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
@@ -42,12 +42,12 @@
                 <div id="chao">
                     <img src="/src/Fase_2/imagem-level-2/Frame_1.png" class="tiles">
                 </div>
-                
                 <img src="imagem-level-2/loop1.png" class="loop1" id="loop1">
-                <div class="divPlayer">
+                <img src="imagem-level-2/loop2.png" class="loop2" id="loop2">
+
+                <div class="divPlayer" id="player-container">
                     <img src="imagem-level-2/playerT.gif" class="player" id="playerT">
                 </div>
-                <img src="imagem-level-2/loop2.png" class="loop2" id="loop2">
                 <div class="vitoria-conteiner">
                     <h1 class="mensagemV">Você conseguiu!!</h1>
                     <a href="/src/Fase_2/fase2.html"><button class="Pfase">Próxima fase!!!</button></a>
@@ -65,7 +65,7 @@
             <h3>Como funciona?</h3>
             <p>O código que você digita no editor é executado quando você clica em "Tentar Novamente". Use JavaScript
                 para interagir com os elementos do jogo!</p>
-            <button onclick="gameOver()">Run</button>
+            <button>Run</button>
         </aside>
     </div>
 

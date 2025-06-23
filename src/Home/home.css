@@ -68,7 +68,7 @@ main {
     border: 2px solid #555;
     transition: transform 0.3s ease, border-color 0.3s ease;
     position: relative;
-    /* Necessário para posicionar o detalhe */
+    /* Necessário para posicionar o detalhe e o texto do hover */
     width: 150px;
     /* Largura fixa para cada fase */
     display: flex;
@@ -82,6 +82,32 @@ main {
     /* Efeito de elevação ao passar o mouse */
     border-color: #4caf50;
 }
+
+/* Estilos para o texto ao passar o mouse */
+.fases a::after {
+    content: attr(data-fase-nome); /* Pega o texto do atributo data-fase-nome */
+    position: absolute;
+    bottom: -30px; /* Ajuste a posição conforme necessário */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4caf50;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    white-space: nowrap; /* Impede que o texto quebre a linha */
+    opacity: 0; /* Começa invisível */
+    visibility: hidden; /* Garante que não interfira com eventos do mouse */
+    transition: opacity 0.3s ease, bottom 0.3s ease, visibility 0.3s ease;
+    z-index: 10; /* Garante que fique acima de outros elementos */
+}
+
+.fases a:hover::after {
+    opacity: 1; /* Torna visível ao passar o mouse */
+    visibility: visible;
+    bottom: -40px; /* Move para cima ligeiramente ao aparecer */
+}
+
 
 /* Detalhe/Ícone na parte superior */
 .fase-detalhe {
@@ -133,7 +159,7 @@ main {
 /* Estilização do Rodapé */
 footer {
     text-align: center;
-    padding: 20px;
+    height: 10px ;
     background-color: #333;
     border-top: 2px solid #4caf50;
     width: 100%;
