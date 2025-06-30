@@ -11,8 +11,6 @@ html,
 body {
     height: 100%;
     margin: 0;
-    padding: 0;
-    /* Fonte alterada */
     font-family: "Slabo 13px", serif;
     background: linear-gradient(90deg, rgb(30, 30, 30) 0%, rgb(15, 15, 15) 50%, rgb(30, 30, 30) 100%);
     color: #f0f0f0;
@@ -26,7 +24,6 @@ body {
     width: 100%;
     padding: 20px;
     gap: 25px;
-    box-sizing: border-box;
     align-items: flex-start;
 }
 
@@ -37,19 +34,11 @@ body {
     border-radius: 8px;
     width: 400px;
     flex-shrink: 0;
-    /* Estender barras laterais até o fim da página (ajustado para ocupar o espaço disponível) */
     height: 100%;
-    /* Isso fará com que as barras laterais ocupem a altura total do container-geral */
     display: flex;
-    /* Adicionado para permitir flex-direction column e push content down */
     flex-direction: column;
-    /* Conteúdo interno se organiza em coluna */
-
     overflow-y: auto;
-    overflow-x: hidden;
-
-    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4);
-    word-wrap: break-word;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
 }
 
 .aba-lateral-esquerda h2,
@@ -57,7 +46,6 @@ body {
     font-size: 1.3em;
     color: #FFD700;
     text-align: center;
-    margin-top: 0;
     margin-bottom: 15px;
     padding-bottom: 10px;
     border-bottom: 1px solid #555;
@@ -66,7 +54,6 @@ body {
 
 .aba-lateral-esquerda h3,
 .aba-lateral-direita h3 {
-    margin-top: 0;
     border-bottom: 1px solid #444;
     padding-bottom: 5px;
     font-size: 2em;
@@ -76,37 +63,31 @@ body {
 
 .aba-lateral-esquerda p,
 .aba-lateral-esquerda ul,
-.aba-lateral-direita p,
-.aba-lateral-direita ul {
+.aba-lateral-direita p {
     font-size: 1.3em;
     line-height: 1.5;
     margin-bottom: 10px;
     color: #ddd;
 }
 
-.aba-lateral-esquerda ul,
-.aba-lateral-direita ul {
+.aba-lateral-esquerda ul {
     padding-left: 20px;
     list-style: square;
 }
 
-.aba-lateral-esquerda button#botao-dica {
+button#botao-dica {
     background-color: #c00000;
     color: white;
     border: 1px solid #ff4d4d;
     padding: 10px 15px;
-    font-family: "Slabo 13px", serif;
     cursor: pointer;
     border-radius: 5px;
     margin-top: 15px;
     font-size: 1em;
-    display: block;
     width: 100%;
-    text-align: center;
-    box-sizing: border-box;
 }
 
-.aba-lateral-esquerda button#botao-dica:hover {
+button#botao-dica:hover {
     background-color: #e52521;
     border-color: #fff;
 }
@@ -119,14 +100,12 @@ p#texto-dica {
     font-size: 1em;
 }
 
-
 .conteudo-principal {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    min-width: 320px;
 }
 
 .box {
@@ -135,7 +114,7 @@ p#texto-dica {
     height: 480px;
     border: 2px solid white;
     position: relative;
-    background: linear-gradient(#7dd6ff, rgb(255, 255, 255));
+    background: linear-gradient(#7dd6ff, #ffffff);
     overflow: hidden;
 }
 
@@ -144,9 +123,6 @@ p#texto-dica {
     max-width: 900px;
     height: 300px;
     border: 1px solid white;
-    overflow: hidden;
-    background-color: #1e1e1e;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 
 .CodeMirror {
@@ -155,56 +131,21 @@ p#texto-dica {
     font-size: 14px;
 }
 
-#titulo-jogo {
-    font-size: 1.5em;
-    color: #FFD700;
-    text-align: center;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #FFD700;
-    text-shadow: 2px 2px 0 #000;
+/* --- ESTILOS DOS ELEMENTOS DO JOGO - FASE 2 --- */
+
+#velocidade-info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 8px;
+    border-radius: 5px;
     font-family: "Press Start 2P", cursive;
-
-}
-
-
-footer {
-    width: 100%;
-    padding: 15px 0;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.8);
-    font-size: 0.85em;
-    border-top: 1px solid #333;
-    flex-shrink: 0;
-}
-
-/* ESTILOS DOS ELEMENTOS DO JOGO */
-.nuvem {
-    position: absolute;
-    top: 5%;
-    width: 550px;
-    animation: nuvem-pass 10s infinite linear;
-}
-
-.nuvem-invertida {
-    transform: scaleX(-1);
-}
-
-.desafio {
-    position: absolute;
-    width: 140px;
-    height: 140px;
-    right: 50%;
-    bottom: 80px;
-}
-
-.bandeira {
-    position: absolute;
-    bottom: 80px;
-    width: 100px;
-    height: auto;
-    right: 5%;
-    bottom: 72px;
+    font-size: 12px;
+    line-height: 1.4;
+    z-index: 10;
+    border: 1px solid #fff;
 }
 
 .tiles {
@@ -213,91 +154,94 @@ footer {
     left: 0;
     width: 150%;
     height: 80px;
-    background-color: #78c850;
-    border-top: 2px solid #508830;
+    background-color: #5ab447;
+    border-top: 2px solid #3d8c2c;
+}
+
+#player-container {
+    position: absolute;
+    bottom: 72px;
+    left: -10%;
+    width: 100px;
+    height: 100px;
+    z-index: 2;
+    /* Adicionando transição para a duração da animação para suavizar a aceleração */
+    transition: animation-duration 0.5s ease;
 }
 
 .player {
     width: 80px;
     height: 100px;
     position: absolute;
-    bottom: 75px;
-    animation: player-animation 5s infinite linear;
+    bottom: 0;
 }
 
-.divPlayer {
-    width: 100px;
-    height: 100px;
-}
-
-.pause {
-    display: none;
+.bandeira {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 15px 30px;
-    font-size: 24px;
-    color: white;
-    background-color: #e52521;
-    border: 5px solid white;
-    border-radius: 10px;
-    box-shadow:
-        0 0 0 5px #e52521,
-        0 0 0 10px white,
-        0 0 0 15px #e52521;
-    text-shadow: 3px 3px 0 #000;
-    cursor: pointer;
-    z-index: 100;
-    animation: pulse 0.5s infinite alternate;
-    font-family: "Press Start 2P", cursive;
+    width: 100px;
+    height: auto;
+    right: 5%;
+    bottom: 72px;
+    z-index: 1;
 }
 
-.pause:hover {
-    background-color: #ff1d1a;
-    transform: translate(-50%, -50%) scale(1.05);
+/* CORREÇÃO 1: Posição Y do loop corrigida */
+/* CORREÇÃO 2: Separação X do loop restaurada como você queria */
+.loop-costas {
+    position: absolute;
+    height: 280px;
+    width: auto;
+    left: calc(50% - 140px);
+    transform: translateX(-50%);
+    bottom: 12px; /* <-- CORRIGIDO para encostar no chão */
+    z-index: 1;
 }
 
-.pause:active {
-    transform: translate(-50%, -50%) scale(0.95);
+.loop-frente {
+    position: absolute;
+    height: 280px;
+    width: auto;
+    left: calc(50% - 10px);
+    transform: translateX(-50%);
+    bottom: 12px; /* <-- CORRIGIDO para encostar no chão */
+    z-index: 3;
 }
 
+
+.pause,
 .pause1 {
     display: none;
     position: absolute;
-    top: 75%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 8px 20px;
-    font-size: 20px;
+    transform: translateX(-50%);
+    padding: 15px 30px;
+    font-size: 24px;
     color: white;
-    background-color: #4CAF50;
     border: 5px solid white;
     border-radius: 10px;
-    box-shadow:
-        0 0 0 5px #4CAF50,
-        0 0 0 10px white,
-        0 0 0 15px #4CAF50;
-    text-shadow: 2px 2px 0 #000;
+    text-shadow: 3px 3px 0 #000;
     cursor: pointer;
     z-index: 100;
-    animation: pulse 0.5s infinite alternate;
     font-family: "Press Start 2P", cursive;
 }
 
-.pause1:hover {
-    background-color: #45a049;
-    transform: translate(-50%, -50%) scale(1.05);
+.pause {
+    top: 50%;
+    background-color: #e52521;
+    box-shadow: 0 0 0 5px #e52521, 0 0 0 10px white, 0 0 0 15px #e52521;
 }
 
-.pause1:active {
-    transform: translate(-50%, -50%) scale(0.95);
+.pause1 {
+    top: 70%;
+    font-size: 18px;
+    background-color: #4CAF50;
+    box-shadow: 0 0 0 5px #4CAF50, 0 0 0 10px white, 0 0 0 15px #4CAF50;
 }
 
 .vitoria-conteiner {
     display: none;
     position: absolute;
-    top: 25%;
+    top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 30px;
@@ -305,15 +249,13 @@ footer {
     border-radius: 15px;
     text-align: center;
     z-index: 101;
-    width: auto;
 }
 
 .mensagemV {
     color: #FFD700;
     font-size: 24px;
-    text-shadow: 3px 3px 0 #000, 0 0 10px #FFD700;
-    margin-bottom: 30px;
-    animation: float 2s ease-in-out infinite;
+    text-shadow: 3px 3px 0 #000;
+    margin-bottom: 20px;
     font-family: "Press Start 2P", cursive;
 }
 
@@ -324,52 +266,76 @@ footer {
     background-color: #4caf50;
     border: 5px solid white;
     border-radius: 10px;
-    box-shadow:
-        0 0 0 5px #4caf50,
-        0 0 0 10px white,
-        0 0 0 15px #4caf50;
-    text-shadow: 2px 2px 0 #000;
     cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-block;
-    transform: none;
 }
 
-.Pfase:hover {
-    background-color: #45a049;
-    transform: scale(1.05);
+/* --- ANIMAÇÕES --- */
+@keyframes player-animation {
+    from {
+        left: -10%;
+    }
+
+    to {
+        left: 110%;
+    }
 }
 
-.Pfase:active {
-    transform: scale(0.95);
+/* CORREÇÃO 3: Nova animação para continuar após o loop */
+@keyframes player-continue-animation {
+    to {
+        left: 110%;
+    }
 }
 
-
-footer p {
-    margin: 0;
+.player-is-looping-success {
+    animation: loop-sucesso 1.5s ease-in-out forwards !important;
 }
 
-footer a {
-    color: #7dd6ff;
-    text-decoration: none;
+.player-is-looping-fail {
+    animation: loop-falha 2s ease-in-out forwards !important;
 }
 
-footer a:hover {
-    text-decoration: underline;
+@keyframes loop-sucesso {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    25% {
+        transform: translateY(-130px) rotate(90deg);
+    }
+
+    50% {
+        transform: translateY(-180px) rotate(180deg);
+    }
+
+    75% {
+        transform: translateY(-130px) rotate(270deg);
+    }
+
+    100% {
+        transform: translateY(0) rotate(360deg);
+    }
 }
 
-.loop1{
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    right: 18%;
-    bottom: 85px;
-    top: 48.5%;
-}
-.loop2{
-    position: absolute;
-    width: 200px;
-    height: 280px;
-    right: 18.7%;
-    top: 39.2%;
+@keyframes loop-falha {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    25% {
+        transform: translateY(-130px) rotate(90deg);
+    }
+
+    50% {
+        transform: translateY(-180px) rotate(180deg);
+    }
+
+    60% {
+        transform: translateY(-175px) rotate(180deg);
+    }
+
+    100% {
+        transform: translateY(150px) rotate(160deg);
+        opacity: 0;
+    }
 }

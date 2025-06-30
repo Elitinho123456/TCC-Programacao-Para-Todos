@@ -1,82 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fase 2</title>
 
-    <link rel="stylesheet" href="/src/Fase_2/fase2.css">
-    <link rel="website icon" type="png" href="imagem-level-1/playerV.png">
+    <link rel="stylesheet" href="fase2.css">
+    <link rel="website icon" type="png" href="imagem-level-2/playerV.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/css/css.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/htmlmixed/htmlmixed.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
-    <script src="/src/Fase_2/fase2.js"></script>
+    <script src="fase2.js"></script>
 </head>
 
 <body>
     <div class="container-geral">
         <aside class="aba-lateral-esquerda">
             <h2 id="titulo-jogo">AVENTURA DO CÓDIGO</h2>
-            <h3 id="titulo-fase">Fase 2: O Primeiro Salto</h3>
-            <p id="info-fase-descricao">Use o editor abaixo para mover o jogador e ajudá-lo a chegar na bandeira,
-                desviando do cano!</p>
+            <h3 id="titulo-fase">Fase 2: O Loop Sônico</h3>
+            
+            <!-- MUDANÇA CRUCIAL: Novas instruções -->
+            <p id="info-fase-descricao"><strong>O loop é acionado AUTOMATICAMENTE!</strong></p>
+            <p>Quando o jogador chega na posição do loop, o jogo verifica a velocidade dele. Sua única tarefa é garantir que a velocidade esteja alta o suficiente no momento do impacto.</p>
             <ul>
                 <li><strong>Jogador:</strong> `elementos.jogador`</li>
-                <li><strong>Obstáculo:</strong> `elementos.obstaculo`</li>
-                <li><strong>Meta:</strong> `elementos.meta`</li>
+                <li><strong>Velocidade Atual:</strong> `elementos.velocidadeAtual`</li>
+                <li><strong>Velocidade Necessária:</strong> `elementos.velocidadeNecessaria`</li>
             </ul>
-            <p>No editor, você pode alterar propriedades como `elementos.jogador.style.left` ou
-                `elementos.jogador.style.bottom`.</p>
+            <p>Não é preciso escrever código para esta fase, apenas observe como a velocidade afeta o resultado!</p>
+            
             <button id="botao-dica">Ver Dica</button>
-            <p id="texto-dica" style="display:none;">Tente trocar a posição do player ou do obstaculo, usando talvez
-                'style.top' ou 'button'.</p>
+            <p id="texto-dica" style="display:none;">A velocidade aumenta com o tempo. Espere o contador de velocidade atingir ou ultrapassar 40 km/h antes que o personagem chegue no loop.</p>
         </aside>
 
         <main class="conteudo-principal">
             <div class="box">
+                <div id="velocidade-info">
+                    Velocidade: <span id="velocidade-atual-display">0</span> km/h <br>
+                    Necessária: <span id="velocidade-necessaria-display">?</span> km/h
+                </div>
+
                 <div id="nuvens-container"></div>
                 <div id="chao">
-                    <img src="/src/Fase_2/imagem-level-2/Frame_1.png" class="tiles">
+                    <img src="imagem-level-2/tiles.png" class="tiles">
                 </div>
-                <img src="imagem-level-2/loop1.png" class="loop1" id="loop1">
-                <img src="imagem-level-2/loop2.png" class="loop2" id="loop2">
+                
+                <div id="loop-container">
+                    <img src="imagem-level-2/loop1.png" class="loop-costas">
+                    <img src="imagem-level-2/loop2.png" class="loop-frente">
+                </div>
+                
+                <img src="imagem-level-2/bandeira.png" class="bandeira">
 
-                <div class="divPlayer" id="player-container">
-                    <img src="imagem-level-2/playerT.gif" class="player" id="playerT">
+                <div id="player-container">
+                    <img src="imagem-level-2/playerT.gif" class="player" id="player">
                 </div>
+
                 <div class="vitoria-conteiner">
                     <h1 class="mensagemV">Você conseguiu!!</h1>
-                    <a href="/src/Fase_2/fase2.html"><button class="Pfase">Próxima fase!!!</button></a>
+                    <a href="../Home/home.html"><button class="Pfase">Voltar ao Menu</button></a>
                 </div>
+
                 <button class="pause" id="pause">Tentar Novamente</button>
+                <a href="../Home/home.html"><button class="pause1" id="pause">Voltar para o Menu</button></a>
             </div>
 
             <div id="meu-editor-codigo"></div>
         </main>
-
+        
         <aside class="aba-lateral-direita">
             <h2>Progresso</h2>
             <h3>Tentativas Realizadas</h3>
             <p>Número de Tentativas: <span id="tentativas-jogador">0</span></p>
             <h3>Como funciona?</h3>
-            <p>O código que você digita no editor é executado quando você clica em "Tentar Novamente". Use JavaScript
-                para interagir com os elementos do jogo!</p>
-            <button>Run</button>
+            <p>O código que você digita no editor é executado quando você clica em "Tentar Novamente". Use JavaScript para interagir com os elementos do jogo!</p>
         </aside>
     </div>
-
-    <footer>
-        <p>Desenvolvido por: <a href="https://github.com/Ferhsx" target="_blank" rel="noopener noreferrer">Ferculos</a>
-            & <a href="https://github.com/Elitinho123456" target="_blank" rel="noopener noreferrer">Elitinho123456</a> -
-            <a href="https://github.com/Elitinho123456/TCC-Programacao-Para-Todos">GitHub</a>
-            <br>
-            Parceria: Instituto Federal de Mato Grosso do Sul (IFMS)
-        </p>
-    </footer>
 </body>
 
 </html>
