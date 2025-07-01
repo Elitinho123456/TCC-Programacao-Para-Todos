@@ -193,7 +193,7 @@ p#texto-dica {
     width: auto;
     left: calc(50% - 140px);
     transform: translateX(-50%);
-    bottom: 12px; /* <-- CORRIGIDO para encostar no chão */
+    bottom: 5px; 
     z-index: 1;
 }
 
@@ -203,7 +203,7 @@ p#texto-dica {
     width: auto;
     left: calc(50% - 10px);
     transform: translateX(-50%);
-    bottom: 12px; /* <-- CORRIGIDO para encostar no chão */
+    bottom: 5px; 
     z-index: 3;
 }
 
@@ -285,55 +285,75 @@ p#texto-dica {
     }
 }
 
-.player-is-looping-success {
-    animation: loop-sucesso 1.5s ease-in-out forwards !important;
+.player-is-looping-success-suave {
+    animation: loop-sucesso-suave 1.5s ease-in-out forwards !important;
 }
 
-.player-is-looping-fail {
-    animation: loop-falha 2s ease-out forwards !important;
+.player-is-looping-fail-suave {
+    animation: loop-falha-suave 2s ease-in-out forwards !important;
 }
+
 
 /* 
    KEYFRAME CORRIGIDO: Agora traça um caminho curvo usando translateX e translateY
    - O personagem se move para frente e para cima ao mesmo tempo.
    - Os valores criam um arco que corresponde à forma visual do loop.
 */
-@keyframes loop-sucesso {
+@keyframes loop-sucesso-suave {
+    /* O personagem começa a subir a rampa do loop */
     0% {
         transform: translateX(0px) translateY(0px) rotate(0deg);
     }
-    25% {
-        transform: translateX(85px) translateY(-80px) rotate(-90deg); /* Meio do caminho para cima, no centro horizontal do loop */
+    /* Início da curva, ganhando altura rapidamente */
+    15% {
+        transform: translateX(75px) translateY(-35px) rotate(-45deg);
     }
+    /* Meio do caminho para o topo, começando a desacelerar */
+    35% {
+        transform: translateX(85px) translateY(-80px) rotate(-120deg);
+    }
+    /* Ápice! O ponto mais alto e central do loop. O personagem está de cabeça para baixo. */
     50% {
-        transform: translateX(65px) translateY(-110px) rotate(-180deg); /* Ponto mais alto, no centro horizontal do loop */
+        transform: translateX(35px) translateY(-110px) rotate(-180deg);
     }
-    75% {
-        transform: translateX(45px) translateY(-90px) rotate(-270deg); /* Descendo do outro lado */
+    /* Começando a descer do outro lado, ganhando velocidade. */
+    65% {
+        transform: translateX(15px) translateY(-80px) rotate(-240deg);
     }
+    /* Quase no chão, em alta velocidade. */
+    85% {
+        transform: translateX(20px) translateY(-50px) rotate(-315deg);
+    }
+    /* Aterrissagem suave, completando o giro e terminando 200px à frente. */
     100% {
-        to{
-            left: 110%
-        } /* Pousa no chão, na saída do loop */
+        transform: translateX(45px) translateY(0px) rotate(-360deg);
     }
 }
-
 /*
    KEYFRAME CORRIGIDO: Segue o caminho correto até o topo e depois cai.
 */
-@keyframes loop-falha {
+@keyframes loop-falha-suave {
+    /* A subida é idêntica à animação de sucesso no início */
     0% {
         transform: translateX(0px) translateY(0px) rotate(0deg);
     }
-    25% {
-        transform: translateX(85px) translateY(-80px) rotate(-90deg); /* Segue o caminho curvo para cima */
+    15% {
+        transform: translateX(30px) translateY(-50px) rotate(-45deg);
     }
+    35% {
+        transform: translateX(80px) translateY(-160px) rotate(-120deg);
+    }
+    /* Chega ao topo, perdendo quase toda a velocidade. */
     50% {
-        transform: translateX(35px) translateY(-110px) rotate(-180deg); /* Chega no topo do loop */
+        transform: translateX(100px) translateY(-180px) rotate(-180deg);
     }
-    /* A partir daqui, ele perde o momento e cai */
+    /* Momento de "hesitação": ele para e volta um pouquinho para trás, mostrando a perda de momentum. */
+    60% {
+        transform: translateX(95px) translateY(-175px) rotate(-170deg);
+    }
+    /* A queda! Ele despenca para fora da tela, girando sem controle. */
     100% {
-        transform: translateX(50px) translateY(150px) rotate(160deg); /* Cai para baixo e um pouco para trás, descontroladamente */
+        transform: translateX(70px) translateY(200px) rotate(-90deg);
         opacity: 0;
     }
 }
