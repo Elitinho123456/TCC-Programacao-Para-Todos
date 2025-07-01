@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const player = document.getElementById('player');
     const bandeira = document.querySelector('.bandeira');
     // MUDANÇA: Usaremos a parte de trás do loop como nosso gatilho
-    const loopTrigger = document.querySelector('.loop-costas'); 
+    const loopTrigger = document.querySelector('.loop-costas');
     const pauseButton = document.querySelector('.pause');
     const homeButton = document.querySelector('.pause1');
     const vitoriaBotao = document.querySelector('.vitoria-conteiner');
@@ -27,13 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let isGameOver = false;
     let isLooping = false;
     let tentativas = 0;
-    let velocidadeAtual = 40;
-    const velocidadeNecessaria = 40;
+    let velocidadeAtual = 0;
+    const velocidadeNecessaria = 10;
 
     function fazerLoop() {
         if (isLooping || isGameOver) return;
         isLooping = true;
-        
+
         // Para a animação de corrida e fixa o jogador no lugar
         const currentLeft = playerContainer.offsetLeft;
         playerContainer.style.animation = 'none';
@@ -48,29 +48,48 @@ document.addEventListener('DOMContentLoaded', () => {
             playerContainer.addEventListener('animationend', onLoopFailEnd, { once: true });
         }
     }
-    
+
     function onLoopSuccessEnd() {
         if (isGameOver) return;
+
+        // MUDANÇA CRUCIAL: Lógica de transferência de estado
+
+        const exitDistance = 130; // O mesmo valor do 'translateX' no CSS!
+
+        // 1. Remove a classe da animação do loop
         playerContainer.classList.remove('player-is-looping-success');
-        playerContainer.style.transform = ''; // Limpa a rotação/translação do loop
-        
-        // Recalcula a duração da animação restante e continua a corrida
+
+        // 2. Calcula a nova posição real do 'left'
+        const newLeft = playerContainer.offsetLeft + exitDistance;
+
+        // 3. Para TODAS as animações e limpa o 'transform'
+        // Isso é vital para "travar" o jogador na sua nova posição visual.
+        playerContainer.style.animation = 'none';
+        playerContainer.style.transform = ''; // Reseta a rotação e o translateX
+
+        // 4. Aplica a nova posição 'left' manualmente
+        playerContainer.style.left = `${newLeft}px`;
+
+        // 5. Agora, com o estado corrigido, calcula a animação restante e continua a corrida
         const currentDuration = parseFloat(playerContainer.style.animationDuration) || 8;
-        const currentLeft = playerContainer.offsetLeft;
         const totalWidth = playerContainer.parentElement.offsetWidth;
-        const progress = currentLeft / totalWidth;
+        const progress = newLeft / totalWidth;
         const remainingTime = currentDuration * (1 - progress);
 
-        // Usa a animação de continuação
+        // Força o navegador a recalcular os estilos antes de aplicar a nova animação
+        void playerContainer.offsetWidth;
+
+        // Inicia a animação de continuação a partir do novo ponto
         playerContainer.style.animation = `player-continue-animation ${remainingTime}s linear forwards`;
-        
+
+        // Permite que o jogo continue
         isLooping = false;
     }
 
     function onLoopFailEnd() {
         if (isGameOver) return;
         playerContainer.classList.remove('player-is-looping-fail');
-        gameOver(); 
+        gameOver();
     }
 
     function iniciarLoop() {
@@ -86,11 +105,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const loopStart = loopTrigger.offsetLeft;
 
                 // Se a frente do jogador alcançou o início do loop, aciona a ação!
-                if (playerFront >= loopStart) {
+                if (playerFront >= (loopStart + 75)) {
                     fazerLoop();
                 }
             }
-            
+
             // Lógica de vitória (só é checada se não estiver no meio do loop)
             if (!isLooping) {
                 const playerRect = playerContainer.getBoundingClientRect();
@@ -130,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (speedInterval) clearInterval(speedInterval);
 
         velocidadeAtual = 0;
-        speedInterval = setInterval(() => { 
+        speedInterval = setInterval(() => {
             if (!isGameOver && !isLooping) {
                 if (velocidadeAtual < 100) velocidadeAtual++;
                 // Acelera a animação conforme a velocidade aumenta
@@ -150,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         playerContainer.style.bottom = '72px';
         player.src = 'imagem-level-2/playerT.gif';
         playerContainer.classList.remove('player-is-looping-success', 'player-is-looping-fail');
-        playerContainer.style.transform = ''; 
+        playerContainer.style.transform = '';
         playerContainer.style.opacity = 1;
         playerContainer.style.animation = 'none';
         void playerContainer.offsetWidth; // Força o browser a resetar a animação
@@ -161,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pauseButton.style.display = 'none';
         homeButton.style.display = 'none';
         vitoriaBotao.style.display = 'none';
-        
+
         isGameOver = false;
         isLooping = false;
         iniciarLoop();
@@ -169,10 +188,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // O botão de "Tentar Novamente" agora apenas reseta o nível
     pauseButton.addEventListener('click', resetPlayer);
-    
+
     // Início do Jogo
     resetPlayer();
-    
+
     // Lógica do botão de dica (mantida)
     const botaoDica = document.getElementById('botao-dica');
     const textoDica = document.getElementById('texto-dica');

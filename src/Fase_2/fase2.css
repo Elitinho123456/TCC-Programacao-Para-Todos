@@ -269,7 +269,6 @@ p#texto-dica {
     cursor: pointer;
 }
 
-/* --- ANIMAÇÕES --- */
 @keyframes player-animation {
     from {
         left: -10%;
@@ -280,7 +279,6 @@ p#texto-dica {
     }
 }
 
-/* CORREÇÃO 3: Nova animação para continuar após o loop */
 @keyframes player-continue-animation {
     to {
         left: 110%;
@@ -292,50 +290,50 @@ p#texto-dica {
 }
 
 .player-is-looping-fail {
-    animation: loop-falha 2s ease-in-out forwards !important;
+    animation: loop-falha 2s ease-out forwards !important;
 }
 
+/* 
+   KEYFRAME CORRIGIDO: Agora traça um caminho curvo usando translateX e translateY
+   - O personagem se move para frente e para cima ao mesmo tempo.
+   - Os valores criam um arco que corresponde à forma visual do loop.
+*/
 @keyframes loop-sucesso {
     0% {
-        transform: translateY(0) rotate(0deg);
+        transform: translateX(0px) translateY(0px) rotate(0deg);
     }
-
     25% {
-        transform: translateY(-130px) rotate(90deg);
+        transform: translateX(85px) translateY(-80px) rotate(-90deg); /* Meio do caminho para cima, no centro horizontal do loop */
     }
-
     50% {
-        transform: translateY(-180px) rotate(180deg);
+        transform: translateX(65px) translateY(-110px) rotate(-180deg); /* Ponto mais alto, no centro horizontal do loop */
     }
-
     75% {
-        transform: translateY(-130px) rotate(270deg);
+        transform: translateX(45px) translateY(-90px) rotate(-270deg); /* Descendo do outro lado */
     }
-
     100% {
-        transform: translateY(0) rotate(360deg);
+        to{
+            left: 110%
+        } /* Pousa no chão, na saída do loop */
     }
 }
 
+/*
+   KEYFRAME CORRIGIDO: Segue o caminho correto até o topo e depois cai.
+*/
 @keyframes loop-falha {
     0% {
-        transform: translateY(0) rotate(0deg);
+        transform: translateX(0px) translateY(0px) rotate(0deg);
     }
-
     25% {
-        transform: translateY(-130px) rotate(90deg);
+        transform: translateX(85px) translateY(-80px) rotate(-90deg); /* Segue o caminho curvo para cima */
     }
-
     50% {
-        transform: translateY(-180px) rotate(180deg);
+        transform: translateX(35px) translateY(-110px) rotate(-180deg); /* Chega no topo do loop */
     }
-
-    60% {
-        transform: translateY(-175px) rotate(180deg);
-    }
-
+    /* A partir daqui, ele perde o momento e cai */
     100% {
-        transform: translateY(150px) rotate(160deg);
+        transform: translateX(50px) translateY(150px) rotate(160deg); /* Cai para baixo e um pouco para trás, descontroladamente */
         opacity: 0;
     }
 }
