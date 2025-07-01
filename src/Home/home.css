@@ -158,8 +158,11 @@ main {
 
 /* Estilização do Rodapé */
 footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    height: 10px ;
+    height: 100px ;
     background-color: #333;
     border-top: 2px solid #4caf50;
     width: 100%;

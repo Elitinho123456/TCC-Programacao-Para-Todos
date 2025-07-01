@@ -76,9 +76,9 @@ body {
 }
 
 button#botao-dica {
-    background-color: #c00000;
+    background-color: #0300c0;
     color: white;
-    border: 1px solid #ff4d4d;
+    border: 1px solid #ffffff;
     padding: 10px 15px;
     cursor: pointer;
     border-radius: 5px;
