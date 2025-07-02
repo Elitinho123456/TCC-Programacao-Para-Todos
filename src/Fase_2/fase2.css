@@ -338,22 +338,22 @@ p#texto-dica {
         transform: translateX(0px) translateY(0px) rotate(0deg);
     }
     15% {
-        transform: translateX(30px) translateY(-50px) rotate(-45deg);
+        transform: translateX(75px) translateY(-35px) rotate(-45deg);
     }
     35% {
-        transform: translateX(80px) translateY(-160px) rotate(-120deg);
+        transform: translateX(85px) translateY(-80px) rotate(-120deg);
     }
     /* Chega ao topo, perdendo quase toda a velocidade. */
     50% {
-        transform: translateX(100px) translateY(-180px) rotate(-180deg);
+        transform: translateX(35px) translateY(-110px) rotate(-180deg);
     }
     /* Momento de "hesitação": ele para e volta um pouquinho para trás, mostrando a perda de momentum. */
     60% {
-        transform: translateX(95px) translateY(-175px) rotate(-170deg);
+        transform: translateX(35px) translateY(-175px) rotate(-170deg);
     }
     /* A queda! Ele despenca para fora da tela, girando sem controle. */
     100% {
-        transform: translateX(70px) translateY(200px) rotate(-90deg);
+        transform: translateX(35px) translateY(200px) rotate(-90deg);
         opacity: 0;
     }
 }

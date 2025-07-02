@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let isLooping = false;
     let tentativas = 0;
     let velocidadeAtual = 0;
-    const velocidadeNecessaria = 30;
+    const velocidadeNecessaria = 40;
 
     // MUDANÇA: A "trava" para garantir que o loop só aconteça uma vez.
     let loopHasBeenTriggered = false;
