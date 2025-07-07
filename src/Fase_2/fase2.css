@@ -165,7 +165,6 @@ p#texto-dica {
     width: 100px;
     height: 100px;
     z-index: 2;
-    /* Adicionando transição para a duração da animação para suavizar a aceleração */
     transition: animation-duration 0.5s ease;
 }
 
@@ -185,16 +184,14 @@ p#texto-dica {
     z-index: 1;
 }
 
-/* CORREÇÃO 1: Posição Y do loop corrigida */
-/* CORREÇÃO 2: Separação X do loop restaurada como você queria */
 .loop-costas {
     position: absolute;
     height: 280px;
     width: auto;
     left: calc(50% - 140px);
     transform: translateX(-50%);
-    bottom: 5px; 
-    z-index: 1;
+    bottom: 5px;
+    z-index: 2;
 }
 
 .loop-frente {
@@ -203,13 +200,13 @@ p#texto-dica {
     width: auto;
     left: calc(50% - 10px);
     transform: translateX(-50%);
-    bottom: 5px; 
+    bottom: 5px;
     z-index: 3;
 }
 
-
-.pause,
-.pause1 {
+/* CORREÇÃO: Seletores atualizados para classes e IDs únicos */
+.pause-button,
+.menu-button {
     display: none;
     position: absolute;
     left: 50%;
@@ -225,13 +222,13 @@ p#texto-dica {
     font-family: "Press Start 2P", cursive;
 }
 
-.pause {
+.pause-button {
     top: 50%;
     background-color: #e52521;
     box-shadow: 0 0 0 5px #e52521, 0 0 0 10px white, 0 0 0 15px #e52521;
 }
 
-.pause1 {
+.menu-button {
     top: 70%;
     font-size: 18px;
     background-color: #4CAF50;
@@ -285,75 +282,10 @@ p#texto-dica {
     }
 }
 
-.player-is-looping-success-suave {
-    animation: loop-sucesso-suave 1.5s ease-in-out forwards !important;
+#player-container.player-loop-sucesso .player {
+    animation: loop-sucesso-gerado 1.5s ease-out forwards !important;
 }
 
-.player-is-looping-fail-suave {
-    animation: loop-falha-suave 2s ease-in-out forwards !important;
-}
-
-
-/* 
-   KEYFRAME CORRIGIDO: Agora traça um caminho curvo usando translateX e translateY
-   - O personagem se move para frente e para cima ao mesmo tempo.
-   - Os valores criam um arco que corresponde à forma visual do loop.
-*/
-@keyframes loop-sucesso-suave {
-    /* O personagem começa a subir a rampa do loop */
-    0% {
-        transform: translateX(0px) translateY(0px) rotate(0deg);
-    }
-    /* Início da curva, ganhando altura rapidamente */
-    15% {
-        transform: translateX(75px) translateY(-35px) rotate(-45deg);
-    }
-    /* Meio do caminho para o topo, começando a desacelerar */
-    35% {
-        transform: translateX(85px) translateY(-80px) rotate(-120deg);
-    }
-    /* Ápice! O ponto mais alto e central do loop. O personagem está de cabeça para baixo. */
-    50% {
-        transform: translateX(35px) translateY(-110px) rotate(-180deg);
-    }
-    /* Começando a descer do outro lado, ganhando velocidade. */
-    65% {
-        transform: translateX(15px) translateY(-80px) rotate(-240deg);
-    }
-    /* Quase no chão, em alta velocidade. */
-    85% {
-        transform: translateX(20px) translateY(-50px) rotate(-315deg);
-    }
-    /* Aterrissagem suave, completando o giro e terminando 200px à frente. */
-    100% {
-        transform: translateX(45px) translateY(0px) rotate(-360deg);
-    }
-}
-/*
-   KEYFRAME CORRIGIDO: Segue o caminho correto até o topo e depois cai.
-*/
-@keyframes loop-falha-suave {
-    /* A subida é idêntica à animação de sucesso no início */
-    0% {
-        transform: translateX(0px) translateY(0px) rotate(0deg);
-    }
-    15% {
-        transform: translateX(75px) translateY(-35px) rotate(-45deg);
-    }
-    35% {
-        transform: translateX(85px) translateY(-80px) rotate(-120deg);
-    }
-    /* Chega ao topo, perdendo quase toda a velocidade. */
-    50% {
-        transform: translateX(35px) translateY(-110px) rotate(-180deg);
-    }
-    /* Momento de "hesitação": ele para e volta um pouquinho para trás, mostrando a perda de momentum. */
-    60% {
-        transform: translateX(35px) translateY(-175px) rotate(-170deg);
-    }
-    /* A queda! Ele despenca para fora da tela, girando sem controle. */
-    100% {
-        transform: translateX(35px) translateY(200px) rotate(-90deg);
-        opacity: 0;
-    }
+#player-container.player-loop-falha .player {
+    animation: loop-falha-gerado 2.5s ease-in-out forwards !important;
 }

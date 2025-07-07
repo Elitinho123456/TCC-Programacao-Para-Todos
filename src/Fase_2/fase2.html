@@ -20,19 +20,30 @@
         <aside class="aba-lateral-esquerda">
             <h2 id="titulo-jogo">AVENTURA DO CÓDIGO</h2>
             <h3 id="titulo-fase">Fase 2/4:<br>O Loop Sônico</h3>
-            
-            <!-- MUDANÇA CRUCIAL: Novas instruções -->
+
+            <!-- MUDANÇA CRUCIAL: Novas instruções INTERATIVAS -->
             <p id="info-fase-descricao"><strong>O loop é acionado AUTOMATICAMENTE!</strong></p>
-            <p>Quando o jogador chega na posição do loop, o jogo verifica a velocidade dele. Sua única tarefa é garantir que a velocidade esteja alta o suficiente no momento do impacto.</p>
+            <p>
+                A velocidade do jogador aumenta com o tempo, mas não rápido o suficiente!
+                Sua tarefa é usar o editor de código para dar um <strong>impulso inicial</strong> na velocidade do
+                jogador.
+            </p>
+            <p>
+                Use o objeto `elementos` para alterar a velocidade inicial. O seu código será executado assim que você
+                clicar em "Tentar Novamente".
+            </p>
             <ul>
-                <li><strong>Jogador:</strong> `elementos.jogador`</li>
-                <li><strong>Velocidade Atual:</strong> `elementos.velocidadeAtual`</li>
-                <li><strong>Velocidade Necessária:</strong> `elementos.velocidadeNecessaria`</li>
+                <li><strong>Para definir a velocidade:</strong> `elementos.velocidadeAtual = 20;`</li>
+                <li><strong>Velocidade Necessária:</strong> `elementos.velocidadeNecessaria` (somente leitura)</li>
             </ul>
-            <p>Não é preciso escrever código para esta fase, apenas observe como a velocidade afeta o resultado!</p>
-            
+            <p>
+                <strong>Desafio:</strong> Encontre o valor de velocidade inicial perfeito para passar pelo loop!
+            </p>
+
             <button id="botao-dica">Ver Dica</button>
-            <p id="texto-dica" style="display:none;">A velocidade aumenta com o tempo. Espere o contador de velocidade atingir ou ultrapassar 40 km/h antes que o personagem chegue no loop.</p>
+            <p id="texto-dica" style="display:none;">A velocidade aumenta com o tempo. Um impulso inicial entre `15` e
+                `25` pode ser o suficiente. Experimente com valores diferentes! Lembre-se que a velocidade necessária é
+                40 km/h.</p>
         </aside>
 
         <main class="conteudo-principal">
@@ -46,12 +57,12 @@
                 <div id="chao">
                     <img src="imagem-level-2/Frame_1.png" class="tiles">
                 </div>
-                
+
                 <div id="loop-container">
                     <img src="imagem-level-2/loop1.png" class="loop-costas">
                     <img src="imagem-level-2/loop2.png" class="loop-frente">
                 </div>
-                
+
                 <img src="imagem-level-2/placa.gif" class="bandeira">
 
                 <div id="player-container">
@@ -63,19 +74,22 @@
                     <a href="../Home/home.html"><button class="Pfase">Voltar ao Menu</button></a>
                 </div>
 
-                <button class="pause" id="pause">Tentar Novamente</button>
-                <a href="../Home/home.html"><button class="pause1" id="pause">Voltar para o Menu</button></a>
+                <!-- CORREÇÃO: IDs únicos e classes mais descritivas -->
+                <button class="pause-button" id="botao-tentar-novamente">Tentar Novamente</button>
+                <a href="../Home/home.html"><button class="menu-button" id="botao-voltar-menu">Voltar para o
+                        Menu</button></a>
             </div>
 
             <div id="meu-editor-codigo"></div>
         </main>
-        
+
         <aside class="aba-lateral-direita">
             <h2>Progresso</h2>
             <h3>Tentativas Realizadas</h3>
             <p>Número de Tentativas: <span id="tentativas-jogador">0</span></p>
             <h3>Como funciona?</h3>
-            <p>O código que você digita no editor é executado quando você clica em "Tentar Novamente". Use JavaScript para interagir com os elementos do jogo!</p>
+            <p>O código que você digita no editor é executado quando você clica em "Tentar Novamente". Use JavaScript
+                para interagir com os elementos do jogo!</p>
         </aside>
     </div>
 </body>
