@@ -4,12 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const editor = CodeMirror(code, {
         value: `// Nesta fase, o loop é automático!
 // O desafio é ter velocidade suficiente quando o personagem chegar lá.
-// Nenhum código é necessário. Apenas clique em 'Tentar Novamente' e observe!`,
+// O motor de animação do loop agora é controlado por JavaScript!`,
         mode: "javascript", theme: "dracula", lineNumbers: true, readOnly: true
     });
     window.meuEditor = editor;
 
-    // Seleção de elementos
+    // --- SELEÇÃO DE ELEMENTOS ---
     const playerContainer = document.getElementById('player-container');
     const player = document.getElementById('player');
     const bandeira = document.querySelector('.bandeira');
@@ -21,57 +21,121 @@ document.addEventListener('DOMContentLoaded', () => {
     const velocidadeAtualDisplay = document.getElementById('velocidade-atual-display');
     const velocidadeNecessariaDisplay = document.getElementById('velocidade-necessaria-display');
 
-    // Variáveis de estado
+    // --- VARIÁVEIS DE ESTADO ---
     let gameLoop, speedInterval;
     let isGameOver = false;
     let isLooping = false;
+    let loopHasBeenTriggered = false;
     let tentativas = 0;
     let velocidadeAtual = 0;
-    const velocidadeNecessaria = 40;
+    const velocidadeNecessaria = 20;
 
-    // MUDANÇA: A "trava" para garantir que o loop só aconteça uma vez.
-    let loopHasBeenTriggered = false;
+    // --- MUDANÇA: CONSTANTES CALIBRADAS COM BASE NAS IMAGENS E CSS ---
+    const LOOP_RAIO_H = 40;  // Metade da largura do túnel (130px)
+    const LOOP_RAIO_V = 54.8; // Raio vertical ajustado para a altura de 280px da imagem
+    const LOOP_CENTRO_X = LOOP_RAIO_H; // O centro X é o próprio raio para fechar o círculo
+    const LOOP_CENTRO_Y = -LOOP_RAIO_V + 3; // O centro Y está acima do jogador
+
+    /**
+     * Anima o jogador em uma trajetória de loop calculada matematicamente.
+     * @param {number} duration - Duração total da animação em milissegundos.
+     * @param {boolean} isSuccess - Se true, completa o loop. Se false, falha no topo.
+     * @param {Function} onComplete - Função a ser chamada no final da animação.
+     */
+    function animarLoopCalculado(duration, isSuccess, onComplete) {
+        const startTime = performance.now();
+
+        function passoDaAnimacao(currentTime) {
+            const tempoDecorrido = currentTime - startTime;
+            let progresso = tempoDecorrido / duration;
+            if (progresso >= 1) progresso = 1;
+
+            let x_offset, y_offset, rot_offset;
+
+            if (isSuccess) {
+                // --- LÓGICA DE SUCESSO ---
+                const anguloInicial = Math.PI / 1.85;
+                const anguloTotal = -1.85 * Math.PI; // Volta completa no sentido horário
+                const anguloAtual = anguloInicial + progresso * anguloTotal;
+
+                x_offset = LOOP_CENTRO_X + LOOP_RAIO_H * Math.cos(anguloAtual);
+                y_offset = LOOP_CENTRO_Y + LOOP_RAIO_V * Math.sin(anguloAtual);
+                rot_offset = progresso * -360;
+            } else {
+                // --- LÓGICA DE FALHA ---
+                const progressoMaximoFalha = 0.55;
+                if (progresso <= progressoMaximoFalha) {
+                    const progressoDaSubida = progresso / progressoMaximoFalha;
+                    const anguloInicial = Math.PI / 2;
+                    const anguloDaSubida = -1.1 * Math.PI;
+                    const anguloAtual = anguloInicial + progressoDaSubida * anguloDaSubida;
+
+                    x_offset = LOOP_CENTRO_X + LOOP_RAIO_H * Math.cos(anguloAtual);
+                    y_offset = LOOP_CENTRO_Y + LOOP_RAIO_V * Math.sin(anguloAtual);
+                    rot_offset = progressoDaSubida * -200;
+                } else {
+                    const anguloNoPico = -Math.PI / 2 + -1.1 * Math.PI;
+                    x_offset = LOOP_CENTRO_X + LOOP_RAIO_H * Math.cos(anguloNoPico);
+                    
+                    const yNoPico = LOOP_CENTRO_Y - LOOP_RAIO_V * Math.sin(anguloNoPico);
+                    const tempoDeQueda = (progresso - progressoMaximoFalha) / (1 - progressoMaximoFalha);
+                    y_offset = yNoPico + (400 * Math.pow(tempoDeQueda, 2));
+                    
+                    rot_offset = -200 + tempoDeQueda * -360;
+                    playerContainer.style.opacity = 1 - tempoDeQueda;
+                }
+            }
+
+            playerContainer.style.transform = `translateX(${x_offset}px) translateY(${y_offset}px) rotate(${rot_offset}deg)`;
+
+            if (progresso < 1) {
+                requestAnimationFrame(passoDaAnimacao);
+            } else {
+                if (onComplete) onComplete(x_offset); // Passa o deslocamento final para a função de callback
+            }
+        }
+        requestAnimationFrame(passoDaAnimacao);
+    }
 
     function fazerLoop() {
         if (isLooping || isGameOver) return;
         isLooping = true;
 
-        // MUDANÇA: Atualize os nomes das classes aqui!
-        const classeSucesso = 'player-is-looping-success-suave';
-        const classeFalha = 'player-is-looping-fail-suave';
-
         const currentLeft = playerContainer.offsetLeft;
         playerContainer.style.animation = 'none';
         playerContainer.style.left = `${currentLeft}px`;
+        playerContainer.style.transform = '';
+        playerContainer.style.opacity = 1;
 
         if (velocidadeAtual >= velocidadeNecessaria) {
-            playerContainer.classList.add(classeSucesso);
-            playerContainer.addEventListener('animationend', onLoopSuccessEnd, { once: true });
+            animarLoopCalculado(1500, true, onLoopSuccessEnd);
         } else {
-            playerContainer.classList.add(classeFalha);
-            playerContainer.addEventListener('animationend', onLoopFailEnd, { once: true });
+            animarLoopCalculado(2000, false, onLoopFailEnd);
         }
     }
 
-    function onLoopSuccessEnd() {
+    // --- MUDANÇA: MELHORIA NA TRANSIÇÃO PÓS-LOOP ---
+    function onLoopSuccessEnd(finalOffsetX) {
         if (isGameOver) return;
-        playerContainer.classList.remove('player-is-looping-success-suave');
+        
+        // Atualiza a posição 'left' para incluir o deslocamento da animação
+        const currentLeft = playerContainer.offsetLeft;
+        playerContainer.style.left = `${currentLeft + finalOffsetX}px`;
+        
+        // Limpa a transformação para a próxima animação começar do zero
         playerContainer.style.transform = '';
 
         const currentDuration = parseFloat(playerContainer.style.animationDuration) || 8;
-        const currentLeft = playerContainer.offsetLeft;
         const totalWidth = playerContainer.parentElement.offsetWidth;
-        const progress = currentLeft / totalWidth;
+        const progress = playerContainer.offsetLeft / totalWidth;
         const remainingTime = currentDuration * (1 - progress);
 
         playerContainer.style.animation = `player-continue-animation ${remainingTime}s linear forwards`;
-
         isLooping = false;
     }
 
     function onLoopFailEnd() {
         if (isGameOver) return;
-        playerContainer.classList.remove('player-is-looping-fail-suave'); // <-- ATUALIZE AQUI
         gameOver();
     }
 
@@ -80,13 +144,10 @@ document.addEventListener('DOMContentLoaded', () => {
         gameLoop = setInterval(() => {
             if (isGameOver) return;
 
-            // MUDANÇA: Adicionamos a verificação da nossa "trava".
             if (!isLooping && !loopHasBeenTriggered) {
                 const playerFront = playerContainer.offsetLeft + playerContainer.offsetWidth;
                 const loopStart = loopTrigger.offsetLeft;
-
                 if (playerFront >= (loopStart + 65)) {
-                    // MUDANÇA: Acionamos a trava!
                     loopHasBeenTriggered = true;
                     fazerLoop();
                 }
@@ -146,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
         playerContainer.style.left = '-10%';
         playerContainer.style.bottom = '72px';
         player.src = 'imagem-level-2/playerT.gif';
-        playerContainer.classList.remove('player-is-looping-success', 'player-is-looping-fail');
+        
         playerContainer.style.transform = '';
         playerContainer.style.opacity = 1;
         playerContainer.style.animation = 'none';
@@ -160,13 +221,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         isGameOver = false;
         isLooping = false;
-        // MUDANÇA: Resetamos a trava para a próxima tentativa.
         loopHasBeenTriggered = false;
         iniciarLoop();
     }
 
     pauseButton.addEventListener('click', resetPlayer);
-
     resetPlayer();
 
     const botaoDica = document.getElementById('botao-dica');
