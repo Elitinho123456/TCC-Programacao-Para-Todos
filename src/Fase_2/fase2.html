@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fase 2</title>
+    <title>Fase 2 - O Loop Sônico</title>
 
     <link rel="stylesheet" href="fase2.css">
-    <link rel="website icon" type="png" href="imagem-level-2/playerV.png">
+    <link rel="website icon" type="image/png" href="https://i.imgur.com/O60yS2a.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
@@ -21,17 +21,18 @@
             <h2 id="titulo-jogo">AVENTURA DO CÓDIGO</h2>
             <h3 id="titulo-fase">Fase 2/4:<br>O Loop Sônico</h3>
             
-            <p id="info-fase-descricao"><strong>O loop é acionado AUTOMATICamente!</strong></p>
+            <!-- Botões de navegação de fase (sempre visíveis) -->
+            <div class="botoes-navegacao-fase">
+                <button class="nav-fase-button" id="fase-anterior"> < Fase Anterior</button>
+                <button class="nav-fase-button" id="proxima-fase"> Próxima Fase > </button>
+            </div>
+
+            <p id="info-fase-descricao"><strong>O loop é acionado AUTOMATICAMENTE!</strong></p>
             <p>Quando o jogador chega na posição do loop, o jogo verifica a velocidade dele. Sua única tarefa é garantir que a velocidade esteja alta o suficiente no momento do impacto.</p>
             <ul>
-                <li><strong>Jogador:</strong> `elementos.jogador`</li>
-                <li><strong>Velocidade Atual:</strong> `elementos.velocidadeAtual`</li>
-                <li><strong>Velocidade Necessária:</strong> `elementos.velocidadeNecessaria`</li>
+                <li><strong>Velocidade Atual:</strong> `velocidadeAtual`</li>
+                <li><strong>Velocidade Necessária:</strong> `velocidadeNecessaria`</li>
             </ul>
-            <p>Não é preciso escrever código para esta fase, apenas observe como a velocidade afeta o resultado!</p>
-            
-            <button id="botao-dica">Ver Dica</button>
-            <p id="texto-dica" style="display:none;">A velocidade aumenta com o tempo. Espere o contador de velocidade atingir ou ultrapassar 40 km/h antes que o personagem chegue no loop.</p>
         </aside>
 
         <main class="conteudo-principal">
@@ -41,40 +42,47 @@
                     Necessária: <span id="velocidade-necessaria-display">?</span> km/h
                 </div>
 
-                <div id="nuvens-container"></div>
                 <div id="chao">
-                    <img src="imagem-level-2/Frame_1.png" class="tiles">
+                    <img src="./imagem-level-2/Frame_1.png" class="tiles">
                 </div>
                 
                 <div id="loop-container">
-                    <img src="imagem-level-2/loop1.png" class="loop-costas">
-                    <img src="imagem-level-2/loop2.png" class="loop-frente">
+                    <img src="./imagem-level-2/loop1.png" class="loop-costas">
+                    <img src="./imagem-level-2/loop2.png" class="loop-frente">
                 </div>
                 
-                <img src="imagem-level-2/placa.gif" class="bandeira">
+                <img src="./imagem-level-2/placa.gif" class="bandeira">
 
                 <div id="player-container">
-                    <img src="imagem-level-2/playerT.gif" class="player" id="player">
+                    <img src="./imagem-level-2/playerT.gif" class="player" id="player">
                 </div>
 
                 <div class="vitoria-conteiner">
                     <h1 class="mensagemV">Você conseguiu!!</h1>
-                    <a href="../Home/home.html"><button class="Pfase">Voltar ao Menu</button></a>
+                    <a href="#"><button class="Pfase">Próxima Fase</button></a>
                 </div>
 
-                <button class="pause" id="pause">Tentar Novamente</button>
-                <a href="../Home/home.html"><button class="pause1" id="pause">Voltar para o Menu</button></a>
+                <!-- Botão de Tentar Novamente (só aparece ao morrer) -->
+                <button id="tentar-novamente-btn" style="display: none;">Tentar Novamente</button>
             </div>
 
             <div id="meu-editor-codigo"></div>
         </main>
         
         <aside class="aba-lateral-direita">
-            <h2>Progresso</h2>
-            <h3>Tentativas Realizadas</h3>
-            <p>Número de Tentativas: <span id="tentativas-jogador">0</span></p>
-            <h3>Como funciona?</h3>
-            <p>O código que você digita no editor é executado quando você clica em "Tentar Novamente". Use JavaScript para interagir com os elementos do jogo!</p>
+            <!-- Ícone de Menu no canto -->
+            <a href="../Home/home.html" id="botao-menu-icon" title="Voltar para o Menu">🏠</a>
+            
+            <div>
+                <h2>Progresso</h2>
+                <h3>Tentativas Realizadas</h3>
+                <p>Número de Tentativas: <span id="tentativas-jogador">0</span></p>
+            </div>
+            
+            <div>
+                <button id="botao-dica">Ver Dica</button>
+                <p id="texto-dica" style="display:none;">A velocidade aumenta com o tempo. Espere o contador de velocidade atingir ou ultrapassar 40 km/h antes que o personagem chegue no loop.</p>
+            </div>
         </aside>
     </div>
 </body>

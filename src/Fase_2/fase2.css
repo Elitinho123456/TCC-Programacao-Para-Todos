@@ -1,16 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Slabo+13px&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-html,
-body {
+html, body {
     height: 100%;
-    margin: 0;
     font-family: "Slabo 13px", serif;
     background: linear-gradient(90deg, rgb(30, 30, 30) 0%, rgb(15, 15, 15) 50%, rgb(30, 30, 30) 100%);
     color: #f0f0f0;
@@ -27,22 +21,24 @@ body {
     align-items: flex-start;
 }
 
-.aba-lateral-esquerda,
-.aba-lateral-direita {
+.aba-lateral-esquerda, .aba-lateral-direita {
     background-color: rgba(40, 40, 40, 0.9);
     padding: 15px;
     border-radius: 8px;
     width: 400px;
     flex-shrink: 0;
-    height: 100%;
+    height: 95%;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+    position: relative; /* Necessário para posicionar o ícone de menu */
 }
 
-.aba-lateral-esquerda h2,
-.aba-lateral-direita h2 {
+.aba-lateral-direita {
+    justify-content: space-between;
+}
+
+.aba-lateral-esquerda h2, .aba-lateral-direita h2 {
     font-size: 1.3em;
     color: #FFD700;
     text-align: center;
@@ -52,29 +48,30 @@ body {
     font-family: "Press Start 2P", cursive;
 }
 
-.aba-lateral-esquerda h3,
-.aba-lateral-direita h3 {
+.aba-lateral-esquerda h3, .aba-lateral-direita h3 {
     border-bottom: 1px solid #444;
     padding-bottom: 5px;
-    font-size: 2em;
+    font-size: 1.2em;
     color: #ccc;
     margin-bottom: 10px;
 }
 
-.aba-lateral-esquerda p,
-.aba-lateral-esquerda ul,
-.aba-lateral-direita p {
-    font-size: 1.3em;
+.aba-lateral-esquerda p, .aba-lateral-esquerda ul, .aba-lateral-direita p {
+    font-size: 1.1em;
     line-height: 1.5;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     color: #ddd;
 }
 
 .aba-lateral-esquerda ul {
     padding-left: 20px;
     list-style: square;
+    margin-bottom: 15px;
 }
 
+/* --- BOTÕES --- */
+
+/* Botão de Dica */
 button#botao-dica {
     background-color: #0300c0;
     color: white;
@@ -82,16 +79,14 @@ button#botao-dica {
     padding: 10px 15px;
     cursor: pointer;
     border-radius: 5px;
-    margin-top: 15px;
+    margin-top: 10px;
     font-size: 1em;
     width: 100%;
+    font-family: "Slabo 13px", serif;
 }
-
 button#botao-dica:hover {
     background-color: #e52521;
-    border-color: #fff;
 }
-
 p#texto-dica {
     background-color: rgba(0, 0, 0, 0.3);
     padding: 10px;
@@ -99,6 +94,66 @@ p#texto-dica {
     margin-top: 10px;
     font-size: 1em;
 }
+
+/* Ícone de Menu */
+#botao-menu-icon {
+    position: absolute;
+    top: 45px;
+    right: 15px;
+    font-size: 2em;
+    text-decoration: none;
+    color: white;
+    transition: transform 0.2s;
+}
+#botao-menu-icon:hover {
+    transform: scale(1.2);
+}
+
+/* Botões de Navegação de Fase (Lateral Esquerda) */
+.botoes-navegacao-fase {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.nav-fase-button {
+    flex: 1;
+    padding: 10px;
+    font-family: "Slabo 13px", serif;
+    font-size: 0.9em;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    cursor: pointer;
+}
+#fase-anterior {
+    background-color: #c0392b;
+    color: white;
+}
+#proxima-fase {
+    background-color: #27ae60;
+    color: white;
+}
+
+/* Botão de Tentar Novamente (Central) */
+#tentar-novamente-btn {
+    display: none; /* Inicia oculto */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px 30px;
+    font-size: 24px;
+    color: white;
+    border: 5px solid white;
+    border-radius: 10px;
+    text-shadow: 3px 3px 0 #000;
+    cursor: pointer;
+    z-index: 100;
+    font-family: "Press Start 2P", cursive;
+    background-color: #e52521;
+    box-shadow: 0 0 0 5px #e52521, 0 0 0 10px white, 0 0 0 15px #e52521;
+}
+
+/* --- CONTEÚDO PRINCIPAL --- */
 
 .conteudo-principal {
     flex-grow: 1;
@@ -114,7 +169,7 @@ p#texto-dica {
     height: 480px;
     border: 2px solid white;
     position: relative;
-    background: linear-gradient(#7dd6ff, #ffffff);
+    background: linear-gradient(#3a9efd, #ffffff);
     overflow: hidden;
 }
 
@@ -131,151 +186,60 @@ p#texto-dica {
     font-size: 14px;
 }
 
-/* --- ESTILOS DOS ELEMENTOS DO JOGO - FASE 2 --- */
+/* --- ELEMENTOS DO JOGO --- */
 
 #velocidade-info {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    padding: 8px;
-    border-radius: 5px;
-    font-family: "Press Start 2P", cursive;
-    font-size: 12px;
-    line-height: 1.4;
-    z-index: 10;
-    border: 1px solid #fff;
+    position: absolute; top: 10px; left: 10px;
+    background-color: rgba(0, 0, 0, 0.6); color: white;
+    padding: 8px; border-radius: 5px;
+    font-family: "Press Start 2P", cursive; font-size: 12px;
+    line-height: 1.4; z-index: 10; border: 1px solid #fff;
 }
-
 .tiles {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 150%;
-    height: 80px;
-    background-color: #5ab447;
-    border-top: 2px solid #3d8c2c;
+    position: absolute; bottom: 0; left: 0;
+    width: 100%; height: 80px;
+    background-color: #5ab447; border-top: 2px solid #3d8c2c;
 }
-
 #player-container {
-    position: absolute;
-    bottom: 72px;
-    left: -10%;
-    width: 100px;
-    height: 100px;
-    z-index: 2;
-    transition: animation-duration 0.5s ease;
+    position: absolute; bottom: 72px; left: -10%;
+    width: 100px; height: 100px;
+    z-index: 2; transition: animation-duration 0.5s ease;
 }
-
 .player {
-    width: 80px;
-    height: 100px;
-    position: absolute;
-    bottom: 0;
+    width: 80px; height: 100px;
+    position: absolute; bottom: 0;
 }
-
 .bandeira {
-    position: absolute;
-    width: 100px;
-    height: auto;
-    right: 5%;
-    bottom: 72px;
-    z-index: 1;
+    position: absolute; width: 100px; height: auto;
+    right: 5%; bottom: 72px; z-index: 1;
 }
-
 .loop-costas {
-    position: absolute;
-    height: 280px;
-    width: auto;
-    left: calc(50% - 140px);
-    transform: translateX(-50%);
-    bottom: 5px; 
-    z-index: 1;
+    position: absolute; height: 280px; width: auto;
+    left: calc(50% - 140px); transform: translateX(-50%);
+    bottom: 5px; z-index: 1;
 }
-
 .loop-frente {
-    position: absolute;
-    height: 280px;
-    width: auto;
-    left: calc(50% - 10px);
-    transform: translateX(-50%);
-    bottom: 5px; 
-    z-index: 3;
-}
-
-.pause,
-.pause1 {
-    display: none;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 15px 30px;
-    font-size: 24px;
-    color: white;
-    border: 5px solid white;
-    border-radius: 10px;
-    text-shadow: 3px 3px 0 #000;
-    cursor: pointer;
-    z-index: 100;
-    font-family: "Press Start 2P", cursive;
-}
-
-.pause {
-    top: 50%;
-    background-color: #e52521;
-    box-shadow: 0 0 0 5px #e52521, 0 0 0 10px white, 0 0 0 15px #e52521;
-}
-
-.pause1 {
-    top: 70%;
-    font-size: 18px;
-    background-color: #4CAF50;
-    box-shadow: 0 0 0 5px #4CAF50, 0 0 0 10px white, 0 0 0 15px #4CAF50;
+    position: absolute; height: 280px; width: auto;
+    left: calc(50% - 10px); transform: translateX(-50%);
+    bottom: 5px; z-index: 3;
 }
 
 .vitoria-conteiner {
-    display: none;
-    position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 30px;
-    background-color: rgba(0, 0, 0, 0.75);
-    border-radius: 15px;
-    text-align: center;
-    z-index: 101;
+    display: none; position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    padding: 30px; background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 15px; text-align: center; z-index: 101;
 }
-
 .mensagemV {
-    color: #FFD700;
-    font-size: 24px;
-    text-shadow: 3px 3px 0 #000;
-    margin-bottom: 20px;
+    color: #FFD700; font-size: 24px; text-shadow: 3px 3px 0 #000;
+    margin-bottom: 20px; font-family: "Press Start 2P", cursive;
+}
+.Pfase {
+    padding: 15px 30px; font-size: 18px; color: white;
+    background-color: #4caf50; border: 5px solid white;
+    border-radius: 10px; cursor: pointer;
     font-family: "Press Start 2P", cursive;
 }
 
-.Pfase {
-    padding: 15px 30px;
-    font-size: 18px;
-    color: white;
-    background-color: #4caf50;
-    border: 5px solid white;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-@keyframes player-animation {
-    from {
-        left: -10%;
-    }
-    to {
-        left: 110%;
-    }
-}
-
-@keyframes player-continue-animation {
-    to {
-        left: 110%;
-    }
-}
+@keyframes player-animation { from { left: -10%; } to { left: 110%; } }
+@keyframes player-continue-animation { to { left: 110%; } }
