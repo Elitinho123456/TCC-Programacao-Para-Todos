@@ -9,34 +9,51 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    height: 100vh;
 }
 
-/* Estilização do Header */
+/* Estilização do Header (MODIFICADO) */
 header {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+    align-items: center; /* Garante o alinhamento vertical dos itens */
+    padding: 20px 40px; /* Adiciona um espaçamento lateral para o conteúdo não ficar colado nas bordas */
     background-color: #333;
     border-bottom: 2px solid #4caf50;
+    width: 100%;
+    box-sizing: border-box; /* Assegura que o padding não afete a largura total */
 }
 
+/* Container principal do header (MODIFICADO) */
 .infoPrincipal {
     display: flex;
     align-items: center;
+    justify-content: space-between; /* A MUDANÇA PRINCIPAL: distribui os itens para o início e o fim */
+    width: 100%; /* Faz o container ocupar toda a largura disponível no header */
     gap: 20px;
-    /* Espaço entre a logo e o texto */
-}
-
-.infoPrincipal img {
-    height: 80px;
-    /* Altura da logo */
 }
 
 .infoPrincipal p {
     font-size: 1.2em;
     margin: 0;
+}
+
+.ifms{
+    padding: 5px;
+    background-color: white;
+    height: 100px;
+}
+
+.ifms img{
+    height: 100%;
+    width: auto;
+}
+
+.NossoJogo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    gap: 15px; /* Adicionado um espaçamento entre a logo do jogo e o texto */
 }
 
 /* Estilização do Conteúdo Principal (main) */
@@ -108,7 +125,6 @@ main {
     bottom: -40px; /* Move para cima ligeiramente ao aparecer */
 }
 
-
 /* Detalhe/Ícone na parte superior */
 .fase-detalhe {
     position: absolute;
@@ -162,7 +178,9 @@ footer {
     align-items: center;
     justify-content: center;
     text-align: center;
-    height: 100px ;
+    height: 50px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     background-color: #333;
     border-top: 2px solid #4caf50;
     width: 100%;

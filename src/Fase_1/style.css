@@ -168,14 +168,33 @@ p#texto-dica {
 }
 
 
+/* Estilização do Rodapé */
 footer {
-    width: 100%;
-    padding: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    background-color: rgba(0, 0, 0, 0.8);
-    font-size: 0.85em;
-    border-top: 1px solid #333;
-    flex-shrink: 0;
+    height: 50px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #333;
+    border-top: 2px solid #4caf50;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer a {
+    color: #4caf50;
+    /* Cor verde para os links */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline;
 }
 
 /* ESTILOS DOS ELEMENTOS DO JOGO */
@@ -338,19 +357,6 @@ footer {
     transform: scale(0.95);
 }
 
-
-footer p {
-    margin: 0;
-}
-
-footer a {
-    color: #7dd6ff;
-    text-decoration: none;
-}
-
-footer a:hover {
-    text-decoration: underline;
-}
 
 /* ANIMAÇÕES KEYFRAMES */
 @keyframes float {

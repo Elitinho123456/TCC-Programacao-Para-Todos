@@ -241,5 +241,34 @@ p#texto-dica {
     font-family: "Press Start 2P", cursive;
 }
 
+/* Estilização do Rodapé */
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 50px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #333;
+    border-top: 2px solid #4caf50;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer a {
+    color: #4caf50;
+    /* Cor verde para os links */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
 @keyframes player-animation { from { left: -10%; } to { left: 110%; } }
 @keyframes player-continue-animation { to { left: 110%; } }
