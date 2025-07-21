@@ -15,20 +15,25 @@ body {
 /* Estilização do Header (MODIFICADO) */
 header {
     display: flex;
-    align-items: center; /* Garante o alinhamento vertical dos itens */
-    padding: 20px 40px; /* Adiciona um espaçamento lateral para o conteúdo não ficar colado nas bordas */
+    align-items: center;
+    /* Garante o alinhamento vertical dos itens */
+    padding: 20px 40px;
+    /* Adiciona um espaçamento lateral para o conteúdo não ficar colado nas bordas */
     background-color: #333;
     border-bottom: 2px solid #4caf50;
     width: 100%;
-    box-sizing: border-box; /* Assegura que o padding não afete a largura total */
+    box-sizing: border-box;
+    /* Assegura que o padding não afete a largura total */
 }
 
 /* Container principal do header (MODIFICADO) */
 .infoPrincipal {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* A MUDANÇA PRINCIPAL: distribui os itens para o início e o fim */
-    width: 100%; /* Faz o container ocupar toda a largura disponível no header */
+    justify-content: space-between;
+    /* A MUDANÇA PRINCIPAL: distribui os itens para o início e o fim */
+    width: 100%;
+    /* Faz o container ocupar toda a largura disponível no header */
     gap: 20px;
 }
 
@@ -37,13 +42,13 @@ header {
     margin: 0;
 }
 
-.ifms{
+.ifms {
     padding: 5px;
     background-color: white;
     height: 100px;
 }
 
-.ifms img{
+.ifms img {
     height: 100%;
     width: auto;
 }
@@ -53,7 +58,8 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 5px;
-    gap: 15px; /* Adicionado um espaçamento entre a logo do jogo e o texto */
+    gap: 15px;
+    /* Adicionado um espaçamento entre a logo do jogo e o texto */
 }
 
 /* Estilização do Conteúdo Principal (main) */
@@ -102,9 +108,11 @@ main {
 
 /* Estilos para o texto ao passar o mouse */
 .fases a::after {
-    content: attr(data-fase-nome); /* Pega o texto do atributo data-fase-nome */
+    content: attr(data-fase-nome);
+    /* Pega o texto do atributo data-fase-nome */
     position: absolute;
-    bottom: -30px; /* Ajuste a posição conforme necessário */
+    bottom: -30px;
+    /* Ajuste a posição conforme necessário */
     left: 50%;
     transform: translateX(-50%);
     background-color: #4caf50;
@@ -112,17 +120,23 @@ main {
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 0.8em;
-    white-space: nowrap; /* Impede que o texto quebre a linha */
-    opacity: 0; /* Começa invisível */
-    visibility: hidden; /* Garante que não interfira com eventos do mouse */
+    white-space: nowrap;
+    /* Impede que o texto quebre a linha */
+    opacity: 0;
+    /* Começa invisível */
+    visibility: hidden;
+    /* Garante que não interfira com eventos do mouse */
     transition: opacity 0.3s ease, bottom 0.3s ease, visibility 0.3s ease;
-    z-index: 10; /* Garante que fique acima de outros elementos */
+    z-index: 10;
+    /* Garante que fique acima de outros elementos */
 }
 
 .fases a:hover::after {
-    opacity: 1; /* Torna visível ao passar o mouse */
+    opacity: 1;
+    /* Torna visível ao passar o mouse */
     visibility: visible;
-    bottom: -40px; /* Move para cima ligeiramente ao aparecer */
+    bottom: -40px;
+    /* Move para cima ligeiramente ao aparecer */
 }
 
 /* Detalhe/Ícone na parte superior */
@@ -199,4 +213,51 @@ footer a {
 
 footer a:hover {
     text-decoration: underline;
+}
+
+/* Aplica estes estilos quando a largura da tela for 768px ou menor */
+@media (max-width: 768px) {
+
+    /* Ajusta o cabeçalho para dispositivos móveis */
+    header {
+        padding: 20px 15px;
+        /* Reduz o espaçamento lateral no header */
+    }
+
+    /* Container principal do header */
+    .infoPrincipal {
+        flex-direction: column;
+        /* Altera a direção do layout para vertical (empilhado) */
+        justify-content: center;
+        /* Centraliza o conteúdo verticalmente */
+        align-items: center;
+        /* Centraliza o conteúdo horizontalmente */
+        gap: 25px;
+        /* Aumenta o espaço entre os itens empilhados */
+    }
+
+    /* Bloco do nosso jogo */
+    .NossoJogo {
+        flex-direction: column;
+        /* Empilha a logo do jogo e o texto */
+        text-align: center;
+        /* Centraliza o título e a descrição do jogo */
+    }
+
+    /* Ajusta o tamanho da logo do IFMS para não ocupar muito espaço vertical */
+    .ifms {
+        height: 80px;
+        order: 2;
+        /* Opcional: Faz a logo do IFMS aparecer por último */
+    }
+
+    /* Opcional: Ajusta o tamanho da fonte para melhor leitura */
+    .textoNossoJogo h1 {
+        font-size: 1.8em;
+    }
+
+    .textoNossoJogo p {
+        font-size: 1em;
+    }
+
 }

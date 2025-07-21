@@ -135,7 +135,7 @@ p#texto-dica {
     height: 480px;
     border: 2px solid white;
     position: relative;
-    background: linear-gradient(#7dd6ff, rgb(255, 255, 255));
+    background-color: #252525;
     overflow: hidden;
 }
 
@@ -563,4 +563,42 @@ footer a:hover {
     /* Criaremos uma nova classe para ativar o loop */
     animation: sonic-loop 1s ease-in-out infinite;
     /* 1 segundo de duração, suaviza o início/fim, repete infinitamente */
+}
+
+.tile {
+    width: 40px;
+    height: 40px;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.parede {
+    background-color: #222;
+}
+
+.pilula {
+    background-color: gold;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    margin: auto;
+}
+
+.fantasma {
+    background-color: crimson;
+    border-radius: 50%;
+}
+
+.caminho {
+    background-color: #eee;
+}
+
+#pacman {
+    width: 30px;
+    height: 30px;
+    background-color: yellow;
+    border-radius: 50%;
+    z-index: 10;
+    grid-column: 1;
+    grid-row: 1;
 }

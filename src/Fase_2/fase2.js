@@ -151,8 +151,8 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(speedInterval);
         incrementarTentativas();
         playerContainer.style.animationPlayState = 'paused';
-        player.src = './imagem-level-2/playerT.gif'; // Imagem do Sonic "derrotado"
-        tentarNovamenteBtn.style.display = 'block'; // Mostra o botão central
+        player.src = './imagem-level-2/playerT.gif';
+        tentarNovamenteBtn.style.display = 'block';
     }
 
     function vitoria() {
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(speedInterval);
         playerContainer.style.animationPlayState = 'paused';
         playerContainer.style.left = `${bandeira.offsetLeft - playerContainer.offsetWidth / 2}px`;
-        player.src = './imagem-level-2/playerT.gif'; // Imagem do Sonic vitorioso
+        player.src = './imagem-level-2/playerT.gif'; 
         vitoriaBotao.style.display = 'block';
     }
 

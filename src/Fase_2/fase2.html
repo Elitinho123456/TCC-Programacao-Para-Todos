@@ -20,15 +20,25 @@
         <aside class="aba-lateral-esquerda">
             <h2 id="titulo-jogo">AVENTURA DO CÓDIGO</h2>
             <h3 id="titulo-fase">Fase 2/4:<br>O Loop Sônico</h3>
-            
+
             <!-- Botões de navegação de fase (sempre visíveis) -->
-            <div class="botoes-navegacao-fase">
-                <button class="nav-fase-button" id="fase-anterior"> < Fase Anterior</button>
-                <button class="nav-fase-button" id="proxima-fase"> Próxima Fase > </button>
+            <div class="botoesNav">
+                <a href="../Fase_1/fase1.html">
+                    <button class="nav-btn" id="btn-prev" title="Fase anterior">&lt;</button>
+                </a>
+
+                <a href="../Home/home.html">
+                    <button class="nav-btn" id="btn-home" title="Home">&#8962;</button>
+                </a>
+
+                <a href="../Fase_3/fase3.html">
+                    <button class="nav-btn" id="btn-next" title="Próxima fase">&gt;</button>
+                </a>
             </div>
 
             <p id="info-fase-descricao"><strong>O loop é acionado AUTOMATICAMENTE!</strong></p>
-            <p>Quando o jogador chega na posição do loop, o jogo verifica a velocidade dele. Sua única tarefa é garantir que a velocidade esteja alta o suficiente no momento do impacto.</p>
+            <p>Quando o jogador chega na posição do loop, o jogo verifica a velocidade dele. Sua única tarefa é garantir
+                que a velocidade esteja alta o suficiente no momento do impacto.</p>
             <ul>
                 <li><strong>Velocidade Atual:</strong> `velocidadeAtual`</li>
                 <li><strong>Velocidade Necessária:</strong> `velocidadeNecessaria`</li>
@@ -45,12 +55,12 @@
                 <div id="chao">
                     <img src="./imagem-level-2/Frame_1.png" class="tiles">
                 </div>
-                
+
                 <div id="loop-container">
                     <img src="./imagem-level-2/loop1.png" class="loop-costas">
                     <img src="./imagem-level-2/loop2.png" class="loop-frente">
                 </div>
-                
+
                 <img src="./imagem-level-2/placa.gif" class="bandeira">
 
                 <div id="player-container">
@@ -68,20 +78,21 @@
 
             <div id="meu-editor-codigo"></div>
         </main>
-        
+
         <aside class="aba-lateral-direita">
             <!-- Ícone de Menu no canto -->
             <a href="../Home/home.html" id="botao-menu-icon" title="Voltar para o Menu">🏠</a>
-            
+
             <div>
                 <h2>Progresso</h2>
                 <h3>Tentativas Realizadas</h3>
                 <p>Número de Tentativas: <span id="tentativas-jogador">0</span></p>
             </div>
-            
+
             <div>
                 <button id="botao-dica">Ver Dica</button>
-                <p id="texto-dica" style="display:none;">A velocidade aumenta com o tempo. Espere o contador de velocidade atingir ou ultrapassar 40 km/h antes que o personagem chegue no loop.</p>
+                <p id="texto-dica" style="display:none;">A velocidade aumenta com o tempo. Espere o contador de
+                    velocidade atingir ou ultrapassar 40 km/h antes que o personagem chegue no loop.</p>
             </div>
         </aside>
     </div>
