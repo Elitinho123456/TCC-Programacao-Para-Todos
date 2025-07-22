@@ -198,7 +198,6 @@ p#texto-dica {
 .tiles {
     position: absolute; bottom: 0; left: 0;
     width: 100%; height: 80px;
-    background-color: #5ab447; border-top: 2px solid #3d8c2c;
 }
 #player-container {
     position: absolute; bottom: 72px; left: -10%;
@@ -356,5 +355,5 @@ footer a:hover {
     /* Deixa o botão um pouco transparente */
 }
 
-@keyframes player-animation { from { left: -10%; } to { left: 110%; } }
+
 @keyframes player-continue-animation { to { left: 110%; } }

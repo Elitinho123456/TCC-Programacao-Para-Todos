@@ -1,15 +1,34 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // ============= Editor de Codigo =============
     const code = document.getElementById('meu-editor-codigo');
     const editor = CodeMirror(code, {
-        value: `// Nesta fase, o loop é automático!
-// O desafio é ter velocidade suficiente quando o personagem chegar lá.
-// O motor de animação do loop agora é controlado por JavaScript!`,
-        mode: "javascript", theme: "dracula", lineNumbers: true
+        value: `// Bem-vindo ao sandbox!
+// Você tem acesso a um objeto chamado 'jogo'.
+// Mude a propriedade 'fatorAceleracao' para vencer.
+
+// O objetivo é ter velocidade >= 40 ao chegar no loop.
+// A velocidade atual é mostrada no canto superior esquerdo.
+
+// Exemplo básico:
+jogo.fatorAceleracao = 0.08;
+
+// Seja criativo! Você pode usar 'if', criar funções, etc.
+// O que acontece se a aceleração mudar no meio do caminho?
+/*
+if (elementos.playerContainer.offsetLeft > 300) {
+  // Nitro!
+  jogo.fatorAceleracao = 2.0; 
+}
+*/
+`,
+        mode: "javascript",
+        theme: "dracula",
+        lineNumbers: true
     });
     window.meuEditor = editor;
 
-    // --- SELEÇÃO DE ELEMENTOS ---
+    // ============= SELEÇÃO DE ELEMENTOS =============
     const playerContainer = document.getElementById('player-container');
     const player = document.getElementById('player');
     const bandeira = document.querySelector('.bandeira');
@@ -20,31 +39,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const velocidadeNecessariaDisplay = document.getElementById('velocidade-necessaria-display');
     const botaoDica = document.getElementById('botao-dica');
     const textoDica = document.getElementById('texto-dica');
-
-    // --- NOVOS BOTÕES ---
     const tentarNovamenteBtn = document.getElementById('tentar-novamente-btn');
-    const faseAnteriorBtn = document.getElementById('fase-anterior');
-    const proximaFaseBtn = document.getElementById('proxima-fase');
 
-    // --- VARIÁVEIS DE ESTADO ---
-    let gameLoop, speedInterval;
+    // ============= VARIÁVEIS DE ESTADO E JOGO =============
+    let gameLoopId;
+    let posicaoX = 0;
+    let velocidadeAtual = 0;
+
+    // Objeto que será compartilhado com o sandbox do usuário!
+    const jogo = {
+        fatorAceleracao: 0.05
+    };
+
     let isGameOver = false;
     let isLooping = false;
     let loopHasBeenTriggered = false;
     let tentativas = 0;
-    let velocidadeAtual = 0;
     const velocidadeNecessaria = 40;
 
-    // --- CONSTANTES DE ANIMAÇÃO ---
+    // ============= CONSTANTES DE ANIMAÇÃO =============
     const LOOP_RAIO_H = 40;
     const LOOP_RAIO_V = 54.8;
     const LOOP_CENTRO_X = LOOP_RAIO_H;
     const LOOP_CENTRO_Y = -LOOP_RAIO_V + 3;
 
+    // ============= LÓGICA DE ANIMAÇÃO E JOGO =============
+
     function animarLoopCalculado(duration, isSuccess, onComplete) {
         const startTime = performance.now();
         function passoDaAnimacao(currentTime) {
-            // ... (lógica da animação do loop, sem alterações)
             const tempoDecorrido = currentTime - startTime;
             let progresso = tempoDecorrido / duration;
             if (progresso >= 1) progresso = 1;
@@ -90,7 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isLooping || isGameOver) return;
         isLooping = true;
         const currentLeft = playerContainer.offsetLeft;
-        playerContainer.style.animation = 'none';
         playerContainer.style.left = `${currentLeft}px`;
         playerContainer.style.transform = '';
         playerContainer.style.opacity = 1;
@@ -103,16 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function onLoopSuccessEnd(finalOffsetX) {
-        // ... (lógica de sucesso, sem alterações)
         if (isGameOver) return;
         const currentLeft = playerContainer.offsetLeft;
         playerContainer.style.left = `${currentLeft + finalOffsetX}px`;
         playerContainer.style.transform = '';
-        const currentDuration = parseFloat(playerContainer.style.animationDuration) || 8;
-        const totalWidth = playerContainer.parentElement.offsetWidth;
-        const progress = playerContainer.offsetLeft / totalWidth;
-        const remainingTime = currentDuration * (1 - progress);
-        playerContainer.style.animation = `player-continue-animation ${remainingTime}s linear forwards`;
         isLooping = false;
     }
 
@@ -121,99 +137,130 @@ document.addEventListener('DOMContentLoaded', () => {
         gameOver();
     }
 
-    function iniciarLoop() {
-        // ... (lógica do game loop, sem alterações)
-        if (gameLoop) clearInterval(gameLoop);
-        gameLoop = setInterval(() => {
-            if (isGameOver) return;
-            if (!isLooping && !loopHasBeenTriggered) {
-                const playerFront = playerContainer.offsetLeft + playerContainer.offsetWidth;
-                const loopStart = loopTrigger.offsetLeft;
-                if (playerFront >= (loopStart + 65)) {
-                    loopHasBeenTriggered = true;
-                    fazerLoop();
-                }
-            }
-            if (!isLooping) {
-                const playerRect = playerContainer.getBoundingClientRect();
-                const bandeiraRect = bandeira.getBoundingClientRect();
-                if (playerRect.right >= bandeiraRect.left) {
-                    vitoria();
-                }
-            }
-        }, 10);
+    function gameLoop() {
+        if (isGameOver || isLooping) {
+            gameLoopId = requestAnimationFrame(gameLoop);
+            return;
+        }
+
+        // 1. Aceleração: Aumenta a velocidade baseada no fator DENTRO DO OBJETO JOGO.
+        velocidadeAtual += jogo.fatorAceleracao;
+
+        // 2. Movimento: Atualiza a posição baseada na velocidade atual.
+        posicaoX += velocidadeAtual * 0.1;
+
+        // 3. Aplica a nova posição ao elemento.
+        playerContainer.style.left = `${posicaoX}px`;
+
+        // 4. Atualiza o display.
+        velocidadeAtualDisplay.textContent = Math.floor(velocidadeAtual);
+
+        // 5. Verifica se chegou no trigger do loop.
+        const playerFront = playerContainer.offsetLeft + playerContainer.offsetWidth;
+        const loopStart = loopTrigger.offsetLeft;
+        if (!loopHasBeenTriggered && playerFront >= (loopStart + 65)) {
+            loopHasBeenTriggered = true;
+            fazerLoop();
+        }
+
+        // 6. Verifica a condição de vitória (se passou do loop).
+        const playerRect = playerContainer.getBoundingClientRect();
+        const bandeiraRect = bandeira.getBoundingClientRect();
+        if (playerRect.right >= bandeiraRect.left) {
+            vitoria();
+        }
+
+        // Continua o loop no próximo quadro.
+        gameLoopId = requestAnimationFrame(gameLoop);
     }
+
+    // ============= ESTADOS DO JOGO =============
 
     function gameOver() {
         if (isGameOver) return;
         isGameOver = true;
-        clearInterval(gameLoop);
-        clearInterval(speedInterval);
+        cancelAnimationFrame(gameLoopId);
         incrementarTentativas();
-        playerContainer.style.animationPlayState = 'paused';
         player.src = './imagem-level-2/playerT.gif';
         tentarNovamenteBtn.style.display = 'block';
     }
 
     function vitoria() {
-        // ... (lógica de vitória, sem alterações)
         if (isGameOver) return;
         isGameOver = true;
-        clearInterval(gameLoop);
-        clearInterval(speedInterval);
-        playerContainer.style.animationPlayState = 'paused';
+        cancelAnimationFrame(gameLoopId);
         playerContainer.style.left = `${bandeira.offsetLeft - playerContainer.offsetWidth / 2}px`;
-        player.src = './imagem-level-2/playerT.gif'; 
+        player.src = './imagem-level-2/playerT.gif';
         vitoriaBotao.style.display = 'block';
     }
 
     function resetPlayer() {
-        if (speedInterval) clearInterval(speedInterval);
+        if (gameLoopId) cancelAnimationFrame(gameLoopId);
+
+        posicaoX = -100;
         velocidadeAtual = 0;
-        speedInterval = setInterval(() => {
-            if (!isGameOver && !isLooping) {
-                if (velocidadeAtual < 100) velocidadeAtual++;
-                const duracaoBase = 12;
-                const duracaoMinima = 5;
-                const novaDuracao = duracaoBase - (velocidadeAtual / 100) * (duracaoBase - duracaoMinima);
-                playerContainer.style.animationDuration = `${novaDuracao}s`;
-                if (velocidadeAtualDisplay) velocidadeAtualDisplay.textContent = velocidadeAtual;
-            }
-        }, 100);
 
-        if (velocidadeNecessariaDisplay) velocidadeNecessariaDisplay.textContent = velocidadeNecessaria;
-        if (velocidadeAtualDisplay) velocidadeAtualDisplay.textContent = 0;
+        velocidadeNecessariaDisplay.textContent = velocidadeNecessaria;
+        velocidadeAtualDisplay.textContent = 0;
 
-        playerContainer.style.left = '-10%';
+        playerContainer.style.left = `${posicaoX}px`;
         playerContainer.style.bottom = '72px';
-        player.src = './imagem-level-2/playerT.gif'; // GIF do Sonic correndo
+        player.src = './imagem-level-2/playerT.gif';
         playerContainer.style.transform = '';
         playerContainer.style.opacity = 1;
         playerContainer.style.animation = 'none';
-        void playerContainer.offsetWidth;
-        playerContainer.style.animation = `player-animation 12s linear forwards`;
-        playerContainer.style.animationPlayState = 'running';
-        
-        tentarNovamenteBtn.style.display = 'none'; // Esconde o botão central
+
+        tentarNovamenteBtn.style.display = 'none';
         vitoriaBotao.style.display = 'none';
+
         isGameOver = false;
         isLooping = false;
         loopHasBeenTriggered = false;
-        iniciarLoop();
+
+        gameLoopId = requestAnimationFrame(gameLoop);
     }
 
-    // --- EVENT LISTENERS ---
-    tentarNovamenteBtn.addEventListener('click', resetPlayer);
+    // ============= EXECUTOR DO CÓDIGO DO USUÁRIO =============
 
-    faseAnteriorBtn.addEventListener('click', () => {
-        alert('Lógica para ir para a FASE ANTERIOR não implementada.');
-    });
+    function executarCodigo() {
+        // Reseta o fator de aceleração para o padrão antes de cada execução.
+        // Isso garante que, se o usuário apagar a linha, o jogo ainda funcione.
+        jogo.fatorAceleracao = 0.05;
+        
+        // Coloca o jogador no início, pronto para a nova tentativa.
+        resetPlayer();
 
-    proximaFaseBtn.addEventListener('click', () => {
-        alert('Lógica para ir para a PRÓXIMA FASE não implementada.');
-    });
+        try {
+            const codigoDoUsuario = editor.getValue();
+            console.log("Executando código do sandbox...");
 
-    resetPlayer();
+            // Prepara as "ferramentas" que o usuário poderá usar.
+            const elementos = {
+                playerContainer: playerContainer,
+                bandeira: bandeira
+            };
+            const acoes = {
+                // Futuramente, você pode adicionar ações aqui.
+            };
+
+            // Cria a função sandboxed, passando nossos objetos como argumentos.
+            const funcaoDoUsuario = new Function('jogo', 'elementos', 'acoes', `'use strict';\n${codigoDoUsuario}`);
+
+            // Executa a função do usuário, entregando os objetos a ela.
+            funcaoDoUsuario(jogo, elementos, acoes);
+
+            console.log("Código executado! Novo fator de aceleração inicial:", jogo.fatorAceleracao);
+
+        } catch (e) {
+            alert("Ocorreu um erro no seu código:\n" + e.message);
+            // Se o código do usuário quebrar, paramos o jogo para evitar comportamento estranho.
+            gameOver();
+        }
+    }
+
+    // ============= EVENT LISTENERS E INICIALIZAÇÃO =============
+
+    tentarNovamenteBtn.addEventListener('click', executarCodigo);
 
     if (botaoDica && textoDica) {
         botaoDica.addEventListener('click', () => {
@@ -223,7 +270,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function incrementarTentativas() { tentativas++; atualizaTentativas(); }
-    function atualizaTentativas() { if (tentativasDisplay) tentativasDisplay.textContent = tentativas; }
+    function incrementarTentativas() {
+        tentativas++;
+        atualizaTentativas();
+    }
+    function atualizaTentativas() {
+        if (tentativasDisplay) tentativasDisplay.textContent = tentativas;
+    }
+    
+    // Inicia o jogo pela primeira vez quando a página carrega.
+    resetPlayer();
     atualizaTentativas();
 });
