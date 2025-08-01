@@ -1,178 +1,257 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const code = document.getElementById('meu-editor-codigo');
+    // ============= Editor de Codigo =============
+    const codeContainer = document.getElementById('meu-editor-codigo');
+    const editor = CodeMirror(codeContainer, {
+        value: `// A serpente já está se movendo!
+// Rápido, assuma o controle com sua lógica de if/else.
 
-    const editor = CodeMirror(code, {
-        value: `// Bem-vindo à Fase 3: O Labirinto da Lógica\n// Use os sensores e comandos abaixo para guiar o Pac-Man:\n\n// Sensores disponíveis:\n// - elementos.sensor.frente\n// - elementos.sensor.direita\n// - elementos.sensor.esquerda\n\n// Ações disponíveis:\n// - acoes.virarDireita()\n// - acoes.virarEsquerda()\n// - acoes.continuarReto()\n\n// Exemplo:\nif (elementos.sensor.frente === 'parede') {\n    acoes.virarDireita();\n} else {\n    acoes.continuarReto();\n}\n`,
-        mode: "javascript", // Linguagem (css, htmlmixed, javascript)
-        theme: "dracula", // Tema
-        lineNumbers: true, // Mostrar números das linhas
+// OBJETOS DISPONÍVEIS:
+// - elementos.serpente: { posicaoX, posicaoY }
+// - elementos.comida:   { posicaoX, posicaoY }
+
+// AÇÕES DISPONÍVEIS:
+// - acoes.moverParaDireita()
+// - acoes.moverParaEsquerda()
+// - acoes.moverParaCima()
+// - acoes.moverParaBaixo()
+
+if (elementos.serpente.posicaoX < elementos.comida.posicaoX) {
+    // A comida está à DIREITA da serpente.
+    acoes.moverParaDireita();
+
+} else if (elementos.serpente.posicaoX > elementos.comida.posicaoX) {
+    // A comida está à ESQUERDA da serpente.
+    acoes.moverParaEsquerda();
+
+} else if (elementos.serpente.posicaoY < elementos.comida.posicaoY) {
+    // A comida está ABAIXO da serpente.
+    acoes.moverParaBaixo();
+
+} else {
+    // A comida está ACIMA da serpente.
+    acoes.moverParaCima();
+
+}
+`,
+        mode: "javascript",
+        theme: "dracula",
+        lineNumbers: true,
     });
-
-    // Guardar a referência ao editor para usar depois
     window.meuEditor = editor;
 
-    // ==================== VARIAVEIS E ESTADO =====================
-    let labirinto = [
-        ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-        ['#', '.', ' ', 'F', ' ', '#', ' ', '.', ' ', '#'],
-        ['#', ' ', '#', '#', ' ', '#', ' ', '#', ' ', '#'],
-        ['#', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', '#'],
-        ['#', '#', '#', '#', '#', '#', '#', '#', '.', '#']
-    ];
+    // ============= SELEÇÃO DE ELEMENTOS DO JOGO =============
+    const gameBoard = document.getElementById('game-board');
+    const vitoriaContainer = document.querySelector('.vitoria-conteiner');
+    const pauseButton = document.querySelector('.pause');
+    const tentativasDisplay = document.getElementById('tentativas-jogador');
+    
+    // ============= VARIÁVEIS DE CONTROLE DO JOGO =============
+    const gridSize = 20;
+    let snake, food, nextDirection, gameLoop, isGameOver;
+    let tentativas = 0;
+    
+    // A lógica do usuário começa vazia. Será preenchida ao clicar no botão.
+    let userLogicFunction = null; 
 
-    const DIRECOES = ['cima', 'direita', 'baixo', 'esquerda'];
-    let direcaoAtual = 1; // Começa indo para a direita
-    let posPacman = { x: 1, y: 1 };
-    let sensores = { frente: '', direita: '', esquerda: '' };
+    // ============= LÓGICA PRINCIPAL DO JOGO (SNAKE) =============
+    
+    function resetGame() {
+        if (gameLoop) clearInterval(gameLoop);
 
-    let elementos = {
-        sensor: sensores
-    };
+        gameBoard.innerHTML = '';
+        gameBoard.appendChild(vitoriaContainer);
+        gameBoard.appendChild(pauseButton);
+        
+        snake = [{ x: 5, y: 10 }];
+        food = generateFoodPosition();
+        nextDirection = 'right'; // Direção padrão para o movimento automático
+        isGameOver = false;
+        
+        vitoriaContainer.style.display = 'none';
+        pauseButton.style.display = 'none';
+        
+        draw();
+    }
+    
+    function draw() {
+        const aRemover = gameBoard.querySelectorAll('.snake-head, .snake-body, .food');
+        aRemover.forEach(el => el.remove());
 
-    let acoes = {
-        virarDireita: () => direcaoAtual = (direcaoAtual + 1) % 4,
-        virarEsquerda: () => direcaoAtual = (direcaoAtual + 3) % 4,
-        continuarReto: () => moverPacman()
-    };
-
-    let intervaloMovimento;
-    let mapaDiv, pacmanEl;
-
-    // =================== FUNÇÕES DE JOGO =====================
-    function iniciarLabirinto() {
-        mapaDiv = document.getElementById("labirinto");
-        mapaDiv.innerHTML = '';
-        mapaDiv.style.display = 'grid';
-        mapaDiv.style.gridTemplateColumns = `repeat(${labirinto[0].length}, 40px)`;
-
-        labirinto.forEach((linha, y) => {
-            linha.forEach((celula, x) => {
-                const div = document.createElement('div');
-                div.classList.add('tile');
-                if (celula === '#') div.classList.add('parede');
-                else if (celula === '.') div.classList.add('pilula');
-                else if (celula === 'F') div.classList.add('fantasma');
-                else div.classList.add('caminho');
-                div.dataset.x = x;
-                div.dataset.y = y;
-                mapaDiv.appendChild(div);
-            });
+        snake.forEach((segment, index) => {
+            const snakeElement = document.createElement('div');
+            snakeElement.style.gridRowStart = segment.y;
+            snakeElement.style.gridColumnStart = segment.x;
+            snakeElement.classList.add(index === 0 ? 'snake-head' : 'snake-body');
+            gameBoard.appendChild(snakeElement);
         });
 
-        pacmanEl = document.createElement('div');
-        pacmanEl.id = 'pacman';
-        mapaDiv.appendChild(pacmanEl);
-        atualizarPacman();
-        atualizarSensores();
+        const foodElement = document.createElement('div');
+        foodElement.style.gridRowStart = food.y;
+        foodElement.style.gridColumnStart = food.x;
+        foodElement.classList.add('food');
+        gameBoard.appendChild(foodElement);
+    }
+    
+    function generateFoodPosition() {
+        let newFoodPosition;
+        const boardWidth = Math.floor(gameBoard.clientWidth / gridSize);
+        const boardHeight = Math.floor(gameBoard.clientHeight / gridSize);
+        
+        do {
+            newFoodPosition = {
+                x: Math.floor(Math.random() * boardWidth) + 1,
+                y: Math.floor(Math.random() * boardHeight) + 1
+            };
+        } while (snake && snake.some(segment => segment.x === newFoodPosition.x && segment.y === newFoodPosition.y));
+        return newFoodPosition;
     }
 
-    function atualizarPacman() {
-        pacmanEl.style.gridColumnStart = posPacman.x + 1;
-        pacmanEl.style.gridRowStart = posPacman.y + 1;
-        pacmanEl.style.transform = `rotate(${direcaoAtual * 90}deg)`;
-    }
-
-    function moverPacman() {
-        const prox = calcularProximaPosicao();
-        const celula = labirinto[prox.y]?.[prox.x];
-
-        if (!celula || celula === '#') return;
-
-        if (celula === 'F') return perder();
-        if (celula === '.') {
-            labirinto[prox.y][prox.x] = ' ';
-            // Pode adicionar pontuação aqui
+    function gameTick() {
+        if (isGameOver) {
+            clearInterval(gameLoop);
+            return;
         }
 
-        posPacman = prox;
-        atualizarPacman();
-        atualizarSensores();
+        // **MUDANÇA PRINCIPAL AQUI**
+        // Se uma função do usuário foi definida (pelo botão), executa ela.
+        if (userLogicFunction) {
+            const elementos = {
+                serpente: { posicaoX: snake[0].x, posicaoY: snake[0].y },
+                comida: { posicaoX: food.x, posicaoY: food.y }
+            };
+            const acoes = {
+                moverParaCima: () => { if(nextDirection !== 'down') nextDirection = 'up'; },
+                moverParaBaixo: () => { if(nextDirection !== 'up') nextDirection = 'down'; },
+                moverParaEsquerda: () => { if(nextDirection !== 'right') nextDirection = 'left'; },
+                moverParaDireita: () => { if(nextDirection !== 'left') nextDirection = 'right'; }
+            };
+            try {
+                userLogicFunction(elementos, acoes);
+            } catch(e) {
+                alert("Erro ao executar seu código: " + e.message);
+                gameOver();
+                return;
+            }
+        }
+        // Se não houver função do usuário, a serpente continua se movendo na 'nextDirection' atual.
+
+        const head = { ...snake[0] };
+        switch (nextDirection) {
+            case 'up': head.y--; break;
+            case 'down': head.y++; break;
+            case 'left': head.x--; break;
+            case 'right': head.x++; break;
+        }
+        snake.unshift(head);
+
+        if (head.x === food.x && head.y === food.y) {
+            vitoria();
+        } else {
+            snake.pop();
+        }
+        
+        checkCollision();
+        if (!isGameOver) {
+            draw();
+        }
     }
 
-    function calcularProximaPosicao(offset = 1, direcao = direcaoAtual) {
-        let dx = [0, 1, 0, -1];
-        let dy = [-1, 0, 1, 0];
-        return {
-            x: posPacman.x + dx[direcao] * offset,
-            y: posPacman.y + dy[direcao] * offset
-        };
+    function checkCollision() {
+        const head = snake[0];
+        const boardWidth = gameBoard.clientWidth / gridSize;
+        const boardHeight = gameBoard.clientHeight / gridSize;
+
+        // Colisão com as paredes
+        if (head.x <= 0 || head.x > boardWidth || head.y <= 0 || head.y > boardHeight) {
+            gameOver();
+            return;
+        }
+
+        // Colisão com o próprio corpo
+        for (let i = 1; i < snake.length; i++) {
+            if (head.x === snake[i].x && head.y === snake[i].y) {
+                gameOver();
+                return;
+            }
+        }
     }
 
-    function atualizarSensores() {
-        const frente = calcularProximaPosicao(1);
-        const direita = calcularProximaPosicao(1, (direcaoAtual + 1) % 4);
-        const esquerda = calcularProximaPosicao(1, (direcaoAtual + 3) % 4);
-
-        sensores.frente = valorSensor(frente);
-        sensores.direita = valorSensor(direita);
-        sensores.esquerda = valorSensor(esquerda);
-    }
-
-    function valorSensor(pos) {
-        const val = labirinto[pos.y]?.[pos.x];
-        if (!val || val === '#') return 'parede';
-        if (val === '.') return 'pilula';
-        if (val === 'F') return 'fantasma';
-        return 'livre';
-    }
-
-    function perder() {
-        clearInterval(intervaloMovimento);
-        alert("Game Over! Você encontrou um fantasma.");
+    function gameOver() {
+        if(isGameOver) return;
+        isGameOver = true;
+        clearInterval(gameLoop);
         incrementarTentativas();
+        pauseButton.style.display = 'block';
+        console.log('Game Over');
     }
 
-    function resetarJogo() {
-        labirinto = [
-            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#', '.', ' ', 'F', ' ', '#', ' ', '.', ' ', '#'],
-            ['#', ' ', '#', '#', ' ', '#', ' ', '#', ' ', '#'],
-            ['#', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', '#'],
-            ['#', '#', '#', '#', '#', '#', '#', '#', '.', '#']
-        ];
-        posPacman = { x: 1, y: 1 };
-        direcaoAtual = 1;
-        iniciarLabirinto();
-        executarCodigoJogador();
+    function vitoria() {
+        isGameOver = true;
+        clearInterval(gameLoop);
+        vitoriaContainer.style.display = 'block';
+        console.log("Vitória!");
     }
-
-    // ================ EXECUÇÃO DO CÓDIGO DO JOGADOR ===================
-    function executarCodigoJogador() {
-        const editor = window.meuEditor;
-        if (!editor) return;
-
-        const codigo = editor.getValue();
-
+    
+    // Função que é chamada pelo botão "Tentar Novamente"
+    function aplicarCodigoDoUsuario() {
+        incrementarTentativas();
+        
+        const codigoDoUsuario = editor.getValue();
         try {
-            const func = new Function('elementos', 'acoes', `'use strict';\n${codigo}`);
+            // Compila e armazena a lógica do usuário
+            userLogicFunction = new Function('elementos', 'acoes', codigoDoUsuario);
+        } catch (error) {
+            alert("Erro de sintaxe no seu código: " + error.message);
+            userLogicFunction = null; // Se der erro, anula a lógica para não quebrar o jogo
+        }
 
-            intervaloMovimento = setInterval(() => {
-                func(elementos, acoes);
-            }, 700);
+        // Reseta o jogo e inicia o movimento imediatamente com a nova lógica (ou a padrão)
+        resetGameEIniciaLoop();
+    }
 
-        } catch (e) {
-            alert("Erro no seu código: " + e.message);
+    function resetGameEIniciaLoop() {
+        resetGame();
+        gameLoop = setInterval(gameTick, 250); // Velocidade um pouco maior para mais desafio
+    }
+
+    pauseButton.addEventListener('click', aplicarCodigoDoUsuario);
+    
+    // ... (resto do código: botão de dica, sistema de tentativas, etc.)
+    const botaoDica = document.getElementById('botao-dica');
+    const textoDica = document.getElementById('texto-dica');
+    if (botaoDica && textoDica) {
+        botaoDica.addEventListener('click', () => {
+            const isHidden = textoDica.style.display === 'none' || textoDica.style.display === '';
+            textoDica.style.display = isHidden ? 'block' : 'none';
+            botaoDica.textContent = isHidden ? 'Esconder Dica' : 'Ver Dica';
+        });
+    }
+
+    function incrementarTentativas(){
+        tentativas++;
+        if(tentativasDisplay){
+            tentativasDisplay.textContent = tentativas;
         }
     }
+    
+    const style = document.createElement('style');
+    style.innerHTML = `
+        #game-board {
+            display: grid;
+            grid-template-rows: repeat(${Math.floor(gameBoard.clientHeight / gridSize)}, 1fr);
+            grid-template-columns: repeat(${Math.floor(gameBoard.clientWidth / gridSize)}, 1fr);
+            background-color: #1e4d2b;
+            border: 5px solid #0c2412;
+        }
+        .snake-head { background-color: #FFD700; border-radius: 5px; z-index: 2;}
+        .snake-body { background-color: #f0f0f0; border-radius: 3px; z-index: 1;}
+        .food { background-color: #e52521; border-radius: 50%; z-index: 1;}
+    `;
+    document.head.appendChild(style);
 
-    // ================= INICIALIZAÇÃO GLOBAL ==================
-
-        iniciarLabirinto();
-
-        const btnReset = document.getElementById('pause');
-        const reiniciar = document.getElementById('reiniciar');
-
-        if (btnReset) btnReset.addEventListener('click', resetarJogo);
-        if (reiniciar) reiniciar.addEventListener('click', resetarJogo);
-
-    // ================= CONTAGEM DE TENTATIVAS ==================
-    let tentativas = 0;
-    function incrementarTentativas() {
-        tentativas++;
-        const display = document.getElementById('tentativas-jogador');
-        if (display) display.textContent = tentativas;
-    }
-
-
-})
+    // **INICIALIZAÇÃO AUTOMÁTICA**
+    // Inicia o jogo assim que a página é carregada.
+    if(tentativasDisplay) tentativasDisplay.textContent = tentativas;
+    resetGameEIniciaLoop();
+});

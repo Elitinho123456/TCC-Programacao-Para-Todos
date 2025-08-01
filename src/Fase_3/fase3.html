@@ -4,72 +4,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pac-Man: O Labirinto da Lógica</title>
+    <title>Fase 3: O Desafio da Serpente</title>
 
     <link rel="stylesheet" href="fase3.css">
+    <link rel="website icon" type="png" href="imagem-level-1/playerV.png">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+
     <script src="fase3.js"></script>
 </head>
 
 <body>
+
     <div class="container-geral">
 
-        <!-- Lateral Esquerda -->
         <aside class="aba-lateral-esquerda">
-            <h2 id="titulo-jogo">PAC-MAN LÓGICO</h2>
-            <h3 id="titulo-fase">Fase 3/4:<br>O Labirinto da Lógica</h3>
+            <h2 id="titulo-jogo">AVENTURA DO CÓDIGO</h2>
+            <h3 id="titulo-fase">Fase 3/4:<br>O Desafio da Serpente</h3>
             <div class="botoesNav">
-                <a href="../Fase_2/fase2.html"><button class="nav-btn" title="Fase anterior">&lt;</button></a>
-                <a href="../Home/home.html"><button class="nav-btn" title="Home">&#8962;</button></a>
-                <a href="../Fase_4/fase4.html"><button class="nav-btn" title="Próxima fase">&gt;</button></a>
+                <a href="../Fase_2/fase2.html">
+                    <button class="nav-btn" id="btn-prev" title="Fase anterior">&lt;</button>
+                </a>
+                <a href="../Home/home.html">
+                    <button class="nav-btn" id="btn-home" title="Home">&#8962;</button>
+                </a>
+                <a href="../Fase_4/fase4.html">
+                    <button class="nav-btn" id="btn-next" title="Próxima fase">&gt;</button>
+                </a>
             </div>
-            <p id="info-fase-descricao">
-                Use a lógica de programação para ajudar o Pac-Man a navegar pelo labirinto. Evite fantasmas e colete as
-                pílulas com comandos lógicos!
-            </p>
+
+            <p id="info-fase-descricao">A serpente está com fome! Use a lógica de <strong>if / else if / else</strong> para guiá-la até a comida. O seu código será executado a cada passo que a serpente der!</p>
+
             <ul>
-                <li><strong>Sensores:</strong> `elementos.sensor.frente`, `direita`, `esquerda`</li>
-                <li><strong>Ações:</strong> `acoes.virarDireita()`, `virarEsquerda()`, `continuarReto()`</li>
+                <li><strong>Serpente:</strong> `elementos.serpente`</li>
+                <li><strong>Comida:</strong> `elementos.comida`</li>
             </ul>
+
+            <p>Compare `serpente.posicaoX` com `comida.posicaoX` e `serpente.posicaoY` com `comida.posicaoY` para decidir qual ação tomar.</p>
             <button id="botao-dica">Ver Dica</button>
-            <p id="texto-dica" style="display:none;">
-                Use condicionais para desviar de paredes e coletar pílulas. Por exemplo:
-                <code>
-                    if (elementos.sensor.frente === 'parede') {
-                        acoes.virarDireita();
-                    } else {
-                        acoes.continuarReto();
-                    }
-                </code>
-            </p>
+            <p id="texto-dica" style="display:none;">Se a posição X da serpente for menor que a da comida (`serpente.posicaoX < comida.posicaoX`), significa que a comida está à direita. Nesse caso, você deve usar `acoes.moverParaDireita()`.</p>
         </aside>
 
-        <!-- Conteúdo Principal -->
         <main class="conteudo-principal">
-            <div class="box" id="labirinto">
-                <!-- Aqui será renderizado o labirinto do Pac-Man -->
+
+            <div class="box" id="game-board">
+                <div class="vitoria-conteiner">
+                    <h1 class="mensagemV">Você conseguiu!!</h1>
+                    <a href="../Fase_4/fase4.html"><button class="Pfase">Próxima fase!!!</button></a>
+                </div>
+                <button class="pause" id="pause">Tentar Novamente</button>
             </div>
+
             <div id="meu-editor-codigo"></div>
-            <button class="pause" id="pause">Executar Código</button>
-            <button class="pause1" id="reiniciar">Reiniciar Fase</button>
+
         </main>
 
-        <!-- Lateral Direita -->
         <aside class="aba-lateral-direita">
             <h2>Progresso</h2>
-            <h3>Tentativas</h3>
+            <h3>Tentativas Realizadas</h3>
             <p>Número de Tentativas: <span id="tentativas-jogador">0</span></p>
-            <h3>Dicas Rápidas</h3>
-            <p>Utilize operadores lógicos como <code>&&</code> e <code>||</code> para tomar decisões mais avançadas.</p>
+            <h3>Como funciona?</h3>
+            <p>O seu código no editor decide o próximo movimento da serpente. A cada passo, seu script é consultado para saber para onde ir. Use a lógica `if/else` para criar uma estratégia e capturar a comida sem bater nas paredes!</p>
         </aside>
+
     </div>
 
     <footer>
-        <p>Desenvolvido por: <a href="https://github.com/Ferhsx" target="_blank">Ferculos</a> & <a
-                href="https://github.com/Elitinho123456" target="_blank">Elitinho123456</a></p>
+        <p>Desenvolvido por: <a href="https://github.com/Ferhsx" target="_blank" rel="noopener noreferrer">Ferculos</a>
+            & <a href="https://github.com/Elitinho123456" target="_blank" rel="noopener noreferrer">Elitinho123456</a> -
+            <a href="https://github.com/Elitinho123456/TCC-Programacao-Para-Todos" target="_blank"
+                rel="noopener noreferrer">GitHub</a>
+        </p>
     </footer>
 
 </body>
