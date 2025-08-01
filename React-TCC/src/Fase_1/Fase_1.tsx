@@ -1,400 +1,281 @@
-import './Fase_1.css'
-import Chão from './assets/tiles.png'
-import Bandeira from './assets/bandeira.png'
-import Cano from './assets/pipe.png'
-import Player from './assets/playerT.gif'
+import { useEffect, useRef, useState } from 'react';
+import './Fase_1.css';
+
+// Import all assets at the top
+import Chao from './assets/tiles.png';
+import BandeiraImg from './assets/bandeira.png';
+import Cano from './assets/pipe.png';
+import PlayerGif from './assets/playerT.gif';
+import PlayerStatic from './assets/playerT.png'; // <-- Import added
+import PlayerVictory from './assets/playerV.png'; // <-- Import added
+import CloudsImg from './assets/clouds.png'; // <-- Import added
+// import type { EditorView as Editor } from 'codemirror';
+
+// Import CodeMirror properly instead of relying on window object
+// npm install react-codemirror2 codemirror
+// import { Controlled as CodeMirror } from 'react-codemirror2';
+// import 'codemirror/lib/codemirror.css';
+// import 'codemirror/theme/dracula.css';
+// import 'codemirror/mode/javascript/javascript';
 
 export default function Fase1() {
+    const editorRef = useRef<HTMLDivElement>(null);
+    const playerRef = useRef<HTMLImageElement>(null);
+    const paredeRef = useRef<HTMLImageElement>(null);
+    const bandeiraRef = useRef<HTMLImageElement>(null);
+    const vitoriaBotaoRef = useRef<HTMLDivElement>(null);
+    const gameOverButtonsRef = useRef<HTMLDivElement>(null); // Ref for container of pause/home buttons
+    const nuvensContainerRef = useRef<HTMLDivElement>(null);
 
-    // ============= Editor de Codigo =============
+    const [tentativas, setTentativas] = useState(0);
+    const [dicaVisivel, setDicaVisivel] = useState(false);
+    const [editor, setEditor] = useState<any>(null); // For CodeMirror instance
+    const [isGameOver, setIsGameOver] = useState(false);
+    
+    // Use a ref for the game loop to avoid stale state issues
+    const isGameOverRef = useRef(isGameOver);
+    useEffect(() => {
+        isGameOverRef.current = isGameOver;
+    }, [isGameOver]);
 
-    const code = document.getElementById('meu-editor-codigo');
+    // ============= CodeMirror Editor (Initialization) =============
+    useEffect(() => {
+        // Initialize CodeMirror only once
+        if (editorRef.current && !editor) {
+            const CodeMirror = window.CodeMirror;
+            if (CodeMirror) {
+                const cm = CodeMirror(editorRef.current, {
+                    value: `// Objetivo: Fazer o jogador pular o cano!
+// Dica: Altere a posição 'bottom' do jogador.
 
-    const editor = CodeMirror(code, {
-        value: '// Elementos disponíveis:\n// - elementos.jogador\n// - elementos.obstaculo\n// - elementos.meta\n\n// Ações disponíveis:\n// - acoes.reiniciar()\n// - acoes.perder()\n\n// Exemplo: Se o jogador estiver perto do obstáculo, faça algo\n// if (elementos.jogador.offsetLeft > elementos.obstaculo.offsetLeft - 50) {\n//    console.log("Jogador perto do obstáculo!");\n// }\n',
-        mode: "javascript", // Linguagem (css, htmlmixed, javascript)
-        theme: "dracula", // Tema
-        lineNumbers: true, // Mostrar números das linhas
-    });
+// Exemplo:
+// elementos.jogador.style.bottom = '150px';
+`,
+                    mode: "javascript",
+                    theme: "dracula",
+                    lineNumbers: true,
+                });
+                setEditor(cm);
+            }
+        }
+        // Run only on mount
+    }, [editor]); // <-- Added 'editor' to dependency array
 
-    // Guardar a referência ao editor para usar depois
-    window.meuEditor = editor;
+    // ============= Game Logic Functions =============
+    const gameOver = () => {
+        if (isGameOverRef.current) return; // Prevent running multiple times
+        setIsGameOver(true);
+        setTentativas((t) => t + 1);
 
+        const player = playerRef.current;
+        if (player) {
+            player.style.animation = 'none';
+            player.style.left = `${player.offsetLeft}px`;
+            // Trigger game over animation
+            player.style.animation = 'game-over 1s ease-out forwards';
+            player.src = PlayerStatic; // <-- Use imported asset
+            player.style.width = '100px';
+        }
+        if (gameOverButtonsRef.current) gameOverButtonsRef.current.style.display = 'block';
+    };
 
-    // ============= SELEÇÃO DE ELEMENTOS =============
-    const player = document.querySelector('.player');
-    const parede = document.querySelector('.desafio');
-    const pauseButton = document.querySelector('.pause');
-    const homeButton = document.querySelector('.pause1');
-    const bandeira = document.querySelector('.bandeira');
-    const vitoriaBotao = document.querySelector('.vitoria-conteiner');
-    const tentativasDisplay = document.getElementById('tentativas-jogador');
+    const vitoria = () => {
+        if (isGameOverRef.current) return; // Prevent running multiple times
+        setIsGameOver(true);
+        
+        const player = playerRef.current;
+        const bandeira = bandeiraRef.current;
+        if (player && bandeira) {
+            player.style.animation = 'none';
+            // Ensure player.width is not undefined
+            const playerWidth = player.width || player.getBoundingClientRect().width || 0;
+            player.style.left = `${bandeira.offsetLeft - playerWidth + 70}px`;
+            player.src = PlayerVictory; // <-- Use imported asset
+            player.style.width = '100px';
+        }
+        if (vitoriaBotaoRef.current) vitoriaBotaoRef.current.style.display = 'block';
+        setTentativas(0); // Reset on victory
+    };
 
-    // ============= VARIÁVEIS DE CONTROLE =============
-    let loop;
-    let isGameOver = false;
-    let tentativas = 0;
+    const resetGame = () => {
+        setIsGameOver(false);
+        const player = playerRef.current;
+        if (player) {
+            player.style.opacity = '1';
+            player.style.left = '-3%';
+            player.style.bottom = '72px';
+            player.style.width = '80px';
+            player.style.animation = '';
+            player.src = PlayerGif; // <-- Use imported asset
+        }
+        if (gameOverButtonsRef.current) gameOverButtonsRef.current.style.display = 'none';
+        if (vitoriaBotaoRef.current) vitoriaBotaoRef.current.style.display = 'none';
+    };
+    
+    // ============= Main Game Loop =============
+    useEffect(() => {
+        const loop = setInterval(() => {
+            if (isGameOverRef.current) {
+                return; // <-- Use ref to check for game over status
+            }
 
-    // ============= LÓGICA PRINCIPAL DO JOGO =============
-    function iniciarLoop() {
-        if (loop) clearInterval(loop);
-
-        loop = setInterval(() => {
-            if (isGameOver) return;
+            const player = playerRef.current;
+            const parede = paredeRef.current;
+            const bandeira = bandeiraRef.current;
+            if (!player || !parede || !bandeira) return;
 
             const playerRect = player.getBoundingClientRect();
             const paredeRect = parede.getBoundingClientRect();
             const bandeiraRect = bandeira.getBoundingClientRect();
 
-            // Verifica se há sobreposição (colisão)
-            const colidiu = !(
-                (playerRect.right - 25) < paredeRect.left ||
-                playerRect.left > paredeRect.right ||
-                playerRect.bottom < paredeRect.top ||
-                playerRect.top > paredeRect.bottom
-            );
+            // Collision with obstacle
+            const colidiu = 
+                playerRect.right > paredeRect.left + 30 &&
+                playerRect.left < paredeRect.right - 30 &&
+                playerRect.bottom > paredeRect.top;
+                
+            if (colidiu) gameOver();
 
-            if (colidiu) {
-                gameOver();
-            }
-
-            // Verificação de chegada na bandeira
-            const CBandeira = !((playerRect.right - 85) < bandeiraRect.left)
-
-            if (CBandeira) {
-                vitoria();
+            // Reached the flag
+            if (playerRect.right > bandeiraRect.left + 20) {
+                 vitoria();
             }
         }, 10);
-    }
 
-    // ============= FUNCIONALIDADE DO BOTÃO DE DICA =============
-    const botaoDica = document.getElementById('botao-dica');
-    const textoDica = document.getElementById('texto-dica');
+        return () => clearInterval(loop); // Cleanup on unmount
+    }, []); // <-- Run only once on component mount
 
-    // Verifica se ambos os elementos (botão e parágrafo da dica) existem na página
-    if (botaoDica && textoDica) {
-        botaoDica.addEventListener('click', () => {
-            // Verifica o estado atual de exibição do texto da dica
-            if (textoDica.style.display === 'none' || textoDica.style.display === '') {
-                // Se estiver escondido, mostra o texto e muda o texto do botão
-                textoDica.style.display = 'block'; // Ou 'inline', 'flex', dependendo do seu layout para o parágrafo
-                botaoDica.textContent = 'Esconder Dica';
-            } else {
-                // Se estiver visível, esconde o texto e volta o texto original do botão
-                textoDica.style.display = 'none';
-                botaoDica.textContent = 'Ver Dica';
-            }
-        });
-    } else {
-        // Opcional: Avisa no console se os elementos não forem encontrados
-        if (!botaoDica) {
-            console.warn("Elemento com ID 'botao-dica' não encontrado.");
-        }
-        if (!textoDica) {
-            console.warn("Elemento com ID 'texto-dica' não encontrado.");
-        }
-    }
+    // ============= Cloud Generation =============
+    useEffect(() => {
+        let timeoutId: ReturnType<typeof setTimeout>;
 
-    // ============= ESTADOS DO JOGO =============
-    function gameOver() {
-        console.log('Game Over');
-        clearInterval(loop);
-        isGameOver = true;
+        function criarNuvem() {
+            if (!nuvensContainerRef.current) return;
+            const nuvem = document.createElement('img');
+            nuvem.src = CloudsImg; // <-- Use imported asset
+            nuvem.classList.add('nuvem');
+            nuvem.style.width = `${Math.floor(Math.random() * 251) + 350}px`;
+            nuvem.style.top = `${Math.random() * 50}%`;
+            if (Math.random() < 0.4) nuvem.classList.add('nuvem-invertida');
+            nuvensContainerRef.current.appendChild(nuvem);
 
-        //incrementa tentativa
-        incrementarTentativas();
-
-        // Animação e efeitos visuais
-        const playerPosition = player.offsetLeft;
-        player.style.animation = 'none';
-        player.style.left = `${playerPosition}px`;
-        player.style.animation = 'game-over 1s ease-out';
-        player.style.hidden = 'none';
-
-        // Atualização do sprite
-        player.src = '/src/Fase_1/imagem-level-1/playerT.png';
-        player.style.width = '100px';
-        player.style.height = '100px';
-
-        // Controles de interface
-        pauseButton.style.display = 'block';
-        homeButton.style.display = 'block';
-        player.addEventListener('animationend', () => { });
-        player.style.opacity = 0;
-    }
-
-    function vitoria() {
-        console.log("Vitória!");
-        clearInterval(loop);
-        isGameOver = true;
-
-        // Posicionamento final do jogador
-        player.style.left = `${bandeira.offsetLeft - player.width + 70}px`;
-        //player.style.marginTop == 30;
-
-        player.style.animation = 'none';
-        player.src = '/src/Fase_1/imagem-level-1/playerV.png';
-
-        // Atualiza elementos
-        player.style.width = '100px';
-        player.style.height = '100px';
-
-        // Exibição dos elementos de vitória
-        vitoriaBotao.style.display = 'block';
-
-        player.addEventListener('animationend', () => { });
-        // Ao vencer, podemos resetar as tentativas para a próxima fase ou manter, dependendo da lógica do jogo.
-        // Por enquanto, vamos resetar.
-        tentativas = 0;
-        atualizaTentativas(); // Atualiza o display de tentativas
-    }
-
-    // ============= SISTEMA DE CONTAGEM DE TENTATIVAS =============
-
-    function incrementarTentativas() {
-        tentativas++;
-        atualizaTentativas();
-    }
-
-    function atualizaTentativas() {
-        if (tentativasDisplay) { // É importante verificar se o elemento existe antes de tentar manipulá-lo
-            tentativasDisplay.textContent = tentativas;
-        }
-    }
-
-    // ============= SISTEMA DE RESET =============
-    function resetPlayer() {
-        // Reset de posição e estilo
-        player.style.opacity = 100
-        player.style.left = '-3%';
-        player.style.bottom = '72px';
-        player.style.width = '80px';
-        player.style.height = '100px';
-        player.src = '/src/Fase_1/imagem-level-1/playerT.gif';
-        player.style.animation = '';
-
-        // Controles de interface
-        pauseButton.style.display = 'none';
-        homeButton.style.display = 'none';
-        vitoriaBotao.style.display = 'none';
-
-        // Reinicialização do jogo
-        isGameOver = false;
-        iniciarLoop();
-    }
-
-    // ============= INICIALIZAÇÃO DO JOGO =============
-    iniciarLoop();
-
-    vitoriaBotao.addEventListener('click', resetPlayer);
-
-    atualizaTentativas();
-
-    // ============= SISTEMA DE NUVENS =============
-    const container = document.getElementById('nuvens-container');
-    let timeoutId; // Variável para guardar o ID do timeout
-
-    function criarNuvem() {
-
-        const nuvem = document.createElement('img');
-
-        nuvem.src = '/src/Fase_1/imagem-level-1/clouds.png';
-
-        nuvem.classList.add('nuvem');
-
-        // Configurações aleatórias
-        nuvem.style.width = `${Math.floor(Math.random() * 251) + 350}px`; // Largura entre 350px e 600px
-        nuvem.style.top = `${Math.random() * 50}%`; // Posição vertical aleatória na metade superior
-
-        if (Math.random() < 0.4) { // 40% de chance de inverter a nuvem horizontalmente
-            nuvem.classList.add('nuvem-invertida');
+            nuvem.addEventListener('animationend', () => nuvem.remove());
         }
 
-        container.appendChild(nuvem);
-
-        nuvem.addEventListener('animationiteration', () => {
-            console.log('Removendo nuvem após iteração da animação'); // Log para debug
-            nuvem.remove();
-        });
-
-        // Remover a nuvem após um tempo fixo caso a animação não funcione como esperado
-        setTimeout(() => {
-            if (container.contains(nuvem)) { // Verifica se a nuvem ainda existe antes de remover
-                console.log('Removendo nuvem por tempo limite'); // Log para debug
-                nuvem.remove();
-            }
-        }, 20000); // Remove após 20 segundos
-    }
-
-    function gerarNuvensAleatoriamente() {
-        criarNuvem(); // Cria a nuvem imediatamente
-
-
-        // Guarda o ID do timeout para cancelá-lo depois se a página ficar oculta
-        timeoutId = setTimeout(gerarNuvensAleatoriamente, Math.random() * 5000 + 1000); // Próxima nuvem entre 1 e 6 segundos
-    }
-
-    // Função que será chamada quando a visibilidade da página mudar
-    function handleVisibilityChange() {
-        if (document.hidden) {
-            // Se a página ficou OCULTA
-            // Cancela o próximo agendamento de criarNuvem
-            clearTimeout(timeoutId);
-            console.log("Geração de nuvens pausada (página oculta)."); // Para debug
-        } else {
-            console.log("Geração de nuvens retomada (página visível)."); // Para debug
-            // Limpa qualquer timeout residual (segurança extra) e inicia o ciclo
-            clearTimeout(timeoutId);
-            gerarNuvensAleatoriamente();
+        function gerarNuvensAleatoriamente() {
+            criarNuvem();
+            timeoutId = setTimeout(gerarNuvensAleatoriamente, Math.random() * 5000 + 1000);
         }
-    }
 
-    // --- Inicialização ---
-    // Este evento dispara sempre que o estado de visibilidade da aba muda.
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    // Inicia a geração de nuvens APENAS se a página já estiver visível quando o script for carregado.
-    if (!document.hidden) {
         gerarNuvensAleatoriamente();
-    } else {
-        console.log("Página carregada oculta. Geração de nuvens aguardando visibilidade."); //Para debug
-    }
+        return () => clearTimeout(timeoutId);
+    }, []);
 
-
-    //função para alterar as informações do css
-    function alteraJogo() {
-        const codigo = editor.getValue(); //pega o codigo css do editor
-        console.log("aplicando java", codigo); //debug
-
-        //try catch para erro na execução do jogador
+    // ============= Editor Code Execution =============
+    function executeUserCode() {
+        if (!editor) return;
+        const codigo = editor.getValue();
         try {
-            //Codigo que o jogador pode usar
-            const elementosUsu = {
-                jogador: player, //elemento DOM do player
-                obstaculo: parede, //elemento DOM da parede
-                meta: bandeira //elemento DOM da Bandeira
+            const elementos = {
+                jogador: playerRef.current,
+                obstaculo: paredeRef.current,
+                meta: bandeiraRef.current
             };
-
-            const funcoesUsua = {
-                reiniciar: resetPlayer, // Renomeado para 'reiniciar' para maior clareza
+            const acoes = {
+                reiniciar: resetGame,
                 perder: gameOver
             };
 
-            const funcaoDoUsuario = new Function('elementos', 'acoes', `'use strict';\n ${codigo}`);
-
-            funcaoDoUsuario(elementosUsu, funcoesUsua);
-
-            console.log("Codigo será executado aqui...");
-
+            const funcaoDoUsuario = new Function('elementos', 'acoes', `'use strict';\n${codigo}`);
+            funcaoDoUsuario(elementos, acoes);
         } catch (error) {
-            alert("Erro no seu código: " + error.message);
+            if (error instanceof Error) {
+                alert("Erro no seu código: " + error.message);
+            }
+            
         }
-
     }
 
-    //alteraJogo();
-
-    function alteraERoda() {
-        resetPlayer();
-        alteraJogo();
+    function handleTryAgain() {
+        resetGame();
+        setTimeout(() => {
+            executeUserCode();
+        }, 50);
     }
-
-
-    if (pauseButton) {
-        pauseButton.addEventListener('click', alteraERoda);
-        console.log("alterou o jogo");
-    } else {
-        console.log("Não foi achado o botão");
-    }
-
-
+    
+    // ============= Render JSX =============
     return (
-
-        <>
-
-            <head>
-                <title>O Primeiro Run</title>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            </head>
-
-            <body>
-                <div className="container-geral">
-
-                    <aside className="aba-lateral-esquerda">
-
-                        <h2 id="titulo-jogo">AVENTURA DO CÓDIGO</h2>
-                        <h3 id="titulo-fase">Fase 1/4:<br />O primeiro Run</h3>
-
-                        <div className="botoesNav">
-
-                            <button className="nav-btn" id="btn-prev" disabled title="Fase anterior">&lt;</button>
-                            <button className="nav-btn" id="btn-home" title="Home"></button>
-                            <button className="nav-btn" id="btn-next" title="Próxima fase">&gt;</button>
-
-
-                        </div>
-
-                        <p id="info-fase-descricao">Use o editor abaixo para mover o jogador e ajudá-lo a chegar na bandeira, desviando do cano!</p>
-
-                        <ul>
-                            <li><strong>Jogador:</strong> `elementos.jogador`</li>
-                            <li><strong>Obstáculo:</strong> `elementos.obstaculo`</li>
-                            <li><strong>Bandeira:</strong> `elementos.meta`</li>
-                        </ul>
-
-                        <p>No editor, você pode alterar propriedades como `elementos.jogador.style.left` ou `elementos.jogador.style.bottom`.</p>
-                        <button id="botao-dica">Ver Dica</button>
-                        <p id="texto-dica" style={{ display: "none" }}>Tente trocar a posição do player ou do obstaculo, usando talvez 'style.top' ou 'bottom'.</p>
-
-                    </aside>
-
-                    <main className="conteudo-principal">
-
-                        <div className='box'>
-
-                            <div id="nuvens-container"></div>
-                            <div id="chao">
-                                <img src={Chão} className="tiles" alt="Chão" />
-                            </div>
-                            <img src={Cano} className="desafio" id="desafioCano" />
-                            <img src={Bandeira} className="bandeira" />
-                            <div className="divPlayer">
-                                <img src={Player} className="player" id="playerT" />
-                            </div>
-
-                            <div className="vitoria-conteiner">
-                                <h1 className="mensagemV">Você conseguiu!!</h1>
-                                <a href="/src/Fase_2/fase2.html"><button className="Pfase">Próxima fase!!!</button></a>
-                            </div>
-
-                            <button className="pause" id="pause">Tentar Novamente</button>
-
-
-                        </div>
-                        <div id="meu-editor-codigo"></div>
-
-                    </main>
-
-                    <aside className="aba-lateral-direita">
-                        <h2>Progresso</h2>
-                        <h3>Tentativas Realizadas</h3>
-                        <p>Número de Tentativas: <span id="tentativas-jogador">0</span></p>
-                        <h3>Como funciona?</h3>
-                        <p>O código que você digita no editor é executado quando você clica em "Tentar Novamente". Use JavaScript para interagir com os elementos do jogo!</p>
-                    </aside>
-
+        <div className="container-geral">
+            <aside className="aba-lateral-esquerda">
+                <h2 id="titulo-jogo">AVENTURA DO CÓDIGO</h2>
+                <h3 id="titulo-fase">Fase 1/4:<br />O primeiro Run</h3>
+                <div className="botoesNav">
+                    <button className="nav-btn" id="btn-prev" disabled title="Fase anterior">&lt;</button>
+                    {/* For navigation, use React Router's <Link> or a state change */}
+                    <button className="nav-btn" id="btn-home" title="Home" onClick={() => {/* Navigate Home */}}></button>
+                    <button className="nav-btn" id="btn-next" title="Próxima fase">&gt;</button>
                 </div>
-
-                <footer>
-                    <p>Desenvolvido por: <a href="https://github.com/Ferhsx" target="_blank" rel="noopener noreferrer">Ferculos</a>
-                        & <a href="https://github.com/Elitinho123456" target="_blank" rel="noopener noreferrer">Elitinho123456</a> -
-                        <a href="https://github.com/Elitinho123456/TCC-Programacao-Para-Todos" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <p id="info-fase-descricao">Use o editor abaixo para mover o jogador e ajudá-lo a chegar na bandeira, desviando do cano!</p>
+                <ul>
+                    <li><strong>Jogador:</strong> <code>elementos.jogador</code></li>
+                    <li><strong>Obstáculo:</strong> <code>elementos.obstaculo</code></li>
+                    <li><strong>Bandeira:</strong> <code>elementos.meta</code></li>
+                </ul>
+                <p>No editor, você pode alterar propriedades como <code>elementos.jogador.style.bottom</code>.</p>
+                <button id="botao-dica" onClick={() => setDicaVisivel((v) => !v)}>
+                    {dicaVisivel ? 'Esconder Dica' : 'Ver Dica'}
+                </button>
+                {/* FIX: Correctly show/hide hint text inside the paragraph */}
+                {dicaVisivel && (
+                    <p id="texto-dica">
+                        Tente alterar a posição vertical do jogador usando 'style.bottom'. Um valor como '150px' pode ser o suficiente para pular o cano.
                     </p>
-                </footer>
+                )}
+            </aside>
+            
+            <main className="conteudo-principal">
+                <div className='box'>
+                    <div id="nuvens-container" ref={nuvensContainerRef}></div>
+                    <div id="chao">
+                        <img src={Chao} className="tiles" alt="Chão" />
+                    </div>
+                    <img src={Cano} className="desafio" id="desafioCano" ref={paredeRef} alt="Obstáculo"/>
+                    <img src={BandeiraImg} className="bandeira" ref={bandeiraRef} alt="Meta"/>
+                    <div className="divPlayer">
+                        <img src={PlayerGif} className="player" id="playerT" ref={playerRef} alt="Jogador"/>
+                    </div>
+                    <div className="vitoria-conteiner" ref={vitoriaBotaoRef} style={{ display: 'none' }}>
+                        <h1 className="mensagemV">Você conseguiu!!</h1>
+                        {/* FIX: This should navigate using React Router or state, not a direct href to a .html file */}
+                        <button className="Pfase" onClick={() => alert("Navegando para a próxima fase!")}>
+                            Próxima fase!!!
+                        </button>
+                    </div>
+                    {/* Grouped game over buttons for easier management */}
+                    <div className="game-over-buttons" ref={gameOverButtonsRef} style={{display: 'none'}}>
+                        <button className="pause" id="pause" onClick={handleTryAgain}>Tentar Novamente</button>
+                    </div>
+                </div>
+                <div id="meu-editor-codigo" ref={editorRef}></div>
+            </main>
 
-            </body >
+            <aside className="aba-lateral-direita">
+                <h2>Progresso</h2>
+                <h3>Tentativas Realizadas</h3>
+                {/* FIX: Directly render state instead of using a ref and manual updates */}
+                <p>Número de Tentativas: <span id="tentativas-jogador">{tentativas}</span></p>
+                <h3>Como funciona?</h3>
+                <p>O código que você digita no editor é executado quando o jogo reinicia. Use JavaScript para interagir com os elementos do jogo!</p>
+                <button onClick={handleTryAgain}>Executar e Reiniciar</button>
+            </aside>
 
-        </>
-
+            <footer>
+                <p>
+                    Desenvolvido por: <a href="https://github.com/Ferhsx" target="_blank" rel="noopener noreferrer">Ferculos</a>
+                    &amp; <a href="https://github.com/Elitinho123456" target="_blank" rel="noopener noreferrer">Elitinho123456</a> -
+                    <a href="https://github.com/Elitinho123456/TCC-Programacao-Para-Todos" target="_blank" rel="noopener noreferrer">GitHub</a>
+                </p>
+            </footer>
+        </div>
     );
 }
