@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // A velocidade atual é mostrada no canto superior esquerdo.
 
 // Exemplo básico:
-jogo.fatorAceleracao = 0.08;
+//jogo.fatorAceleracao = 0.08;
 
 // Seja criativo! Você pode usar 'if', criar funções, etc.
 // O que acontece se a aceleração mudar no meio do caminho?
@@ -226,7 +226,7 @@ if (elementos.playerContainer.offsetLeft > 300) {
         // Reseta o fator de aceleração para o padrão antes de cada execução.
         // Isso garante que, se o usuário apagar a linha, o jogo ainda funcione.
         jogo.fatorAceleracao = 0.05;
-        
+
         // Coloca o jogador no início, pronto para a nova tentativa.
         resetPlayer();
 
@@ -277,7 +277,7 @@ if (elementos.playerContainer.offsetLeft > 300) {
     function atualizaTentativas() {
         if (tentativasDisplay) tentativasDisplay.textContent = tentativas;
     }
-    
+
     // Inicia o jogo pela primeira vez quando a página carrega.
     resetPlayer();
     atualizaTentativas();

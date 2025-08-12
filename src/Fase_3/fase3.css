@@ -149,6 +149,10 @@ p#texto-dica {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 
+#meu-editor-codigo .cm-comment {
+    color: #ebedf7; /* Estilo para comentários */
+}
+
 .CodeMirror {
     height: 100% !important;
     font-family: monospace;

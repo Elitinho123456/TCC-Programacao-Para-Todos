@@ -180,6 +180,10 @@ p#texto-dica {
     border: 1px solid white;
 }
 
+#meu-editor-codigo .cm-comment {
+    color: #ebedf7; /* Estilo para comentários */
+}
+
 .CodeMirror {
     height: 100% !important;
     font-family: monospace;

@@ -3,23 +3,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============= Editor de Codigo =============
     const codeContainer = document.getElementById('meu-editor-codigo');
     const editor = CodeMirror(codeContainer, {
-        value: `// A serpente já está se movendo! Rápido, assuma o controle com sua lógica de if/else!.
+        value: `// A serpente já está se movendo! Rápido, assuma o controle com sua lógica de if/else!
 
-                // OBJETOS DISPONÍVEIS:
-                // - elementos.serpente: { posicaoX, posicaoY }
-                // - elementos.comida:   { posicaoX, posicaoY }
+// === OBJETOS DISPONÍVEIS: ===
+// - elementos.serpente: { posicaoX, posicaoY }
+// - elementos.comida:   { posicaoX, posicaoY }
+// === AÇÕES DISPONÍVEIS: ===
+// - acoes.moverParaDireita()
+// - acoes.moverParaEsquerda()
+// - acoes.moverParaCima()
+// - acoes.moverParaBaixo()
 
-                // AÇÕES DISPONÍVEIS:
-                // - acoes.moverParaDireita()
-                // - acoes.moverParaEsquerda()
-                // - acoes.moverParaCima()
-                // - acoes.moverParaBaixo()
-
-                // Exemplo:
-                // if(comidaX = serpenteX) {
-                // (oque você acha que a serpente deve fazer aqui)
-                // }
-                `,
+// Exemplo:
+// if(comidaX = serpenteX) {
+// (oque você acha que a serpente deve fazer aqui)
+// }
+`,
         mode: "javascript",
         theme: "dracula",
         lineNumbers: true,
@@ -41,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // A lógica do usuário começa vazia. Será preenchida ao clicar no botão.
     let userLogicFunction = null;
 
-    // ============= LÓGICA PRINCIPAL DO JOGO (SNAKE) =============
+    // ============= LÓGICA PRINCIPAL DO SNAKE =============
 
     function resetGame() {
         if (gameLoop) clearInterval(gameLoop);
@@ -100,8 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // **MUDANÇA PRINCIPAL AQUI**
-        // Se uma função do usuário foi definida (pelo botão), executa ela.
         if (userLogicFunction) {
             const elementos = {
                 serpente: { posicaoX: snake[0].x, posicaoY: snake[0].y },
