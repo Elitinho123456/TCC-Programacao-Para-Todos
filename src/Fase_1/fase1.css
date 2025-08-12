@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Slabo+13px&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+/* Estilização Global */
 * {
     margin: 0;
     padding: 0;
@@ -9,10 +10,9 @@
 
 html,
 body {
-    height: 100%;
+    height: 100%; 
     margin: 0;
     padding: 0;
-    /* Fonte alterada */
     font-family: "Slabo 13px", serif;
     background: linear-gradient(90deg, rgb(30, 30, 30) 0%, rgb(15, 15, 15) 50%, rgb(30, 30, 30) 100%);
     color: #f0f0f0;
@@ -36,18 +36,12 @@ body {
     padding: 15px;
     border-radius: 8px;
     width: 400px;
-    flex-shrink: 0;
-    /* Estender barras laterais até o fim da página (ajustado para ocupar o espaço disponível) */
+    flex-shrink: 0;/* Estende barras laterais até o fim da página*/
     height: 100%;
-    /* Isso fará com que as barras laterais ocupem a altura total do container-geral */
     display: flex;
-    /* Adicionado para permitir flex-direction column e push content down */
     flex-direction: column;
-    /* Conteúdo interno se organiza em coluna */
-
     overflow-y: auto;
     overflow-x: hidden;
-
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4);
     word-wrap: break-word;
 }
@@ -178,8 +172,17 @@ footer {
     padding-top: 5px;
     padding-bottom: 5px;
     background-color: #333;
-    border-top: 2px solid #4caf50;
+    border-top: 2px solid #FFD700;
     width: 100%;
+}
+
+.footer-logo-ifms {
+    height: 35px;
+    width: 35px;
+    margin-right: 15px;
+    background-color: #4d4d4d;
+    padding: 3px;
+    border-radius: 5px;
 }
 
 footer p {
@@ -187,7 +190,7 @@ footer p {
 }
 
 footer a {
-    color: #4caf50;
+    color: #c00000;
     /* Cor verde para os links */
     text-decoration: none;
     font-weight: bold;
@@ -360,53 +363,34 @@ footer a:hover {
 /* Container que agrupa os botões */
 .botoesNav {
     display: flex;
-    /* Usa Flexbox para alinhar os botões facilmente */
     justify-content: space-around;
-    /* Distribui os botões com espaço igual ao redor */
     align-items: center;
-    /* Alinha os botões verticalmente ao centro */
     width: 100%;
-    /* Garante que o container ocupe toda a largura da barra lateral */
     margin: 25px 0;
-    /* Adiciona um espaço vertical para separar dos outros elementos */
     padding: 10px 0;
-    /* Adiciona um preenchimento interno */
     background-color: rgba(0, 0, 0, 0.2);
-    /* Fundo sutil para destacar a área */
     border-radius: 10px;
-    /* Bordas arredondadas no container */
 }
 
-/* Estilo geral para cada botão de navegação */
+.botoesNav a {
+    text-decoration: none;
+}
+
 .nav-btn {
     background-color: #2a2a2a;
-    /* Cor de fundo escura */
     color: #FFD700;
-    /* Cor do ícone (amarelo do tema) */
     border: 2px solid #FFD700;
-    /* Borda com a cor de destaque */
     border-radius: 50%;
-    /* Deixa os botões perfeitamente redondos */
     width: 55px;
-    /* Largura fixa */
     height: 55px;
-    /* Altura fixa */
     font-size: 26px;
-    /* Tamanho do ícone/texto dentro do botão */
     cursor: pointer;
-    /* Mostra o cursor de "mãozinha" */
     display: flex;
-    /* Necessário para centralizar o conteúdo com flexbox */
     align-items: center;
-    /* Centraliza verticalmente */
     justify-content: center;
-    /* Centraliza horizontalmente */
     transition: all 0.3s ease-in-out;
-    /* Transição suave para todas as propriedades */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
-    /* Sombra para dar profundidade */
     text-decoration: none;
-    /* Remove sublinhado de links */
 }
 
 /* Efeito ao passar o mouse sobre o botão (desde que não esteja desabilitado) */

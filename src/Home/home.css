@@ -30,8 +30,8 @@ header {
 .infoPrincipal {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    /* A MUDANÇA PRINCIPAL: distribui os itens para o início e o fim */
+    justify-content: center;
+    /* A MUDANÇA PRINCIPAL: centraliza o conteúdo */
     width: 100%;
     /* Faz o container ocupar toda a largura disponível no header */
     gap: 20px;
@@ -198,6 +198,15 @@ footer {
     background-color: #333;
     border-top: 2px solid #4caf50;
     width: 100%;
+}
+
+.footer-logo-ifms {
+    height: 35px;
+    width: 35px;
+    margin-right: 15px;
+    background-color: #4d4d4d;
+    padding: 3px;
+    border-radius: 5px;
 }
 
 footer p {

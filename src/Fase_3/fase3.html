@@ -24,33 +24,34 @@
         <aside class="aba-lateral-esquerda">
             <h2 id="titulo-jogo">AVENTURA DO CÓDIGO</h2>
             <h3 id="titulo-fase">Fase 3/4:<br>O Desafio da Serpente</h3>
+
             <div class="botoesNav">
-                <a href="../Fase_2/fase2.html">
-                    <button class="nav-btn" id="btn-prev" title="Fase anterior">&lt;</button>
-                </a>
-                <a href="../Home/home.html">
-                    <button class="nav-btn" id="btn-home" title="Home">&#8962;</button>
-                </a>
-                <a href="../Fase_4/fase4.html">
-                    <button class="nav-btn" id="btn-next" title="Próxima fase">&gt;</button>
-                </a>
+
+                <button class="nav-btn" id="btn-prev" title="Fase anterior" onclick="location.href='../Fase_2/fase2.html'">&lt;</button>
+                <button class="nav-btn" id="btn-home" title="Home" onclick="location.href='../Home/home.html'">&#8962;</button>
+                <button class="nav-btn" id="btn-next" title="Próxima fase" onclick="location.href='../Fase_4/fase4.html'">&gt;</button>
+
             </div>
 
-            <p id="info-fase-descricao">A serpente está com fome! Use a lógica de <strong>if / else if / else</strong> para guiá-la até a comida. O seu código será executado a cada passo que a serpente der!</p>
+            <p id="info-fase-descricao">A serpente está com fome! Use a lógica de <strong>if / else if / else</strong>
+                para guiá-la até a comida. O seu código será executado a cada passo que a serpente der!</p>
 
             <ul>
                 <li><strong>Serpente:</strong> `elementos.serpente`</li>
                 <li><strong>Comida:</strong> `elementos.comida`</li>
             </ul>
 
-            <p>Compare `serpente.posicaoX` com `comida.posicaoX` e `serpente.posicaoY` com `comida.posicaoY` para decidir qual ação tomar.</p>
+            <p>Compare `serpente.posicaoX` com `comida.posicaoX` e `serpente.posicaoY` com `comida.posicaoY` para
+                decidir qual ação tomar.</p>
             <button id="botao-dica">Ver Dica</button>
-            <p id="texto-dica" style="display:none;">Se a posição X da serpente for menor que a da comida (`serpente.posicaoX < comida.posicaoX`), significa que a comida está à direita. Nesse caso, você deve usar `acoes.moverParaDireita()`.</p>
+            <p id="texto-dica" style="display:none;">Se a posição X da serpente for menor que a da comida
+                (`serpente.posicaoX < comida.posicaoX`), significa que a comida está à direita. Nesse caso, você deve
+                    usar `acoes.moverParaDireita()`.</p>
         </aside>
 
         <main class="conteudo-principal">
 
-            <div class="box" id="game-board">
+            <div class="box" id="box">
                 <div class="vitoria-conteiner">
                     <h1 class="mensagemV">Você conseguiu!!</h1>
                     <a href="../Fase_4/fase4.html"><button class="Pfase">Próxima fase!!!</button></a>
@@ -67,16 +68,19 @@
             <h3>Tentativas Realizadas</h3>
             <p>Número de Tentativas: <span id="tentativas-jogador">0</span></p>
             <h3>Como funciona?</h3>
-            <p>O seu código no editor decide o próximo movimento da serpente. A cada passo, seu script é consultado para saber para onde ir. Use a lógica `if/else` para criar uma estratégia e capturar a comida sem bater nas paredes!</p>
+            <p>O seu código no editor decide o próximo movimento da serpente. A cada passo, seu script é consultado para
+                saber para onde ir. Use a lógica `if/else` para criar uma estratégia e capturar a comida sem bater nas
+                paredes!</p>
         </aside>
 
     </div>
 
     <footer>
+        <img src="/public/IFMS.png" alt="Logo do IFMS" class="footer-logo-ifms">
         <p>Desenvolvido por: <a href="https://github.com/Ferhsx" target="_blank" rel="noopener noreferrer">Ferculos</a>
             & <a href="https://github.com/Elitinho123456" target="_blank" rel="noopener noreferrer">Elitinho123456</a> -
             <a href="https://github.com/Elitinho123456/TCC-Programacao-Para-Todos" target="_blank"
-                rel="noopener noreferrer">GitHub</a>
+                rel="noopener noreferrer">GitHub</a> — um projeto do IFMS.
         </p>
     </footer>
 

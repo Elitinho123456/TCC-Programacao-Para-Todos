@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>O Primeiro Run</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fase1.css">
     <link rel="website icon" type="png" href="imagem-level-1/playerV.png">
-    <script src="script.js"></script>
+    <script src="fase1.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
 
@@ -22,23 +22,19 @@
 
     <div class="container-geral">
 
-        <!--Aba Lateral Esquerda-->
         <aside class="aba-lateral-esquerda">
             <h2 id="titulo-jogo">AVENTURA DO CÓDIGO</h2>
             <h3 id="titulo-fase">Fase 1/4:<br>O primeiro Run</h3>
+
             <div class="botoesNav">
+
                 <button class="nav-btn" id="btn-prev" disabled title="Fase anterior">&lt;</button>
-                <a href="../Home/home.html">
-                    <button class="nav-btn" id="btn-home" title="Home">&#8962;</button>
-                </a>
-                <a href="../Fase_2/fase2.html">
-                    <button class="nav-btn" id="btn-next" title="Próxima fase">&gt;</button>
-                </a>
+                <button class="nav-btn" id="btn-home" title="Home" onclick="location.href='../Home/home.html'">&#8962;</button>
+                <button class="nav-btn" id="btn-next" title="Próxima fase" onclick="location.href='../Fase_2/fase2.html'">&gt;</button>
+
             </div>
 
-            <p id="info-fase-descricao">Use o editor abaixo para mover o jogador e ajudá-lo a chegar na bandeira,
-                desviando do
-                cano!</p>
+            <p id="info-fase-descricao">Use o editor abaixo para mover o jogador e ajudá-lo a chegar na bandeira, desviando do cano!</p>
 
             <ul>
                 <li><strong>Jogador:</strong> `elementos.jogador`</li>
@@ -89,10 +85,11 @@
     </div>
 
     <footer>
+        <img src="/public/IFMS.png" alt="Logo do IFMS" class="footer-logo-ifms">
         <p>Desenvolvido por: <a href="https://github.com/Ferhsx" target="_blank" rel="noopener noreferrer">Ferculos</a>
             & <a href="https://github.com/Elitinho123456" target="_blank" rel="noopener noreferrer">Elitinho123456</a> -
             <a href="https://github.com/Elitinho123456/TCC-Programacao-Para-Todos" target="_blank"
-                rel="noopener noreferrer">GitHub</a>
+                rel="noopener noreferrer">GitHub</a> — um projeto do IFMS.
         </p>
     </footer>
 

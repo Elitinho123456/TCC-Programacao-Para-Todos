@@ -3,79 +3,66 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============= Editor de Codigo =============
     const codeContainer = document.getElementById('meu-editor-codigo');
     const editor = CodeMirror(codeContainer, {
-        value: `// A serpente já está se movendo!
-// Rápido, assuma o controle com sua lógica de if/else.
+        value: `// A serpente já está se movendo! Rápido, assuma o controle com sua lógica de if/else!.
 
-// OBJETOS DISPONÍVEIS:
-// - elementos.serpente: { posicaoX, posicaoY }
-// - elementos.comida:   { posicaoX, posicaoY }
+                // OBJETOS DISPONÍVEIS:
+                // - elementos.serpente: { posicaoX, posicaoY }
+                // - elementos.comida:   { posicaoX, posicaoY }
 
-// AÇÕES DISPONÍVEIS:
-// - acoes.moverParaDireita()
-// - acoes.moverParaEsquerda()
-// - acoes.moverParaCima()
-// - acoes.moverParaBaixo()
+                // AÇÕES DISPONÍVEIS:
+                // - acoes.moverParaDireita()
+                // - acoes.moverParaEsquerda()
+                // - acoes.moverParaCima()
+                // - acoes.moverParaBaixo()
 
-if (elementos.serpente.posicaoX < elementos.comida.posicaoX) {
-    // A comida está à DIREITA da serpente.
-    acoes.moverParaDireita();
-
-} else if (elementos.serpente.posicaoX > elementos.comida.posicaoX) {
-    // A comida está à ESQUERDA da serpente.
-    acoes.moverParaEsquerda();
-
-} else if (elementos.serpente.posicaoY < elementos.comida.posicaoY) {
-    // A comida está ABAIXO da serpente.
-    acoes.moverParaBaixo();
-
-} else {
-    // A comida está ACIMA da serpente.
-    acoes.moverParaCima();
-
-}
-`,
+                // Exemplo:
+                // if(comidaX = serpenteX) {
+                // (oque você acha que a serpente deve fazer aqui)
+                // }
+                `,
         mode: "javascript",
         theme: "dracula",
         lineNumbers: true,
     });
+
     window.meuEditor = editor;
 
     // ============= SELEÇÃO DE ELEMENTOS DO JOGO =============
-    const gameBoard = document.getElementById('game-board');
+    const box = document.getElementById('box');
     const vitoriaContainer = document.querySelector('.vitoria-conteiner');
     const pauseButton = document.querySelector('.pause');
     const tentativasDisplay = document.getElementById('tentativas-jogador');
-    
+
     // ============= VARIÁVEIS DE CONTROLE DO JOGO =============
     const gridSize = 20;
     let snake, food, nextDirection, gameLoop, isGameOver;
     let tentativas = 0;
-    
+
     // A lógica do usuário começa vazia. Será preenchida ao clicar no botão.
-    let userLogicFunction = null; 
+    let userLogicFunction = null;
 
     // ============= LÓGICA PRINCIPAL DO JOGO (SNAKE) =============
-    
+
     function resetGame() {
         if (gameLoop) clearInterval(gameLoop);
 
-        gameBoard.innerHTML = '';
-        gameBoard.appendChild(vitoriaContainer);
-        gameBoard.appendChild(pauseButton);
-        
+        box.innerHTML = '';
+        box.appendChild(vitoriaContainer);
+        box.appendChild(pauseButton);
+
         snake = [{ x: 5, y: 10 }];
         food = generateFoodPosition();
         nextDirection = 'right'; // Direção padrão para o movimento automático
         isGameOver = false;
-        
+
         vitoriaContainer.style.display = 'none';
         pauseButton.style.display = 'none';
-        
+
         draw();
     }
-    
+
     function draw() {
-        const aRemover = gameBoard.querySelectorAll('.snake-head, .snake-body, .food');
+        const aRemover = box.querySelectorAll('.snake-head, .snake-body, .food');
         aRemover.forEach(el => el.remove());
 
         snake.forEach((segment, index) => {
@@ -83,21 +70,21 @@ if (elementos.serpente.posicaoX < elementos.comida.posicaoX) {
             snakeElement.style.gridRowStart = segment.y;
             snakeElement.style.gridColumnStart = segment.x;
             snakeElement.classList.add(index === 0 ? 'snake-head' : 'snake-body');
-            gameBoard.appendChild(snakeElement);
+            box.appendChild(snakeElement);
         });
 
         const foodElement = document.createElement('div');
         foodElement.style.gridRowStart = food.y;
         foodElement.style.gridColumnStart = food.x;
         foodElement.classList.add('food');
-        gameBoard.appendChild(foodElement);
+        box.appendChild(foodElement);
     }
-    
+
     function generateFoodPosition() {
         let newFoodPosition;
-        const boardWidth = Math.floor(gameBoard.clientWidth / gridSize);
-        const boardHeight = Math.floor(gameBoard.clientHeight / gridSize);
-        
+        const boardWidth = Math.floor(box.clientWidth / gridSize);
+        const boardHeight = Math.floor(box.clientHeight / gridSize);
+
         do {
             newFoodPosition = {
                 x: Math.floor(Math.random() * boardWidth) + 1,
@@ -121,14 +108,14 @@ if (elementos.serpente.posicaoX < elementos.comida.posicaoX) {
                 comida: { posicaoX: food.x, posicaoY: food.y }
             };
             const acoes = {
-                moverParaCima: () => { if(nextDirection !== 'down') nextDirection = 'up'; },
-                moverParaBaixo: () => { if(nextDirection !== 'up') nextDirection = 'down'; },
-                moverParaEsquerda: () => { if(nextDirection !== 'right') nextDirection = 'left'; },
-                moverParaDireita: () => { if(nextDirection !== 'left') nextDirection = 'right'; }
+                moverParaCima: () => { if (nextDirection !== 'down') nextDirection = 'up'; },
+                moverParaBaixo: () => { if (nextDirection !== 'up') nextDirection = 'down'; },
+                moverParaEsquerda: () => { if (nextDirection !== 'right') nextDirection = 'left'; },
+                moverParaDireita: () => { if (nextDirection !== 'left') nextDirection = 'right'; }
             };
             try {
                 userLogicFunction(elementos, acoes);
-            } catch(e) {
+            } catch (e) {
                 alert("Erro ao executar seu código: " + e.message);
                 gameOver();
                 return;
@@ -150,7 +137,7 @@ if (elementos.serpente.posicaoX < elementos.comida.posicaoX) {
         } else {
             snake.pop();
         }
-        
+
         checkCollision();
         if (!isGameOver) {
             draw();
@@ -159,8 +146,8 @@ if (elementos.serpente.posicaoX < elementos.comida.posicaoX) {
 
     function checkCollision() {
         const head = snake[0];
-        const boardWidth = gameBoard.clientWidth / gridSize;
-        const boardHeight = gameBoard.clientHeight / gridSize;
+        const boardWidth = box.clientWidth / gridSize;
+        const boardHeight = box.clientHeight / gridSize;
 
         // Colisão com as paredes
         if (head.x <= 0 || head.x > boardWidth || head.y <= 0 || head.y > boardHeight) {
@@ -178,7 +165,7 @@ if (elementos.serpente.posicaoX < elementos.comida.posicaoX) {
     }
 
     function gameOver() {
-        if(isGameOver) return;
+        if (isGameOver) return;
         isGameOver = true;
         clearInterval(gameLoop);
         incrementarTentativas();
@@ -192,11 +179,11 @@ if (elementos.serpente.posicaoX < elementos.comida.posicaoX) {
         vitoriaContainer.style.display = 'block';
         console.log("Vitória!");
     }
-    
+
     // Função que é chamada pelo botão "Tentar Novamente"
     function aplicarCodigoDoUsuario() {
         incrementarTentativas();
-        
+
         const codigoDoUsuario = editor.getValue();
         try {
             // Compila e armazena a lógica do usuário
@@ -216,7 +203,7 @@ if (elementos.serpente.posicaoX < elementos.comida.posicaoX) {
     }
 
     pauseButton.addEventListener('click', aplicarCodigoDoUsuario);
-    
+
     // ... (resto do código: botão de dica, sistema de tentativas, etc.)
     const botaoDica = document.getElementById('botao-dica');
     const textoDica = document.getElementById('texto-dica');
@@ -228,19 +215,19 @@ if (elementos.serpente.posicaoX < elementos.comida.posicaoX) {
         });
     }
 
-    function incrementarTentativas(){
+    function incrementarTentativas() {
         tentativas++;
-        if(tentativasDisplay){
+        if (tentativasDisplay) {
             tentativasDisplay.textContent = tentativas;
         }
     }
-    
+
     const style = document.createElement('style');
     style.innerHTML = `
-        #game-board {
+        #box {
             display: grid;
-            grid-template-rows: repeat(${Math.floor(gameBoard.clientHeight / gridSize)}, 1fr);
-            grid-template-columns: repeat(${Math.floor(gameBoard.clientWidth / gridSize)}, 1fr);
+            grid-template-rows: repeat(${Math.floor(box.clientHeight / gridSize)}, 1fr);
+            grid-template-columns: repeat(${Math.floor(box.clientWidth / gridSize)}, 1fr);
             background-color: #1e4d2b;
             border: 5px solid #0c2412;
         }
@@ -252,6 +239,6 @@ if (elementos.serpente.posicaoX < elementos.comida.posicaoX) {
 
     // **INICIALIZAÇÃO AUTOMÁTICA**
     // Inicia o jogo assim que a página é carregada.
-    if(tentativasDisplay) tentativasDisplay.textContent = tentativas;
+    if (tentativasDisplay) tentativasDisplay.textContent = tentativas;
     resetGameEIniciaLoop();
 });

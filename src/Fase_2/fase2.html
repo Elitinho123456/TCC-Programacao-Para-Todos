@@ -22,26 +22,25 @@
             <h3 id="titulo-fase">Fase 2/4:<br>O Loop Sônico</h3>
 
             <div class="botoesNav">
-                <a href="../Fase_1/fase1.html">
-                    <button class="nav-btn" id="btn-prev" title="Fase anterior"><</button>
-                </a>
-                <a href="../Home/home.html">
-                    <button class="nav-btn" id="btn-home" title="Home">⌂</button>
-                </a>
-                <a href="../Fase_3/fase3.html">
-                    <button class="nav-btn" id="btn-next" title="Próxima fase">></button>
-                </a>
+
+                <button class="nav-btn" id="btn-prev" title="Fase anterior" onclick="location.href='../Fase_1/fase1.html'">&lt;</button>
+                <button class="nav-btn" id="btn-home" title="Home" onclick="location.href='../Home/home.html'">&#8962;</button>
+                <button class="nav-btn" id="btn-next" title="Próxima fase" onclick="location.href='../Fase_3/fase3.html'">&gt;</button>
+
             </div>
 
             <p id="info-fase-descricao">
                 <strong>Bem-vindo ao Sandbox de Física!</strong>
             </p>
-            <p>Sua missão é dar ao personagem velocidade suficiente para vencer o loop. Para isso, você pode modificar o objeto <code>jogo</code> no editor de código, que controla as regras do nosso universo.</p>
-            
+            <p>Sua missão é dar ao personagem velocidade suficiente para vencer o loop. Para isso, você pode modificar o
+                objeto <code>jogo</code> no editor de código, que controla as regras do nosso universo.</p>
+
             <h3>Ferramentas Disponíveis:</h3>
             <ul>
-                <li><strong><code>jogo.fatorAceleracao</code></strong>: A propriedade mais importante! Controla o quão rápido a velocidade aumenta. Um valor maior significa mais aceleração.</li>
-                <li><strong><code>elementos.playerContainer</code></strong>: O personagem. Você pode ler a posição dele para criar lógicas condicionais (ex: <code>elementos.playerContainer.offsetLeft</code>).</li>
+                <li><strong><code>jogo.fatorAceleracao</code></strong>: A propriedade mais importante! Controla o quão
+                    rápido a velocidade aumenta. Um valor maior significa mais aceleração.</li>
+                <li><strong><code>elementos.playerContainer</code></strong>: O personagem. Você pode ler a posição dele
+                    para criar lógicas condicionais (ex: <code>elementos.playerContainer.offsetLeft</code>).</li>
             </ul>
         </aside>
 
@@ -88,19 +87,23 @@
             <div>
                 <button id="botao-dica">Ver Dica</button>
                 <p id="texto-dica" style="display:none;">
-                    A aceleração padrão (<code>0.05</code>) é muito baixa para vencer. Tente alterar a linha <code>jogo.fatorAceleracao = ...</code> no editor para um valor maior, como <code>0.8</code> ou <code>1.0</code>, e clique em "Tentar Novamente" para ver o que acontece!
+                    A aceleração padrão (<code>0.05</code>) é muito baixa para vencer. Tente alterar a linha
+                    <code>jogo.fatorAceleracao = ...</code> no editor para um valor maior, como <code>0.8</code> ou
+                    <code>1.0</code>, e clique em "Tentar Novamente" para ver o que acontece!
                 </p>
             </div>
         </aside>
     </div>
 
     <footer>
+        <img src="/public/IFMS.png" alt="Logo do IFMS" class="footer-logo-ifms">
         <p>Desenvolvido por: <a href="https://github.com/Ferhsx" target="_blank" rel="noopener noreferrer">Ferculos</a>
             & <a href="https://github.com/Elitinho123456" target="_blank" rel="noopener noreferrer">Elitinho123456</a> -
             <a href="https://github.com/Elitinho123456/TCC-Programacao-Para-Todos" target="_blank"
-                rel="noopener noreferrer">GitHub</a>
+                rel="noopener noreferrer">GitHub</a> — um projeto do IFMS.
         </p>
     </footer>
 
 </body>
+
 </html>
