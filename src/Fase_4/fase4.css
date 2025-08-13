@@ -1,0 +1,420 @@
+@import url('https://fonts.googleapis.com/css2?family=Slabo+13px&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Slabo 13px", serif;
+    background: linear-gradient(90deg, rgb(30, 30, 30) 0%, rgb(15, 15, 15) 50%, rgb(30, 30, 30) 100%);
+    color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+}
+
+.container-geral {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    padding: 20px;
+    gap: 25px;
+    box-sizing: border-box;
+    align-items: flex-start;
+}
+
+.aba-lateral-esquerda,
+.aba-lateral-direita {
+    background-color: rgba(40, 40, 40, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+    width: 400px;
+    flex-shrink: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4);
+    word-wrap: break-word;
+}
+
+.aba-lateral-esquerda h2,
+.aba-lateral-direita h2 {
+    font-size: 1.3em;
+    color: #FFD700;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #555;
+    font-family: "Press Start 2P", cursive;
+}
+
+.aba-lateral-esquerda h3,
+.aba-lateral-direita h3 {
+    margin-top: 0;
+    border-bottom: 1px solid #444;
+    padding-bottom: 5px;
+    font-size: 2em;
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.aba-lateral-esquerda p,
+.aba-lateral-esquerda ul,
+.aba-lateral-direita p,
+.aba-lateral-direita ul {
+    font-size: 1.3em;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    color: #ddd;
+}
+
+.aba-lateral-esquerda ul,
+.aba-lateral-direita ul {
+    padding-left: 20px;
+    list-style: square;
+}
+
+.aba-lateral-esquerda button#botao-dica {
+    background-color: #c00000;
+    color: white;
+    border: 1px solid #ff4d4d;
+    padding: 10px 15px;
+    font-family: "Slabo 13px", serif;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 15px;
+    font-size: 1em;
+    display: block;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.aba-lateral-esquerda button#botao-dica:hover {
+    background-color: #e52521;
+    border-color: #fff;
+}
+
+p#texto-dica {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    font-size: 1em;
+}
+
+
+.conteudo-principal {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    min-width: 320px;
+}
+
+.box {
+    width: 100%;
+    max-width: 900px;
+    height: 480px;
+    border: 2px solid white;
+    position: relative;
+    background-color: #252525;
+    overflow: hidden;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+#meu-editor-codigo {
+    width: 100%;
+    max-width: 900px;
+    height: 300px;
+    border: 1px solid white;
+    overflow: hidden;
+    background-color: #1e1e1e;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+#meu-editor-codigo .cm-comment {
+    color: #ebedf7; /* Estilo para comentários */
+}
+
+.CodeMirror {
+    height: 100% !important;
+    font-family: monospace;
+    font-size: 14px;
+}
+
+#titulo-jogo {
+    font-size: 1.5em;
+    color: #FFD700;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #FFD700;
+    text-shadow: 2px 2px 0 #000;
+    font-family: "Press Start 2P", cursive;
+
+}
+
+
+/* Estilização do Rodapé */
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 50px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #333;
+    border-top: 2px solid #FFD700;
+    width: 100%;
+}
+
+.footer-logo-ifms {
+    height: 35px;
+    width: 35px;
+    margin-right: 15px;
+    background-color: #4d4d4d;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer a {
+    color: #c00000;
+    /* Cor verde para os links */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* ESTILOS DOS ELEMENTOS DO JOGO */
+.nuvem {
+    position: absolute;
+    top: 5%;
+    width: 550px;
+    animation: nuvem-pass 10s infinite linear;
+}
+
+.nuvem-invertida {
+    transform: scaleX(-1);
+}
+
+.desafio {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    right: 50%;
+    bottom: 80px;
+}
+
+.bandeira {
+    position: absolute;
+    bottom: 80px;
+    width: 100px;
+    height: auto;
+    right: 5%;
+    bottom: 72px;
+}
+
+.tiles {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 150%;
+    height: 80px;
+    background-color: #78c850;
+    border-top: 2px solid #508830;
+}
+
+.player {
+    width: 80px;
+    height: 100px;
+    position: absolute;
+    bottom: 75px;
+    animation: player-animation 5s infinite linear;
+}
+
+.divPlayer {
+    width: 100px;
+    height: 100px;
+}
+
+.pause {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px 30px;
+    font-size: 24px;
+    color: white;
+    background-color: #e52521;
+    border: 5px solid white;
+    border-radius: 10px;
+    box-shadow:
+        0 0 0 5px #e52521,
+        0 0 0 10px white,
+        0 0 0 15px #e52521;
+    text-shadow: 3px 3px 0 #000;
+    cursor: pointer;
+    z-index: 100;
+    animation: pulse 0.5s infinite alternate;
+    font-family: "Press Start 2P", cursive;
+}
+
+.pause:hover {
+    background-color: #ff1d1a;
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+.pause:active {
+    transform: translate(-50%, -50%) scale(0.95);
+}
+
+.pause1 {
+    position: absolute;
+    right: 1px;
+    top: 25em;
+    transform: translate(-50%, -50%);
+    padding: 8px 20px;
+    font-size: 20px;
+    color: white;
+    background-color: #aa1b1b;
+    border: 5px solid white;
+    border-radius: 10px;
+    text-shadow: 2px 2px 0 #000;
+    cursor: pointer;
+    z-index: 100;
+    animation: pulse 0.5s infinite alternate;
+}
+
+.pause1:hover {
+    background-color: #45a049;
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+.pause1:active {
+    transform: translate(-50%, -50%) scale(0.95);
+}
+
+.vitoria-conteiner {
+    display: none;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 15px;
+    text-align: center;
+    z-index: 101;
+    width: auto;
+}
+
+.mensagemV {
+    color: #FFD700;
+    font-size: 24px;
+    text-shadow: 3px 3px 0 #000, 0 0 10px #FFD700;
+    margin-bottom: 30px;
+    animation: float 2s ease-in-out infinite;
+    font-family: "Press Start 2P", cursive;
+}
+
+.Pfase {
+    padding: 15px 30px;
+    font-size: 18px;
+    color: white;
+    background-color: #4caf50;
+    border: 5px solid white;
+    border-radius: 10px;
+    box-shadow:
+        0 0 0 5px #4caf50,
+        0 0 0 10px white,
+        0 0 0 15px #4caf50;
+    text-shadow: 2px 2px 0 #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    transform: none;
+}
+
+.Pfase:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.Pfase:active {
+    transform: scale(0.95);
+}
+
+/* Container que agrupa os botões */
+.botoesNav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin: 25px 0;
+    padding: 10px 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.nav-btn {
+    background-color: #2a2a2a;
+    color: #FFD700;
+    border: 2px solid #FFD700;
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    font-size: 26px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+    text-decoration: none;
+}
+
+.nav-btn:hover:not(:disabled) {
+    background-color: #FFD700;
+    color: #2a2a2a;
+    transform: translateY(-4px) scale(1.1);
+    box-shadow: 0px 6px 12px rgba(255, 215, 0, 0.3);
+}
+
+.nav-btn:active:not(:disabled) {
+    transform: translateY(1px) scale(1.05);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.nav-btn:disabled {
+    background-color: #444;
+    color: #888;
+    border-color: #666;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
