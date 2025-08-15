@@ -17,31 +17,33 @@
 
 <body>
     <div class="container-geral">
+        <!-- ABA DA ESQUERDA (Mais compacta) -->
         <aside class="aba-lateral-esquerda">
             <h2 id="titulo-jogo">AVENTURA DO CÓDIGO</h2>
             <h3 id="titulo-fase">Fase 2/4:<br>O Loop Sônico</h3>
 
             <div class="botoesNav">
-
-                <button class="nav-btn" id="btn-prev" title="Fase anterior" onclick="location.href='../Fase_1/fase1.html'">&lt;</button>
+                <button class="nav-btn" id="btn-prev" onclick="location.href='../Fase_1/fase1.html'">&lt;</button>
                 <button class="nav-btn" id="btn-home" title="Home" onclick="location.href='../Home/home.html'">&#8962;</button>
                 <button class="nav-btn" id="btn-next" title="Próxima fase" onclick="location.href='../Fase_3/fase3.html'">&gt;</button>
-
             </div>
 
             <p id="info-fase-descricao">
-                <strong>Bem-vindo ao Sandbox de Física!</strong>
+                <strong>Sua missão:</strong> Dar ao personagem a aceleração necessária para vencer o loop.
             </p>
-            <p>Sua missão é dar ao personagem velocidade suficiente para vencer o loop. Para isso, você pode modificar o
-                objeto <code>jogo</code> no editor de código, que controla as regras do nosso universo.</p>
+            <p>
+                Use o editor para criar a propriedade <code>fatorAceleracao</code> no objeto <code>jogo</code>.
+            </p>
 
-            <h3>Ferramentas Disponíveis:</h3>
-            <ul>
-                <li><strong><code>jogo.fatorAceleracao</code></strong>: A propriedade mais importante! Controla o quão
-                    rápido a velocidade aumenta. Um valor maior significa mais aceleração.</li>
-                <li><strong><code>elementos.playerContainer</code></strong>: O personagem. Você pode ler a posição dele
-                    para criar lógicas condicionais (ex: <code>elementos.playerContainer.offsetLeft</code>).</li>
-            </ul>
+            <!-- Bloco da Dica permanece na esquerda, como uma ferramenta de ajuda direta -->
+            <div>
+                <button id="botao-dica">Ver Dica</button>
+                <p id="texto-dica" style="display:none;">
+                    Para definir a aceleração, escreva a seguinte linha no editor: <br>
+                    <code>jogo.fatorAceleracao = 0.8;</code> <br><br>
+                    Clique em "Tentar Novamente" para testar!
+                </p>
+            </div>
         </aside>
 
         <main class="conteudo-principal">
@@ -50,47 +52,38 @@
                     Velocidade: <span id="velocidade-atual-display">0</span> km/h <br>
                     Necessária: <span id="velocidade-necessaria-display">40</span> km/h
                 </div>
-
                 <div id="chao">
                     <img src="./imagem-level-2/Frame_1.png" class="tiles">
                 </div>
-
                 <div id="loop-container">
                     <img src="./imagem-level-2/loop1.png" class="loop-costas">
                     <img src="./imagem-level-2/loop2.png" class="loop-frente">
                 </div>
-
                 <img src="./imagem-level-2/placa.gif" class="bandeira">
-
                 <div id="player-container">
                     <img src="./imagem-level-2/playerT.gif" class="player" id="player">
                 </div>
-
                 <div class="vitoria-conteiner">
                     <h1 class="mensagemV">Você conseguiu!!</h1>
                     <a href="../Fase_3/fase3.html"><button class="Pfase">Próxima Fase</button></a>
                 </div>
-
                 <button id="tentar-novamente-btn" style="display: none;">Tentar Novamente</button>
             </div>
-
             <div id="meu-editor-codigo"></div>
         </main>
 
+        <!-- ABA DA DIREITA (Com mais informações) -->
         <aside class="aba-lateral-direita">
             <div>
                 <h2>Progresso</h2>
                 <h3>Tentativas Realizadas</h3>
                 <p>Número de Tentativas: <span id="tentativas-jogador">0</span></p>
             </div>
-
+            <!-- NOVA SEÇÃO "Como funciona?" adicionada aqui -->
             <div>
-                <button id="botao-dica">Ver Dica</button>
-                <p id="texto-dica" style="display:none;">
-                    A aceleração padrão (<code>0.05</code>) é muito baixa para vencer. Tente alterar a linha
-                    <code>jogo.fatorAceleracao = ...</code> no editor para um valor maior, como <code>0.8</code> ou
-                    <code>1.0</code>, e clique em "Tentar Novamente" para ver o que acontece!
-                </p>
+                <h3>Como funciona?</h3>
+                <p>O objeto <code>jogo</code> controla a física do nosso universo. Ele já existe e está esperando suas instruções.</p>
+                <p>Ao definir <code>jogo.fatorAceleracao</code>, você está dizendo ao motor do jogo qual a força que deve impulsionar o personagem. Um valor maior resulta em um ganho de velocidade mais rápido.</p>
             </div>
         </aside>
     </div>

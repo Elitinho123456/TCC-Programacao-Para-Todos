@@ -1,236 +1,145 @@
 @import url('https://fonts.googleapis.com/css2?family=Slabo+13px&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+/* Estilização Global */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body {
-    height: 100%;
-    font-family: "Slabo 13px", serif;
+    height: 100%; font-family: "Slabo 13px", serif;
     background: linear-gradient(90deg, rgb(30, 30, 30) 0%, rgb(15, 15, 15) 50%, rgb(30, 30, 30) 100%);
-    color: #f0f0f0;
-    display: flex;
-    flex-direction: column;
+    color: #f0f0f0; display: flex; flex-direction: column;
 }
 
 .container-geral {
-    display: flex;
-    flex-grow: 1;
-    width: 100%;
-    padding: 20px;
-    gap: 25px;
+    display: flex; flex-grow: 1; width: 100%;
+    padding: 20px; gap: 25px; box-sizing: border-box;
     align-items: flex-start;
 }
 
+/* Barras Laterais */
 .aba-lateral-esquerda, .aba-lateral-direita {
-    background-color: rgba(40, 40, 40, 0.9);
-    padding: 15px;
-    border-radius: 8px;
-    width: 400px;
-    flex-shrink: 0;
-    height: 95%;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
-    position: relative; /* Necessário para posicionar o ícone de menu */
+    background-color: rgba(40, 40, 40, 0.9); padding: 20px;
+    border-radius: 8px; width: 400px; flex-shrink: 0;
+    height: 100%; display: flex; flex-direction: column;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4);
+    word-wrap: break-word;
 }
 
 .aba-lateral-direita {
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 25px;
 }
 
+/* Títulos H2 (idêntico à Fase 1) */
 .aba-lateral-esquerda h2, .aba-lateral-direita h2 {
-    font-size: 1.3em;
-    color: #FFD700;
-    text-align: center;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #555;
-    font-family: "Press Start 2P", cursive;
+    font-size: 1.3em; color: #FFD700; text-align: center;
+    margin-top: 0; margin-bottom: 15px; padding-bottom: 10px;
+    border-bottom: 1px solid #555; font-family: "Press Start 2P", cursive;
 }
 
+/* Título Principal (idêntico à Fase 1) */
+#titulo-jogo { 
+    font-size: 1.5em; text-shadow: 2px 2px 0 #000; 
+}
+
+/* Títulos H3 (idêntico à Fase 1) */
 .aba-lateral-esquerda h3, .aba-lateral-direita h3 {
-    border-bottom: 1px solid #444;
-    padding-bottom: 5px;
-    font-size: 1.2em;
-    color: #ccc;
+    margin-top: 0; border-bottom: 1px solid #444; padding-bottom: 5px;
+    font-size: 2em; color: #ccc; margin-bottom: 10px;
+}
+
+/* Parágrafos (idêntico à Fase 1) */
+.aba-lateral-esquerda p, .aba-lateral-direita p {
+    font-size: 1.3em; line-height: 1.5; color: #ddd;
     margin-bottom: 10px;
 }
 
-.aba-lateral-esquerda p, .aba-lateral-esquerda ul, .aba-lateral-direita p {
-    font-size: 1.1em;
-    line-height: 1.5;
-    margin-bottom: 15px;
-    color: #ddd;
-}
-
-.aba-lateral-esquerda ul {
-    padding-left: 20px;
-    list-style: square;
-    margin-bottom: 15px;
-}
-
-/* --- BOTÕES --- */
-
-/* Botão de Dica */
+/* Botões (idêntico à Fase 1) */
 button#botao-dica {
-    background-color: #0300c0;
-    color: white;
-    border: 1px solid #ffffff;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 10px;
-    font-size: 1em;
-    width: 100%;
-    font-family: "Slabo 13px", serif;
+    background-color: #c00000; color: white; border: 1px solid #ff4d4d;
+    padding: 10px 15px; font-family: "Slabo 13px", serif;
+    cursor: pointer; border-radius: 5px; margin-top: 10px;
+    font-size: 1em; display: block; width: 100%;
+    text-align: center; box-sizing: border-box;
 }
-button#botao-dica:hover {
-    background-color: #e52521;
-}
+button#botao-dica:hover { background-color: #e52521; border-color: #fff; }
+
 p#texto-dica {
-    background-color: rgba(0, 0, 0, 0.3);
-    padding: 10px;
-    border-radius: 4px;
-    margin-top: 10px;
-    font-size: 1em;
+    background-color: rgba(0, 0, 0, 0.3); padding: 10px;
+    border-radius: 4px; margin-top: 10px; font-size: 1em;
 }
 
-/* Ícone de Menu */
-#botao-menu-icon {
-    position: absolute;
-    top: 45px;
-    right: 15px;
-    font-size: 2em;
-    text-decoration: none;
-    color: white;
-    transition: transform 0.2s;
-}
-#botao-menu-icon:hover {
-    transform: scale(1.2);
-}
-
-/* Botões de Navegação de Fase (Lateral Esquerda) */
-.botoes-navegacao-fase {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-.nav-fase-button {
-    flex: 1;
-    padding: 10px;
-    font-family: "Slabo 13px", serif;
-    font-size: 0.9em;
-    border-radius: 5px;
-    border: 1px solid #fff;
-    cursor: pointer;
-}
-#fase-anterior {
-    background-color: #c0392b;
-    color: white;
-}
-#proxima-fase {
-    background-color: #27ae60;
-    color: white;
-}
-
-/* Botão de Tentar Novamente (Central) */
-#tentar-novamente-btn {
-    display: none; /* Inicia oculto */
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    padding: 15px 30px;
-    font-size: 24px;
-    color: white;
-    border: 5px solid white;
-    border-radius: 10px;
-    text-shadow: 3px 3px 0 #000;
-    cursor: pointer;
-    z-index: 100;
-    font-family: "Press Start 2P", cursive;
-    background-color: #e52521;
-    box-shadow: 0 0 0 5px #e52521, 0 0 0 10px white, 0 0 0 15px #e52521;
-}
-
-/* --- CONTEÚDO PRINCIPAL --- */
-
+/* Conteúdo Principal */
 .conteudo-principal {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+    flex-grow: 1; display: flex; flex-direction: column;
+    align-items: center; gap: 20px; min-width: 320px;
 }
 
 .box {
-    width: 100%;
-    max-width: 900px;
-    height: 480px;
-    border: 2px solid white;
-    position: relative;
-    background: linear-gradient(#3a9efd, #ffffff);
-    overflow: hidden;
+    width: 100%; max-width: 900px; height: 480px;
+    border: 2px solid white; position: relative;
+    background: linear-gradient(#3a9efd, #ffffff); overflow: hidden;
 }
 
 #meu-editor-codigo {
-    width: 100%;
-    max-width: 900px;
-    height: 300px;
-    border: 1px solid white;
+    width: 100%; max-width: 900px;
+    height: 300px; border: 1px solid white;
 }
 
-#meu-editor-codigo .cm-comment {
-    color: #ebedf7; /* Estilo para comentários */
+.CodeMirror { 
+    height: 100% !important; font-family: monospace; font-size: 16px; 
 }
 
-.CodeMirror {
-    height: 100% !important;
-    font-family: monospace;
-    font-size: 14px;
-}
-
-/* --- ELEMENTOS DO JOGO --- */
-
+/* Elementos do Jogo (Sem alterações) */
 #velocidade-info {
-    position: absolute; top: 10px; left: 10px;
-    background-color: rgba(0, 0, 0, 0.6); color: white;
-    padding: 8px; border-radius: 5px;
+    position: absolute; top: 10px; left: 10px; background-color: rgba(0, 0, 0, 0.6);
+    color: white; padding: 8px; border-radius: 5px;
     font-family: "Press Start 2P", cursive; font-size: 12px;
     line-height: 1.4; z-index: 10; border: 1px solid #fff;
 }
-.tiles {
-    position: absolute; bottom: 0; left: 0;
-    width: 100%; height: 80px;
-}
-#player-container {
-    position: absolute; bottom: 72px; left: -10%;
-    width: 100px; height: 100px;
-    z-index: 2; transition: animation-duration 0.5s ease;
-}
-.player {
-    width: 80px; height: 100px;
-    position: absolute; bottom: 0;
-}
-.bandeira {
-    position: absolute; width: 100px; height: auto;
-    right: 5%; bottom: 72px; z-index: 1;
-}
-.loop-costas {
-    position: absolute; height: 280px; width: auto;
-    left: calc(50% - 140px); transform: translateX(-50%);
-    bottom: 5px; z-index: 1;
-}
-.loop-frente {
-    position: absolute; height: 280px; width: auto;
-    left: calc(50% - 10px); transform: translateX(-50%);
-    bottom: 5px; z-index: 3;
+.tiles { position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; }
+#player-container { position: absolute; bottom: 72px; left: -10%; width: 100px; height: 100px; z-index: 2; }
+.player { width: 80px; height: 100px; position: absolute; bottom: 0; }
+.bandeira { position: absolute; width: 100px; height: auto; right: 5%; bottom: 72px; z-index: 1; }
+.loop-costas { position: absolute; height: 280px; width: auto; left: calc(50% - 140px); transform: translateX(-50%); bottom: 5px; z-index: 1; }
+.loop-frente { position: absolute; height: 280px; width: auto; left: calc(50% - 10px); transform: translateX(-50%); bottom: 5px; z-index: 3; }
+
+/* Botão "Tentar Novamente" */
+#tentar-novamente-btn {
+    display: none; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); padding: 15px 30px;
+    font-size: 24px; color: white; background-color: #e52521;
+    border: 5px solid white; border-radius: 10px;
+    box-shadow: 0 0 0 5px #e52521, 0 0 0 10px white, 0 0 0 15px #e52521;
+    text-shadow: 3px 3px 0 #000; cursor: pointer; z-index: 100;
+    font-family: "Press Start 2P", cursive;
 }
 
+/* Botões de Navegação */
+.botoesNav {
+    display: flex; justify-content: space-around; align-items: center;
+    width: 100%; margin: 15px 0;
+    padding: 10px 0; background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+.nav-btn {
+    background-color: #2a2a2a; color: #FFD700; border: 2px solid #FFD700;
+    border-radius: 50%; width: 55px; height: 55px; font-size: 26px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s ease-in-out; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+    text-decoration: none;
+}
+.nav-btn:hover:not(:disabled) {
+    background-color: #FFD700; color: #2a2a2a; transform: translateY(-4px) scale(1.1);
+    box-shadow: 0px 6px 12px rgba(255, 215, 0, 0.3);
+}
+.nav-btn:active:not(:disabled) { transform: translateY(1px) scale(1.05); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); }
+.nav-btn:disabled { background-color: #444; color: #888; border-color: #666; cursor: not-allowed; opacity: 0.7; }
+
+/* Pop-up de Vitória */
 .vitoria-conteiner {
-    display: none; position: absolute;
-    top: 50%; left: 50%; transform: translate(-50%, -50%);
-    padding: 30px; background-color: rgba(0, 0, 0, 0.75);
+    display: none; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); padding: 30px; background-color: rgba(0, 0, 0, 0.75);
     border-radius: 15px; text-align: center; z-index: 101;
 }
 .mensagemV {
@@ -240,133 +149,17 @@ p#texto-dica {
 .Pfase {
     padding: 15px 30px; font-size: 18px; color: white;
     background-color: #4caf50; border: 5px solid white;
-    border-radius: 10px; cursor: pointer;
-    font-family: "Press Start 2P", cursive;
+    border-radius: 10px; cursor: pointer; font-family: "Press Start 2P", cursive;
 }
+.Pfase:hover { background-color: #45a049; transform: scale(1.05); }
 
-/* Estilização do Rodapé */
+/* Rodapé */
 footer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    height: 50px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    background-color: #333;
-    border-top: 2px solid #FFD700;
-    width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; height: 50px; padding-top: 5px; padding-bottom: 5px;
+    background-color: #333; border-top: 2px solid #FFD700; width: 100%;
 }
-
-.footer-logo-ifms {
-    height: 35px;
-    width: 35px;
-    margin-right: 15px;
-    background-color: #4d4d4d;
-    padding: 3px;
-    border-radius: 5px;
-}
-
-footer p {
-    margin: 0;
-}
-
-footer a {
-    color: #c00000;
-    /* Cor verde para os links */
-    text-decoration: none;
-    font-weight: bold;
-}
-
-footer a:hover {
-    text-decoration: underline;
-}
-
-/* Container que agrupa os botões */
-.botoesNav {
-    display: flex;
-    /* Usa Flexbox para alinhar os botões facilmente */
-    justify-content: space-around;
-    /* Distribui os botões com espaço igual ao redor */
-    align-items: center;
-    /* Alinha os botões verticalmente ao centro */
-    width: 100%;
-    /* Garante que o container ocupe toda a largura da barra lateral */
-    margin: 25px 0;
-    /* Adiciona um espaço vertical para separar dos outros elementos */
-    padding: 10px 0;
-    /* Adiciona um preenchimento interno */
-    background-color: rgba(0, 0, 0, 0.2);
-    /* Fundo sutil para destacar a área */
-    border-radius: 10px;
-    /* Bordas arredondadas no container */
-}
-
-/* Estilo geral para cada botão de navegação */
-.nav-btn {
-    background-color: #2a2a2a;
-    /* Cor de fundo escura */
-    color: #FFD700;
-    /* Cor do ícone (amarelo do tema) */
-    border: 2px solid #FFD700;
-    /* Borda com a cor de destaque */
-    border-radius: 50%;
-    /* Deixa os botões perfeitamente redondos */
-    width: 55px;
-    /* Largura fixa */
-    height: 55px;
-    /* Altura fixa */
-    font-size: 26px;
-    /* Tamanho do ícone/texto dentro do botão */
-    cursor: pointer;
-    /* Mostra o cursor de "mãozinha" */
-    display: flex;
-    /* Necessário para centralizar o conteúdo com flexbox */
-    align-items: center;
-    /* Centraliza verticalmente */
-    justify-content: center;
-    /* Centraliza horizontalmente */
-    transition: all 0.3s ease-in-out;
-    /* Transição suave para todas as propriedades */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
-    /* Sombra para dar profundidade */
-    text-decoration: none;
-    /* Remove sublinhado de links */
-}
-
-/* Efeito ao passar o mouse sobre o botão (desde que não esteja desabilitado) */
-.nav-btn:hover:not(:disabled) {
-    background-color: #FFD700;
-    /* Inverte as cores: fundo amarelo */
-    color: #2a2a2a;
-    /* Cor do ícone escura */
-    transform: translateY(-4px) scale(1.1);
-    /* Efeito de flutuar e aumentar de tamanho */
-    box-shadow: 0px 6px 12px rgba(255, 215, 0, 0.3);
-    /* Sombra amarela para efeito de "brilho" */
-}
-
-/* Efeito ao clicar no botão (desde que não esteja desabilitado) */
-.nav-btn:active:not(:disabled) {
-    transform: translateY(1px) scale(1.05);
-    /* Simula o botão sendo pressionado */
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
-    /* Diminui a sombra ao ser pressionado */
-}
-
-/* Estilo para o botão quando ele está desabilitado */
-.nav-btn:disabled {
-    background-color: #444;
-    /* Fundo acinzentado */
-    color: #888;
-    /* Ícone acinzentado e sem vida */
-    border-color: #666;
-    /* Borda acinzentada */
-    cursor: not-allowed;
-    /* Cursor que indica que não é clicável */
-    opacity: 0.7;
-    /* Deixa o botão um pouco transparente */
-}
-
-
-@keyframes player-continue-animation { to { left: 110%; } }
+.footer-logo-ifms { height: 35px; width: 35px; margin-right: 15px; background-color: #4d4d4d; padding: 3px; border-radius: 5px; }
+footer p { margin: 0; }
+footer a { color: #c00000; text-decoration: none; font-weight: bold; }
+footer a:hover { text-decoration: underline; }

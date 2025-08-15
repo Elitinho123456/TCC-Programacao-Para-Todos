@@ -3,25 +3,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============= Editor de Codigo =============
     const code = document.getElementById('meu-editor-codigo');
     const editor = CodeMirror(code, {
-        value: `// Bem-vindo ao sandbox!
-// Você tem acesso a um objeto chamado 'jogo'.
-// Mude a propriedade 'fatorAceleracao' para vencer.
+        // ===================================================================
+        // AQUI ESTÁ A MUDANÇA: O NOVO CÓDIGO INICIAL PARA O USUÁRIO
+        // ===================================================================
+        value: `// Pense no objeto 'jogo' como o painel de controle da física.
+// Sua missão é adicionar uma configuração para a aceleração.
 
-// O objetivo é ter velocidade >= 40 ao chegar no loop.
-// A velocidade atual é mostrada no canto superior esquerdo.
+// Para adicionar ou modificar uma configuração, usamos a sintaxe:
+// nomeDoObjeto.nomeDaPropriedade = valor;
 
-// Exemplo básico:
-//jogo.fatorAceleracao = 0.08;
+// Por exemplo, se quiséssemos registrar o nome do piloto, faríamos:
+// jogo.nomeDoPiloto = "Sonic"; // <-- Isso é um exemplo da SINTAXE.
 
-// Seja criativo! Você pode usar 'if', criar funções, etc.
-// O que acontece se a aceleração mudar no meio do caminho?
-/*
-if (elementos.playerContainer.offsetLeft > 300) {
-  // Nitro!
-  jogo.fatorAceleracao = 2.0; 
-}
-*/
+// Agora é sua vez!
+// Use a propriedade 'fatorAceleracao' no objeto 'jogo'
+// e dê a ela um valor forte, como 0.8 ou 1.0, para vencer o loop!
+
 `,
+        // ===================================================================
+        // FIM DA MODIFICAÇÃO
+        // ===================================================================
         mode: "javascript",
         theme: "dracula",
         lineNumbers: true
@@ -46,7 +47,6 @@ if (elementos.playerContainer.offsetLeft > 300) {
     let posicaoX = 0;
     let velocidadeAtual = 0;
 
-    // Objeto que será compartilhado com o sandbox do usuário!
     const jogo = {
         fatorAceleracao: 0.05
     };
@@ -143,19 +143,11 @@ if (elementos.playerContainer.offsetLeft > 300) {
             return;
         }
 
-        // 1. Aceleração: Aumenta a velocidade baseada no fator DENTRO DO OBJETO JOGO.
         velocidadeAtual += jogo.fatorAceleracao;
-
-        // 2. Movimento: Atualiza a posição baseada na velocidade atual.
         posicaoX += velocidadeAtual * 0.1;
-
-        // 3. Aplica a nova posição ao elemento.
         playerContainer.style.left = `${posicaoX}px`;
-
-        // 4. Atualiza o display.
         velocidadeAtualDisplay.textContent = Math.floor(velocidadeAtual);
 
-        // 5. Verifica se chegou no trigger do loop.
         const playerFront = playerContainer.offsetLeft + playerContainer.offsetWidth;
         const loopStart = loopTrigger.offsetLeft;
         if (!loopHasBeenTriggered && playerFront >= (loopStart + 65)) {
@@ -163,18 +155,14 @@ if (elementos.playerContainer.offsetLeft > 300) {
             fazerLoop();
         }
 
-        // 6. Verifica a condição de vitória (se passou do loop).
         const playerRect = playerContainer.getBoundingClientRect();
         const bandeiraRect = bandeira.getBoundingClientRect();
         if (playerRect.right >= bandeiraRect.left) {
             vitoria();
         }
 
-        // Continua o loop no próximo quadro.
         gameLoopId = requestAnimationFrame(gameLoop);
     }
-
-    // ============= ESTADOS DO JOGO =============
 
     function gameOver() {
         if (isGameOver) return;
@@ -220,45 +208,30 @@ if (elementos.playerContainer.offsetLeft > 300) {
         gameLoopId = requestAnimationFrame(gameLoop);
     }
 
-    // ============= EXECUTOR DO CÓDIGO DO USUÁRIO =============
-
     function executarCodigo() {
-        // Reseta o fator de aceleração para o padrão antes de cada execução.
-        // Isso garante que, se o usuário apagar a linha, o jogo ainda funcione.
         jogo.fatorAceleracao = 0.05;
-
-        // Coloca o jogador no início, pronto para a nova tentativa.
         resetPlayer();
 
         try {
             const codigoDoUsuario = editor.getValue();
             console.log("Executando código do sandbox...");
 
-            // Prepara as "ferramentas" que o usuário poderá usar.
             const elementos = {
                 playerContainer: playerContainer,
                 bandeira: bandeira
             };
-            const acoes = {
-                // Futuramente, você pode adicionar ações aqui.
-            };
+            const acoes = {};
 
-            // Cria a função sandboxed, passando nossos objetos como argumentos.
             const funcaoDoUsuario = new Function('jogo', 'elementos', 'acoes', `'use strict';\n${codigoDoUsuario}`);
-
-            // Executa a função do usuário, entregando os objetos a ela.
             funcaoDoUsuario(jogo, elementos, acoes);
 
             console.log("Código executado! Novo fator de aceleração inicial:", jogo.fatorAceleracao);
 
         } catch (e) {
             alert("Ocorreu um erro no seu código:\n" + e.message);
-            // Se o código do usuário quebrar, paramos o jogo para evitar comportamento estranho.
             gameOver();
         }
     }
-
-    // ============= EVENT LISTENERS E INICIALIZAÇÃO =============
 
     tentarNovamenteBtn.addEventListener('click', executarCodigo);
 
@@ -266,7 +239,7 @@ if (elementos.playerContainer.offsetLeft > 300) {
         botaoDica.addEventListener('click', () => {
             const isHidden = textoDica.style.display === 'none' || textoDica.style.display === '';
             textoDica.style.display = isHidden ? 'block' : 'none';
-            botaoDica.textContent = isHidden ? 'Esconder Dica' : 'Ver Dica';
+            botaoDica.textContent = ishidden ? 'Esconder Dica' : 'Ver Dica';
         });
     }
 
@@ -278,7 +251,6 @@ if (elementos.playerContainer.offsetLeft > 300) {
         if (tentativasDisplay) tentativasDisplay.textContent = tentativas;
     }
 
-    // Inicia o jogo pela primeira vez quando a página carrega.
     resetPlayer();
     atualizaTentativas();
 });
