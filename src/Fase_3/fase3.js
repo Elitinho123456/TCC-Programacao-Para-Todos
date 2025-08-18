@@ -69,6 +69,29 @@ document.addEventListener('DOMContentLoaded', () => {
             snakeElement.style.gridRowStart = segment.y;
             snakeElement.style.gridColumnStart = segment.x;
             snakeElement.classList.add(index === 0 ? 'snake-head' : 'snake-body');
+
+            // --- INÍCIO DA LÓGICA DE ROTAÇÃO ---
+            // Aplica a rotação apenas na cabeça da cobra (o primeiro segmento)
+            if (index === 0) {
+                let rotation = '0deg';
+
+                switch (nextDirection) {
+                    case 'up':
+                        rotation = '180deg';
+                        break;
+                    case 'down':
+                        rotation = '0deg';
+                        break;
+                    case 'left':
+                        rotation = '90deg';
+                        break;
+                    case 'right':
+                        rotation = '-90deg';
+                        break;
+                }
+                snakeElement.style.transform = `rotate(${rotation}) scale(4)`;
+            }
+
             box.appendChild(snakeElement);
         });
 
@@ -225,12 +248,27 @@ document.addEventListener('DOMContentLoaded', () => {
             display: grid;
             grid-template-rows: repeat(${Math.floor(box.clientHeight / gridSize)}, 1fr);
             grid-template-columns: repeat(${Math.floor(box.clientWidth / gridSize)}, 1fr);
-            background-color: #1e4d2b;
+            background-color: #08525fff; /* Cor mais escura do tabuleiro */
+            background-image: linear-gradient(90deg, #487779ff 50%, transparent 50%), linear-gradient(0deg, #446974ff 50%, transparent 50%);
+            background-size: ${gridSize * 2}px ${gridSize * 2}px;
             border: 5px solid #0c2412;
         }
-        .snake-head { background-color: #FFD700; border-radius: 5px; z-index: 2;}
+        .snake-head { 
+            background-image: url('./imagem-level-3/cobrinha.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 5px;
+            z-index: 2;
+        }
         .snake-body { background-color: #f0f0f0; border-radius: 3px; z-index: 1;}
-        .food { background-color: #e52521; border-radius: 50%; z-index: 1;}
+        .food { /* Cor de fundo para o caso de a imagem falhar */
+            background-color: red; 
+            background-image: url('./imagem-level-3/frutas.png');
+            background-size: contain; 
+            background-repeat: no-repeat;
+            border-radius: 50%; 
+            z-index: 2; }
     `;
     document.head.appendChild(style);
 
