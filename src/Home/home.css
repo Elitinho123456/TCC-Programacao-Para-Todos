@@ -103,7 +103,22 @@ main {
 .fases a:hover {
     transform: translateY(-5px);
     /* Efeito de elevação ao passar o mouse */
+    border-color: #af4c4c;
+}
+.fases a:hover {
+    transform: translateY(-5px);
+    /* Efeito de elevação ao passar o mouse */
+    border-color: #4c87af;
+}
+.fases a:hover {
+    transform: translateY(-5px);
+    /* Efeito de elevação ao passar o mouse */
     border-color: #4caf50;
+}
+.fases a:hover {
+    transform: translateY(-5px);
+    /* Efeito de elevação ao passar o mouse */
+    border-color: #f5f848;
 }
 
 /* Estilos para o texto ao passar o mouse */

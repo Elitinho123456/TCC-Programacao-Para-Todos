@@ -36,9 +36,58 @@ document.addEventListener('DOMContentLoaded', () => {
     const gridSize = 20;
     let snake, food, nextDirection, gameLoop, isGameOver;
     let tentativas = 0;
+    let easterEggAtivo = false; // <<< NOVO: Variável para controlar o Easter Egg
 
     // A lógica do usuário começa vazia. Será preenchida ao clicar no botão.
     let userLogicFunction = null;
+
+    // ============= LÓGICA DO EASTER EGG (CÓDIGO KONAMI) =============
+    const konamiCode = [
+        'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
+        'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
+        'b', 'a'
+    ];
+    let konamiIndex = 0;
+
+    function handleKonamiCode(e) {
+        if (e.key === konamiCode[konamiIndex]) {
+            konamiIndex++;
+            if (konamiIndex === konamiCode.length) {
+                ativarEasterEgg();
+                konamiIndex = 0; // Reseta para que possa ser ativado de novo
+            }
+        } else {
+            konamiIndex = 0;
+        }
+    }
+
+    function ativarEasterEgg() {
+        if (easterEggAtivo) return; // Não faz nada se já estiver ativo
+        easterEggAtivo = true;
+        alert('Modo Clássico Ativado!');
+        // Desativa a lógica do usuário e reseta o jogo no novo modo
+        userLogicFunction = null;
+        resetGameEIniciaLoop();
+    }
+
+    // Listener para o controle manual no modo Easter Egg
+    function handlePlayerControls(e) {
+        if (!easterEggAtivo || isGameOver) return;
+
+        const key = e.key;
+        if ((key === 'ArrowUp' || key.toLowerCase() === 'w') && nextDirection !== 'down') {
+            nextDirection = 'up';
+        } else if ((key === 'ArrowDown' || key.toLowerCase() === 's') && nextDirection !== 'up') {
+            nextDirection = 'down';
+        } else if ((key === 'ArrowLeft' || key.toLowerCase() === 'a') && nextDirection !== 'right') {
+            nextDirection = 'left';
+        } else if ((key === 'ArrowRight' || key.toLowerCase() === 'd') && nextDirection !== 'left') {
+            nextDirection = 'right';
+        }
+    }
+
+    document.addEventListener('keydown', handleKonamiCode);
+    document.addEventListener('keydown', handlePlayerControls);
 
     // ============= LÓGICA PRINCIPAL DO SNAKE =============
 
@@ -51,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         snake = [{ x: 5, y: 10 }];
         food = generateFoodPosition();
-        nextDirection = 'right'; // Direção padrão para o movimento automático
+        nextDirection = 'right';
         isGameOver = false;
 
         vitoriaContainer.style.display = 'none';
@@ -70,28 +119,16 @@ document.addEventListener('DOMContentLoaded', () => {
             snakeElement.style.gridColumnStart = segment.x;
             snakeElement.classList.add(index === 0 ? 'snake-head' : 'snake-body');
 
-            // --- INÍCIO DA LÓGICA DE ROTAÇÃO ---
-            // Aplica a rotação apenas na cabeça da cobra (o primeiro segmento)
             if (index === 0) {
                 let rotation = '0deg';
-
                 switch (nextDirection) {
-                    case 'up':
-                        rotation = '180deg';
-                        break;
-                    case 'down':
-                        rotation = '0deg';
-                        break;
-                    case 'left':
-                        rotation = '90deg';
-                        break;
-                    case 'right':
-                        rotation = '-90deg';
-                        break;
+                    case 'up': rotation = '180deg'; break;
+                    case 'down': rotation = '0deg'; break;
+                    case 'left': rotation = '90deg'; break;
+                    case 'right': rotation = '-90deg'; break;
                 }
                 snakeElement.style.transform = `rotate(${rotation}) scale(4)`;
             }
-
             box.appendChild(snakeElement);
         });
 
@@ -122,7 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (userLogicFunction) {
+        // A lógica do usuário só roda se o Easter Egg NÃO estiver ativo
+        if (userLogicFunction && !easterEggAtivo) {
             const elementos = {
                 serpente: { posicaoX: snake[0].x, posicaoY: snake[0].y },
                 comida: { posicaoX: food.x, posicaoY: food.y }
@@ -141,7 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
         }
-        // Se não houver função do usuário, a serpente continua se movendo na 'nextDirection' atual.
 
         const head = { ...snake[0] };
         switch (nextDirection) {
@@ -153,7 +190,12 @@ document.addEventListener('DOMContentLoaded', () => {
         snake.unshift(head);
 
         if (head.x === food.x && head.y === food.y) {
-            vitoria();
+            // Se o Easter Egg estiver ativo, o jogo continua. Senão, o jogador vence.
+            if (easterEggAtivo) {
+                food = generateFoodPosition(); // <<< NOVO: Apenas gera uma nova comida
+            } else {
+                vitoria();
+            }
         } else {
             snake.pop();
         }
@@ -169,13 +211,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const boardWidth = box.clientWidth / gridSize;
         const boardHeight = box.clientHeight / gridSize;
 
-        // Colisão com as paredes
         if (head.x <= 0 || head.x > boardWidth || head.y <= 0 || head.y > boardHeight) {
             gameOver();
             return;
         }
 
-        // Colisão com o próprio corpo
         for (let i = 1; i < snake.length; i++) {
             if (head.x === snake[i].x && head.y === snake[i].y) {
                 gameOver();
@@ -200,31 +240,30 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Vitória!");
     }
 
-    // Função que é chamada pelo botão "Tentar Novamente"
     function aplicarCodigoDoUsuario() {
+        easterEggAtivo = false; // Desativa o modo secreto ao tentar um novo código
         incrementarTentativas();
 
         const codigoDoUsuario = editor.getValue();
         try {
-            // Compila e armazena a lógica do usuário
             userLogicFunction = new Function('elementos', 'acoes', codigoDoUsuario);
         } catch (error) {
             alert("Erro de sintaxe no seu código: " + error.message);
-            userLogicFunction = null; // Se der erro, anula a lógica para não quebrar o jogo
+            userLogicFunction = null;
         }
 
-        // Reseta o jogo e inicia o movimento imediatamente com a nova lógica (ou a padrão)
         resetGameEIniciaLoop();
     }
 
     function resetGameEIniciaLoop() {
         resetGame();
-        gameLoop = setInterval(gameTick, 250); // Velocidade um pouco maior para mais desafio
+        // Se o modo secreto estiver ativo, a velocidade pode ser um pouco diferente
+        const interval = easterEggAtivo ? 150 : 250;
+        gameLoop = setInterval(gameTick, interval);
     }
 
     pauseButton.addEventListener('click', aplicarCodigoDoUsuario);
 
-    // ... (resto do código: botão de dica, sistema de tentativas, etc.)
     const botaoDica = document.getElementById('botao-dica');
     const textoDica = document.getElementById('texto-dica');
     if (botaoDica && textoDica) {
@@ -248,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
             display: grid;
             grid-template-rows: repeat(${Math.floor(box.clientHeight / gridSize)}, 1fr);
             grid-template-columns: repeat(${Math.floor(box.clientWidth / gridSize)}, 1fr);
-            background-color: #08525fff; /* Cor mais escura do tabuleiro */
+            background-color: #08525fff;
             background-image: linear-gradient(90deg, #487779ff 50%, transparent 50%), linear-gradient(0deg, #446974ff 50%, transparent 50%);
             background-size: ${gridSize * 2}px ${gridSize * 2}px;
             border: 5px solid #0c2412;
@@ -262,18 +301,17 @@ document.addEventListener('DOMContentLoaded', () => {
             z-index: 2;
         }
         .snake-body { background-color: #f0f0f0; border-radius: 3px; z-index: 1;}
-        .food { /* Cor de fundo para o caso de a imagem falhar */
+        .food {
             background-color: red; 
             background-image: url('./imagem-level-3/frutas.png');
             background-size: contain; 
             background-repeat: no-repeat;
             border-radius: 50%; 
-            z-index: 2; }
+            z-index: 2;
+        }
     `;
     document.head.appendChild(style);
 
-    // **INICIALIZAÇÃO AUTOMÁTICA**
-    // Inicia o jogo assim que a página é carregada.
     if (tentativasDisplay) tentativasDisplay.textContent = tentativas;
     resetGameEIniciaLoop();
 });

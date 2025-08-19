@@ -3,9 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============= Editor de Codigo =============
     const code = document.getElementById('meu-editor-codigo');
     const editor = CodeMirror(code, {
-        // ===================================================================
-        // AQUI ESTÁ A MUDANÇA: O NOVO CÓDIGO INICIAL PARA O USUÁRIO
-        // ===================================================================
         value: `// Pense no objeto 'jogo' como o painel de controle da física.
 // Sua missão é adicionar uma configuração para a aceleração.
 
@@ -20,9 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // e dê a ela um valor forte, como 0.8 ou 1.0, para vencer o loop!
 
 `,
-        // ===================================================================
-        // FIM DA MODIFICAÇÃO
-        // ===================================================================
         mode: "javascript",
         theme: "dracula",
         lineNumbers: true
@@ -117,10 +111,21 @@ document.addEventListener('DOMContentLoaded', () => {
         playerContainer.style.transform = '';
         playerContainer.style.opacity = 1;
 
+        // ===================================================================
+        // AQUI ESTÁ A MUDANÇA: A velocidade da animação agora é dinâmica
+        // ===================================================================
+        // A duração base da animação é reduzida pela velocidade atual do jogador.
+        // Math.max garante que a animação não fique rápida demais a ponto de não ser vista.
+        const baseDuration = 3000; // Duração em ms se a velocidade fosse 0
+        const speedFactor = 40;   // Fator de redução
+        const animationDuration = Math.max(800, baseDuration - (velocidadeAtual * speedFactor));
+        // ===================================================================
+
         if (velocidadeAtual >= velocidadeNecessaria) {
-            animarLoopCalculado(1500, true, onLoopSuccessEnd);
+            animarLoopCalculado(animationDuration, true, onLoopSuccessEnd);
         } else {
-            animarLoopCalculado(2000, false, onLoopFailEnd);
+            // A animação de falha também usa a velocidade, mas é um pouco mais longa
+            animarLoopCalculado(animationDuration + 500, false, onLoopFailEnd);
         }
     }
 
@@ -173,14 +178,32 @@ document.addEventListener('DOMContentLoaded', () => {
         tentarNovamenteBtn.style.display = 'block';
     }
 
+    // ===================================================================
+    // AQUI ESTÁ A MUDANÇA: Lógica de vitória aprimorada
+    // ===================================================================
     function vitoria() {
         if (isGameOver) return;
         isGameOver = true;
-        cancelAnimationFrame(gameLoopId);
-        playerContainer.style.left = `${bandeira.offsetLeft - playerContainer.offsetWidth / 2}px`;
+        cancelAnimationFrame(gameLoopId); // Para o game loop principal
+
         player.src = './imagem-level-2/playerT.gif';
         vitoriaBotao.style.display = 'block';
+
+        // Inicia uma nova animação para o jogador correr para fora da tela
+        function runOffScreenAnimation() {
+            // Continua movendo o jogador com a velocidade final que ele atingiu
+            posicaoX += velocidadeAtual * 0.1;
+            playerContainer.style.left = `${posicaoX}px`;
+
+            // Continua a animação até que o jogador saia da tela
+            if (playerContainer.offsetLeft < window.innerWidth + 100) {
+                requestAnimationFrame(runOffScreenAnimation);
+            }
+        }
+
+        runOffScreenAnimation(); // Inicia a animação de saída
     }
+    // ===================================================================
 
     function resetPlayer() {
         if (gameLoopId) cancelAnimationFrame(gameLoopId);
@@ -196,7 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
         player.src = './imagem-level-2/playerT.gif';
         playerContainer.style.transform = '';
         playerContainer.style.opacity = 1;
-        playerContainer.style.animation = 'none';
 
         tentarNovamenteBtn.style.display = 'none';
         vitoriaBotao.style.display = 'none';
@@ -209,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function executarCodigo() {
-        jogo.fatorAceleracao = 0.05;
+        jogo.fatorAceleracao = 0.05; // Reseta a aceleração para o padrão
         resetPlayer();
 
         try {
@@ -222,6 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             const acoes = {};
 
+            // Executa o código do usuário para modificar o objeto 'jogo'
             const funcaoDoUsuario = new Function('jogo', 'elementos', 'acoes', `'use strict';\n${codigoDoUsuario}`);
             funcaoDoUsuario(jogo, elementos, acoes);
 
@@ -239,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
         botaoDica.addEventListener('click', () => {
             const isHidden = textoDica.style.display === 'none' || textoDica.style.display === '';
             textoDica.style.display = isHidden ? 'block' : 'none';
-            botaoDica.textContent = ishidden ? 'Esconder Dica' : 'Ver Dica';
+            botaoDica.textContent = isHidden ? 'Esconder Dica' : 'Ver Dica';
         });
     }
 
@@ -251,6 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (tentativasDisplay) tentativasDisplay.textContent = tentativas;
     }
 
+    // Inicia o jogo
     resetPlayer();
     atualizaTentativas();
 });
