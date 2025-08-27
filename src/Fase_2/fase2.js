@@ -66,6 +66,31 @@ document.addEventListener('DOMContentLoaded', () => {
             let progresso = tempoDecorrido / duration;
             if (progresso >= 1) progresso = 1;
             let x_offset, y_offset, rot_offset;
+
+            if (jogo.fatorAceleracao >= 21) {
+                // Quanto maior o fator, mais rápido e mais longe ele sobe
+                gameOver();
+                const distancia = Math.min(jogo.fatorAceleracao * 15, 1200); 
+                const duracaoSubida = Math.max(300, 2000 - (jogo.fatorAceleracao * 20)); 
+
+                x_offset = 80;
+                y_offset = (-progresso * distancia);
+                rot_offset = progresso * -360;
+
+                playerContainer.style.transform = `translateX(${x_offset}px) translateY(${y_offset}px) rotate(${rot_offset}deg)`;
+
+                if (progresso < 1) {
+                    // Duração personalizada para a subida
+                    gameOver();
+                    setTimeout(() => requestAnimationFrame(passoDaAnimacao), duracaoSubida / 60);
+                } else {
+                    gameOver();
+                    playerContainer.style.opacity = 0;
+                    if (onComplete) onComplete(x_offset);
+                }
+                return;
+            }
+
             if (isSuccess) {
                 const anguloInicial = Math.PI / 1.85;
                 const anguloTotal = -1.85 * Math.PI;
@@ -182,26 +207,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // AQUI ESTÁ A MUDANÇA: Lógica de vitória aprimorada
     // ===================================================================
     function vitoria() {
+        // Impede vitória se fatorAceleracao for absurdo
+        if (jogo.fatorAceleracao >= 21) return; // ou o valor que você definir como "alto demais"
         if (isGameOver) return;
         isGameOver = true;
-        cancelAnimationFrame(gameLoopId); // Para o game loop principal
+        cancelAnimationFrame(gameLoopId);
 
         player.src = './imagem-level-2/playerT.gif';
         vitoriaBotao.style.display = 'block';
 
-        // Inicia uma nova animação para o jogador correr para fora da tela
         function runOffScreenAnimation() {
-            // Continua movendo o jogador com a velocidade final que ele atingiu
             posicaoX += velocidadeAtual * 0.1;
             playerContainer.style.left = `${posicaoX}px`;
-
-            // Continua a animação até que o jogador saia da tela
             if (playerContainer.offsetLeft < window.innerWidth + 100) {
                 requestAnimationFrame(runOffScreenAnimation);
             }
         }
-
-        runOffScreenAnimation(); // Inicia a animação de saída
+        runOffScreenAnimation();
     }
     // ===================================================================
 

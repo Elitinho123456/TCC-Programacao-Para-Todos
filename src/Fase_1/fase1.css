@@ -256,6 +256,17 @@ footer a:hover {
     height: 100px;
 }
 
+.personagem-lateral {
+    display: block;
+    margin: 25px auto 0 auto;
+    width: 125px;
+    height: auto;
+    border-radius: 5%;
+    background: radial-gradient(circle at 60% 40%, #c8505033 60%, #88303022 100%);
+    box-shadow: 0 0 25px 5px #c86c5044;
+    border: 4px solid #c85050;
+}
+
 .pause {
     display: none;
     position: absolute;

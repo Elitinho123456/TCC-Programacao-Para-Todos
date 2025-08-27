@@ -34,9 +34,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ============= VARIÁVEIS DE CONTROLE DO JOGO =============
     const gridSize = 20;
-    let snake, food, nextDirection, gameLoop, isGameOver;
+    let snake, nextDirection, gameLoop, isGameOver;
     let tentativas = 0;
-    let easterEggAtivo = false; // <<< NOVO: Variável para controlar o Easter Egg
+    let easterEggAtivo = false;
+
+    // SORTEIA A POSIÇÃO DA COMIDA APENAS UMA VEZ
+    let food;
+    function generateFoodPosition() {
+        let newFoodPosition;
+        const boardWidth = Math.floor(box.clientWidth / gridSize);
+        const boardHeight = Math.floor(box.clientHeight / gridSize);
+
+        do {
+            newFoodPosition = {
+                x: Math.floor(Math.random() * boardWidth) + 1,
+                y: Math.floor(Math.random() * boardHeight) + 1
+            };
+        } while (snake && snake.some(segment => segment.x === newFoodPosition.x && segment.y === newFoodPosition.y));
+        return newFoodPosition;
+    }
+    // Sorteia a posição da comida só uma vez ao carregar a página
+    food = generateFoodPosition();
 
     // A lógica do usuário começa vazia. Será preenchida ao clicar no botão.
     let userLogicFunction = null;
@@ -99,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
         box.appendChild(pauseButton);
 
         snake = [{ x: 5, y: 10 }];
-        food = generateFoodPosition();
+        // NÃO sorteie a comida novamente aqui!
         nextDirection = 'right';
         isGameOver = false;
 
@@ -127,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     case 'left': rotation = '90deg'; break;
                     case 'right': rotation = '-90deg'; break;
                 }
-                snakeElement.style.transform = `rotate(${rotation}) scale(4)`;
+                snakeElement.style.transform = `rotate(${rotation}) scale(2.5)`;
             }
             box.appendChild(snakeElement);
         });
@@ -137,20 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
         foodElement.style.gridColumnStart = food.x;
         foodElement.classList.add('food');
         box.appendChild(foodElement);
-    }
-
-    function generateFoodPosition() {
-        let newFoodPosition;
-        const boardWidth = Math.floor(box.clientWidth / gridSize);
-        const boardHeight = Math.floor(box.clientHeight / gridSize);
-
-        do {
-            newFoodPosition = {
-                x: Math.floor(Math.random() * boardWidth) + 1,
-                y: Math.floor(Math.random() * boardHeight) + 1
-            };
-        } while (snake && snake.some(segment => segment.x === newFoodPosition.x && segment.y === newFoodPosition.y));
-        return newFoodPosition;
     }
 
     function gameTick() {
@@ -190,12 +194,13 @@ document.addEventListener('DOMContentLoaded', () => {
         snake.unshift(head);
 
         if (head.x === food.x && head.y === food.y) {
-            // Se o Easter Egg estiver ativo, o jogo continua. Senão, o jogador vence.
-            if (easterEggAtivo) {
-                food = generateFoodPosition(); // <<< NOVO: Apenas gera uma nova comida
-            } else {
-                vitoria();
-            }
+            // NÃO gere nova posição para a comida!
+            // if (easterEggAtivo) {
+            //     food = generateFoodPosition(); // REMOVA OU COMENTE ESTA LINHA
+            // } else {
+            //     vitoria();
+            // }
+            vitoria();
         } else {
             snake.pop();
         }
@@ -228,7 +233,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isGameOver) return;
         isGameOver = true;
         clearInterval(gameLoop);
-        incrementarTentativas();
         pauseButton.style.display = 'block';
         console.log('Game Over');
     }
