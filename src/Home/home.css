@@ -99,26 +99,42 @@ main {
     align-items: center;
     text-align: center;
 }
+#fase1 .fase-detalhe {
+    background: linear-gradient(135deg, #0099ff 60%, #bbbaff 100%);
+    border-color: #ff0000;
+}
+#fase2 .fase-detalhe {
+    background: linear-gradient(135deg, #fffb00 60%, #ffb3b3 100%);
+    border-color: #0099ff;
+}
+#fase3 .fase-detalhe {
+    background: linear-gradient(135deg, #135000 60%, #12922e 100%);
+    border-color: #00ff08;
+}
+#fase4 .fase-detalhe {
+    background: linear-gradient(135deg, #505200 60%, #77775e 100%);
+    border-color: #fbff00;
+}
 
-.fases a:hover {
+.fases #fase1:hover {
     transform: translateY(-5px);
     /* Efeito de elevação ao passar o mouse */
-    border-color: #af4c4c;
+    border-color: #ff0000;
 }
-.fases a:hover {
+.fases #fase2:hover {
     transform: translateY(-5px);
     /* Efeito de elevação ao passar o mouse */
-    border-color: #4c87af;
+    border-color: #0099ff;
 }
-.fases a:hover {
+.fases #fase3:hover {
     transform: translateY(-5px);
     /* Efeito de elevação ao passar o mouse */
-    border-color: #4caf50;
+    border-color: #00ff08;
 }
-.fases a:hover {
+.fases #fase4:hover {
     transform: translateY(-5px);
     /* Efeito de elevação ao passar o mouse */
-    border-color: #f5f848;
+    border-color: #fbff00;
 }
 
 /* Estilos para o texto ao passar o mouse */
@@ -161,7 +177,6 @@ main {
     /* Posição acima do container */
     left: 50%;
     transform: translateX(-50%);
-    background-color: #4caf50;
     border-radius: 50%;
     width: 30px;
     height: 30px;
@@ -170,6 +185,7 @@ main {
     justify-content: center;
     border: 2px solid #252525;
 }
+
 
 .fase-detalhe img {
     width: 20px;
