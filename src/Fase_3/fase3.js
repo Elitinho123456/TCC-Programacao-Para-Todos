@@ -15,9 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
 // - acoes.moverParaBaixo()
 
 // Exemplo:
-// if(comidaX = serpenteX) {
-// (oque você acha que a serpente deve fazer aqui)
-// }
+// Compara as posições da serpente e da comida para decidir o movimento
+//if (elementos.serpente.posicaoX < elementos.comida.posicaoX) {
+//    acoes.moverPara"Direção que você acha que a serpente deve tomar"();
+//}
 `,
         mode: "javascript",
         theme: "dracula",
@@ -39,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let easterEggAtivo = false;
 
     // SORTEIA A POSIÇÃO DA COMIDA APENAS UMA VEZ
-    let food;
     function generateFoodPosition() {
         let newFoodPosition;
         const boardWidth = Math.floor(box.clientWidth / gridSize);
@@ -47,14 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         do {
             newFoodPosition = {
-                x: Math.floor(Math.random() * boardWidth) + 1,
-                y: Math.floor(Math.random() * boardHeight) + 1
+                x: Math.floor(Math.random() * boardWidth),
+                y: Math.floor(Math.random() * boardHeight)
             };
-        } while (snake && snake.some(segment => segment.x === newFoodPosition.x && segment.y === newFoodPosition.y));
+        } while (snake && (snake.some(segment => segment.x === newFoodPosition.x && segment.y === newFoodPosition.y) || 
+                          newFoodPosition.y === snake[0].y));
         return newFoodPosition;
     }
-    // Sorteia a posição da comida só uma vez ao carregar a página
-    food = generateFoodPosition();
+    // A comida será gerada após a inicialização da serpente
+    let food;
 
     // A lógica do usuário começa vazia. Será preenchida ao clicar no botão.
     let userLogicFunction = null;
@@ -116,10 +117,14 @@ document.addEventListener('DOMContentLoaded', () => {
         box.appendChild(vitoriaContainer);
         box.appendChild(pauseButton);
 
-        snake = [{ x: 5, y: 10 }];
-        // NÃO sorteie a comida novamente aqui!
+        snake = [{ x: 4, y: 12 }];
         nextDirection = 'right';
         isGameOver = false;
+        
+        // Só gera a comida se ela ainda não existir (primeira vez)
+        if (!food) {
+            food = generateFoodPosition();
+        }
 
         vitoriaContainer.style.display = 'none';
         pauseButton.style.display = 'none';
@@ -165,9 +170,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // A lógica do usuário só roda se o Easter Egg NÃO estiver ativo
         if (userLogicFunction && !easterEggAtivo) {
+            const boardHeight = Math.floor(box.clientHeight / gridSize);
+            // Converte coordenadas de tela para coordenadas cartesianas (Y cresce para cima)
             const elementos = {
-                serpente: { posicaoX: snake[0].x, posicaoY: snake[0].y },
-                comida: { posicaoX: food.x, posicaoY: food.y }
+                serpente: { posicaoX: snake[0].x, posicaoY: boardHeight - 1 - snake[0].y },
+                comida: { posicaoX: food.x, posicaoY: boardHeight - 1 - food.y }
             };
             const acoes = {
                 moverParaCima: () => { if (nextDirection !== 'down') nextDirection = 'up'; },
@@ -194,12 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
         snake.unshift(head);
 
         if (head.x === food.x && head.y === food.y) {
-            // NÃO gere nova posição para a comida!
-            // if (easterEggAtivo) {
-            //     food = generateFoodPosition(); // REMOVA OU COMENTE ESTA LINHA
-            // } else {
-            //     vitoria();
-            // }
             vitoria();
         } else {
             snake.pop();
@@ -216,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const boardWidth = box.clientWidth / gridSize;
         const boardHeight = box.clientHeight / gridSize;
 
-        if (head.x <= 0 || head.x > boardWidth || head.y <= 0 || head.y > boardHeight) {
+        if (head.x < 0 || head.x >= boardWidth || head.y < 0 || head.y >= boardHeight) {
             gameOver();
             return;
         }
@@ -262,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function resetGameEIniciaLoop() {
         resetGame();
         // Se o modo secreto estiver ativo, a velocidade pode ser um pouco diferente
-        const interval = easterEggAtivo ? 150 : 250;
+        const interval = easterEggAtivo ? 150 : 150;
         gameLoop = setInterval(gameTick, interval);
     }
 

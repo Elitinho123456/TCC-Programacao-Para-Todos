@@ -119,7 +119,7 @@ body {
     border-radius: 5%;
     background: radial-gradient(circle at 60% 40%, #7fff7f0a 60%, #2e8b560c 100%);
     box-shadow: 0 0 25px 5px #7fff7f44;
-    border: 2px solid #2e8b57;
+    border: 4px solid #2e8b57;
 }
 
 p#texto-dica {

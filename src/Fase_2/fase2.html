@@ -29,18 +29,20 @@
             </div>
 
             <p id="info-fase-descricao">
-                <strong>Sua missão:</strong> Dar ao personagem a aceleração necessária para vencer o loop.
+                <strong>Sua missão:</strong> Configure a aceleração do Sonic para que ele alcance 100 km/h e complete o loop com sucesso!
             </p>
             <p>
-                Use o editor para criar a propriedade <code>fatorAceleracao</code> no objeto <code>jogo</code>.
+                O objeto <code>jogo</code> controla a física do mundo. Adicione a propriedade <code>fatorAceleracao</code> com um valor adequado para dar força suficiente ao personagem.
             </p>
 
             <!-- Bloco da Dica permanece na esquerda, como uma ferramenta de ajuda direta -->
             <div>
                 <button id="botao-dica">Ver Dica</button>
                 <p id="texto-dica" style="display:none;">
-                    Para definir a aceleração, escreva a seguinte linha no editor: <br>
-                    <code>jogo.fatorAceleracao = 0.8;</code> <br><br>
+                    <strong>Dica:</strong> Você precisa adicionar uma propriedade ao objeto <code>jogo</code>.<br><br>
+                    • Use a sintaxe: <code>nomeDoObjeto.propriedade = valor;</code><br>
+                    • A propriedade se chama <code>fatorAceleracao</code><br>
+                    • Experimente valores entre 5 e 15<br><br>
                     Clique em "Tentar Novamente" para testar!
                 </p>
             </div>
@@ -53,7 +55,7 @@
                 </div>
                 <div id="velocidade-info">
                     Velocidade: <span id="velocidade-atual-display">0</span> km/h <br>
-                    Necessária: <span id="velocidade-necessaria-display">40</span> km/h
+                    Necessária: <span id="velocidade-necessaria-display"></span> km/h
                 </div>
                 <div id="chao">
                     <img src="./imagem-level-2/Frame_1.png" class="tiles">

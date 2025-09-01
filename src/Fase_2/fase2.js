@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Agora é sua vez!
 // Use a propriedade 'fatorAceleracao' no objeto 'jogo'
-// e dê a ela um valor forte, como 0.8 ou 1.0, para vencer o loop!
+// e dê a ela um valor forte, como 8.0 ou 10.0, para vencer o loop!
 
 `,
         mode: "javascript",
@@ -42,14 +42,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let velocidadeAtual = 0;
 
     const jogo = {
-        fatorAceleracao: 0.05
+        fatorAceleracao: 0.5
     };
 
     let isGameOver = false;
     let isLooping = false;
     let loopHasBeenTriggered = false;
     let tentativas = 0;
-    const velocidadeNecessaria = 40;
+    const velocidadeNecessaria = 100;
 
     // ============= CONSTANTES DE ANIMAÇÃO =============
     const LOOP_RAIO_H = 40;
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         playerContainer.style.opacity = 1;
 
         // ===================================================================
-        // AQUI ESTÁ A MUDANÇA: A velocidade da animação agora é dinâmica
+        // A velocidade da animação agora é dinâmica
         // ===================================================================
         // A duração base da animação é reduzida pela velocidade atual do jogador.
         // Math.max garante que a animação não fique rápida demais a ponto de não ser vista.
@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function executarCodigo() {
-        jogo.fatorAceleracao = 0.05; // Reseta a aceleração para o padrão
+        jogo.fatorAceleracao = 0.5; // Reseta a aceleração para o padrão
         resetPlayer();
 
         try {

@@ -263,7 +263,7 @@ footer a:hover {
     height: auto;
     border-radius: 5%;
     background: radial-gradient(circle at 60% 40%, #c8505033 60%, #88303022 100%);
-    box-shadow: 0 0 25px 5px #c86c5044;
+    box-shadow: 0 0 25px 5px #c86c504d;
     border: 4px solid #c85050;
 }
 

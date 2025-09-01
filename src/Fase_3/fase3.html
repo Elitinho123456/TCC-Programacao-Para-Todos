@@ -34,19 +34,25 @@
             </div>
 
             <p id="info-fase-descricao">A serpente está com fome! Use a lógica de <strong>if / else if / else</strong>
-                para guiá-la até a comida. O seu código será executado a cada passo que a serpente der!</p>
-
+                para guiá-la até a comida. O seu código será executado a cada nova tentativa!</p>
             <ul>
+                <strong>OBJETOS DISPONÍVEIS:</strong>
                 <li><strong>Serpente:</strong> `elementos.serpente`</li>
                 <li><strong>Comida:</strong> `elementos.comida`</li>
             </ul>
-
-            <p>Compare `serpente.posicaoX` com `comida.posicaoX` e `serpente.posicaoY` com `comida.posicaoY` para
-                decidir qual ação tomar.</p>
+            <ul>
+                <strong>AÇÕES DISPONÍVEIS:</strong>
+                <li><strong>Serpente:</strong> `acoes.moverParaDireita()`</li>
+                <li><strong>Comida:</strong> `acoes.moverParaEsquerda()`</li>
+            </ul>
             <button id="botao-dica">Ver Dica</button>
-            <p id="texto-dica" style="display:none;">Se a posição X da serpente for menor que a da comida
-                (`serpente.posicaoX < comida.posicaoX`), significa que a comida está à direita. Nesse caso, você deve
-                    usar `acoes.moverParaDireita()`.</p>
+            <p id="texto-dica" style="display:none;">
+                <strong>Dica completa:</strong><br>
+                • Se `elementos.serpente.posicaoX < elementos.comida.posicaoX` → comida está à direita → `acoes.moverParaDireita()`<br>
+                • Se `elementos.serpente.posicaoX > elementos.comida.posicaoX` → comida está à esquerda → `acoes.moverParaEsquerda()`<br>
+                • Se `elementos.serpente.posicaoY < elementos.comida.posicaoY` → comida está acima → `acoes.moverParaCima()`<br>
+                • Se `elementos.serpente.posicaoY > elementos.comida.posicaoY` → comida está abaixo → `acoes.moverParaBaixo()`
+            </p>
         </aside>
 
         <main class="conteudo-principal">
@@ -69,8 +75,14 @@
             <p>Número de Tentativas: <span id="tentativas-jogador">0</span></p>
             <h3>Como funciona?</h3>
             <p>O seu código no editor decide o próximo movimento da serpente. A cada passo, seu script é consultado para
-                saber para onde ir. Use a lógica `if/else` para criar uma estratégia e capturar a comida sem bater nas
+                saber para onde ir. Use a lógica `if/else if/else` para criar uma estratégia e capturar a comida sem bater nas
                 paredes!
+            </p>
+            <h3>Estrutura Sugerida</h3>
+            <p style="font-size: 0.9em; color: #bbb;">
+                1. Compare posição X primeiro<br>
+                2. Se a comparação de X der certo, compare agora Y<br>
+                3. Use `else if` para cada condição
             </p>
             <img src="./imagem-level-3/cobrinha.png" class="personagem-lateral">
             

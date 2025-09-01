@@ -146,8 +146,7 @@ main {
     /* Ajuste a posição conforme necessário */
     left: 50%;
     transform: translateX(-50%);
-    background-color: #4caf50;
-    color: #fff;
+    color: #000000;
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 0.8em;
@@ -160,6 +159,19 @@ main {
     transition: opacity 0.3s ease, bottom 0.3s ease, visibility 0.3s ease;
     z-index: 10;
     /* Garante que fique acima de outros elementos */
+}
+
+.fases #fase1::after {
+    background-color: #ff000071;
+}
+.fases #fase2::after {
+    background-color: #0099ff71;
+}
+.fases #fase3::after {
+    background-color: #00ff088c;
+}
+.fases #fase4::after {
+    background-color: #fbff009a;
 }
 
 .fases a:hover::after {
