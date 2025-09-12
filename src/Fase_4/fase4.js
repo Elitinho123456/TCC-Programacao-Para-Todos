@@ -1,266 +1,257 @@
-document.addEventListener('DOMContentLoaded', () => {
-
-    // ===== CONFIGURAÇÃO INICIAL E ELEMENTOS DO HTML =====
+window.addEventListener('load', () => {
+    // ============= CONFIGURAÇÕES E SELEÇÃO DE ELEMENTOS =============
     const canvas = document.querySelector('canvas');
-    const c = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d');
     const box = document.getElementById('box');
-    const vitoriaContainer = document.querySelector('.vitoria-conteiner');
-    const pauseButton = document.querySelector('.pause');
-    const tentativasDisplay = document.getElementById('tentativas-jogador');
-    const pilulasDisplay = document.getElementById('pilulas-coletadas');
-    const editorContainer = document.getElementById('meu-editor-codigo');
+    const tentarNovamenteBtn = document.getElementById('tentar-novamente-btn');
 
-    const CODIGO_PADRAO_EDITOR = `// Complete a lógica de decisão abaixo!
-// Use as 'variáveis prontas' e os 'sensores'.
+    canvas.width = box.clientWidth;
+    canvas.height = box.clientHeight;
 
-if (irParaDireita && labirinto.podeMoverParaDireita()) {
-  // O que fazer aqui? Dica: acoes.mover...
-  
-} else if (irParaEsquerda && labirinto.podeMoverParaEsquerda()) {
-  
-} else if (irParaBaixo && labirinto.podeMoverParaBaixo()) {
-  
-} else if (irParaCima && labirinto.podeMoverParaCima()) {
-  
-}
-`;
+    const tileMapWidth = 15, tileMapHeight = 7;
+    const tileCountX = tileMapWidth, tileCountY = tileMapHeight;
 
-    const editor = CodeMirror(editorContainer, {
-        value: CODIGO_PADRAO_EDITOR,
-        mode: 'javascript',
-        theme: 'dracula',
-        lineNumbers: true
+    const map = [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1],
+        [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+        [1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    ];
+
+    let originalMapState = JSON.stringify(map);
+    let pacman, totalPilulas, pilulasColetadas, tentativas, gameLoopId, logicFunction;
+    let isUsingUserCode = false;
+
+    const editor = CodeMirror(document.getElementById('meu-editor-codigo'), {
+        value: `// O Pac-Man bateu na parede!
+    // Complete o código abaixo usando 'if' e 'else if'.
+    // Você tem acesso aos 'sensores' e pode chamar as 'acoes'.
+    
+    // Dica: Use 'sensores.pilulaMaisProxima.x > sensores.pacman.x'
+    // para verificar se a pílula está à direita.
+    
+    // Se a pílula está à direita do Pac-Man...
+    if (sensores.pilulaMaisProxima.x > sensores.pacman.x) {
+        acoes.moverParaDireita();
+    }
+    // Senão, se a pílula está à esquerda...
+    else if (????? ) {
+        // Chame a ação para mover para a esquerda!
+    }
+    
+    // Agora, adicione a lógica para CIMA e BAIXO!
+    // Lembre-se de usar 'else if' para conectar as condições.
+    `,
+        mode: "javascript",
+        theme: "dracula",
+        lineNumbers: true,
     });
 
-    // ===== CLASSES DO JOGO =====
-    class Boundary { constructor({ position }) { this.position = position; this.width = 40; this.height = 40; } draw() { c.fillStyle = '#0000FF'; c.fillRect(this.position.x, this.position.y, this.width, this.height); } }
-    class Character { constructor({ position, velocity, radius, color }) { this.position = position; this.velocity = velocity; this.radius = radius; this.color = color; } draw() { c.beginPath(); c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2); c.fillStyle = this.color; c.fill(); c.closePath(); } }
-    class Pellet { constructor({ position }) { this.position = position; this.radius = 3; } draw() { c.beginPath(); c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2); c.fillStyle = 'white'; c.fill(); c.closePath(); } }
+    const logicaPadrao = (sensores, acoes) => {
+        acoes.moverParaDireita();
+    };
 
-    // ===== VARIÁVEIS GLOBAIS DO JOGO =====
-    const map = [['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'], 
-                ['1', 'p', '.', '.', '.', '.', '.', '.', '.', '.', '.', '1'], 
-                ['1', '.', '1', '1', '.', '.', '.', '.', '1', '1', '.', '1'], 
-                ['1', '.', '.', '.', '.', '1', '1', '.', '.', '.', '.', '1'], 
-                ['1', '.', '1', '1', '.', '.', '.', '.', '1', '1', '.', '1'], 
-                ['1', '.', '.', '.', '.', '.', '.', '.', '.', '.', 'g', '1'], 
-                ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']];
-    let player, ghost, boundaries = [], pellets = [];
-    let gameIntervalId = null;
-    let isGameOver = false;
-    let userLogicFunction = null;
-    let tentativas = 0;
-    let playerSpeed = 40;
-    let ghostSpeed = 0.5; // Fantasma continua mais lento para ser justo
-    let primeiraExecucao = true;
-    let originalPelletsCount = 0;
-
-    // ===== FUNÇÕES DE CONTROLE DO JOGO =====
-
-    function inicializarJogo() {
-        if (gameIntervalId) { clearInterval(gameIntervalId); }
-        boundaries = []; pellets = []; isGameOver = false;
-        vitoriaContainer.style.display = 'none';
-        pauseButton.style.display = 'none';
-        canvas.width = box.clientWidth;
-        canvas.height = box.clientHeight;
-        const tileWidth = canvas.width / map[0].length;
-        const tileHeight = canvas.height / map.length;
-        Boundary.width = tileWidth;
-        Boundary.height = tileHeight;
-        playerSpeed = tileWidth;
-        ghostSpeed = tileWidth / 2;
-        const charRadius = Math.min(tileWidth, tileHeight) / 2 * 0.7;
-
-        map.forEach((row, i) => {
-            row.forEach((symbol, j) => {
-                const x = tileWidth * j + tileWidth / 2;
-                const y = tileHeight * i + tileHeight / 2;
-                switch (symbol) {
-                    case '1': boundaries.push(new Boundary({ position: { x: tileWidth * j, y: tileHeight * i } })); break;
-                    case '.': pellets.push(new Pellet({ position: { x, y } })); break;
-                    case 'p': player = new Character({ position: { x, y }, velocity: { x: 0, y: 0 }, radius: charRadius, color: 'yellow' }); break;
-                    case 'g': ghost = new Character({ position: { x, y }, velocity: { x: 0, y: 0 }, radius: charRadius, color: 'red' }); break;
-                }
-            });
-        });
-        originalPelletsCount = pellets.length;
-        pilulasDisplay.textContent = `0 / ${originalPelletsCount}`;
-        desenharEstadoInicial();
+    function inicializar() {
+        totalPilulas = map.flat().filter(c => c === 2).length;
+        tentarNovamenteBtn.addEventListener('click', executarCodigoDoUsuario);
+        tentativas = 0;
+        startNewRun();
     }
 
-    function gameStep() {
-        if (isGameOver) return;
-        executarLogicaUsuario();
-        moverJogador();
-        moverFantasma();
-        desenharCenario();
-        verificarFimDeJogo();
-    }
-
-    function moverJogador() {
-        const proximaPos = { ...player, position: { x: player.position.x + player.velocity.x, y: player.position.y + player.velocity.y } };
-        if (!colideComParede(proximaPos)) {
-            player.position.x += player.velocity.x;
-            player.position.y += player.velocity.y;
-        } else if (player.velocity.x !== 0 || player.velocity.y !== 0) {
-            gameOver("Você colidiu com uma parede!");
+    function startNewRun() {
+        resetGame();
+        logicFunction = isUsingUserCode ? compilarCodigoDoUsuario() : logicaPadrao;
+        if (logicFunction) {
+            gameLoopId = setInterval(gameTick, 150); // Um pouco mais lento para ver melhor
         }
     }
 
-    function moverFantasma() {
-        const sensoresFantasma = {
-            podeCima: () => !colideComParede({ ...ghost, position: { x: ghost.position.x, y: ghost.position.y - ghostSpeed } }),
-            podeBaixo: () => !colideComParede({ ...ghost, position: { x: ghost.position.x, y: ghost.position.y + ghostSpeed } }),
-            podeEsquerda: () => !colideComParede({ ...ghost, position: { x: ghost.position.x - ghostSpeed, y: ghost.position.y } }),
-            podeDireita: () => !colideComParede({ ...ghost, position: { x: ghost.position.x + ghostSpeed, y: ghost.position.y } })
-        };
+    function resetGame() {
+        if (gameLoopId) clearInterval(gameLoopId);
+        
+        const savedMap = JSON.parse(originalMapState);
+        map.forEach((row, i) => map[i] = [...savedMap[i]]);
 
-        // Calcula a próxima posição com base na velocidade ATUAL do fantasma.
-        const proximaPos = { ...ghost, position: { x: ghost.position.x + ghost.velocity.x, y: ghost.position.y + ghost.velocity.y } };
-
-        // O fantasma só muda de direção se estiver parado OU se for bater numa parede.
-        if (colideComParede(proximaPos) || (ghost.velocity.x === 0 && ghost.velocity.y === 0)) {
-
-            // 1. Cria uma lista de todos os movimentos possíveis.
-            const movimentosPossiveis = [];
-            if (sensoresFantasma.podeCima()) {
-                movimentosPossiveis.push({ x: 0, y: -ghostSpeed });
-            }
-            if (sensoresFantasma.podeBaixo()) {
-                movimentosPossiveis.push({ x: 0, y: ghostSpeed });
-            }
-            if (sensoresFantasma.podeEsquerda()) {
-                movimentosPossiveis.push({ x: -ghostSpeed, y: 0 });
-            }
-            if (sensoresFantasma.podeDireita()) {
-                movimentosPossiveis.push({ x: ghostSpeed, y: 0 });
-            }
-
-            // 2. Tenta não voltar pelo mesmo caminho, para parecer mais natural.
-            const movimentosSemReversao = movimentosPossiveis.filter(
-                move => move.x !== -ghost.velocity.x || move.y !== -ghost.velocity.y
-            );
-
-            // 3. Escolhe a lista de onde vai tirar o movimento aleatório.
-            //    (Prefere não voltar, mas se for a única opção, ele volta).
-            const listaDeEscolha = movimentosSemReversao.length > 0 ? movimentosSemReversao : movimentosPossiveis;
-
-            // 4. Escolhe uma nova velocidade aleatória da lista.
-            if (listaDeEscolha.length > 0) {
-                ghost.velocity = listaDeEscolha[Math.floor(Math.random() * listaDeEscolha.length)];
-            }
-        }
-
-        // Aplica o movimento (seja o novo ou o antigo).
-        ghost.position.x += ghost.velocity.x;
-        ghost.position.y += ghost.velocity.y;
+        pacman = { x: 1, y: 1, dir: 'right', nextDir: 'right' };
+        pilulasColetadas = 0;
+        
+        document.querySelector('.vitoria-conteiner').style.display = 'none';
+        tentarNovamenteBtn.style.display = 'none';
+        
+        atualizarUI();
+        draw();
     }
-
-    function desenharCenario() {
-        c.clearRect(0, 0, canvas.width, canvas.height);
-        boundaries.forEach(b => b.draw());
-        for (let i = pellets.length - 1; i >= 0; i--) {
-            const p = pellets[i];
-            p.draw();
-            if (Math.hypot(player.position.x - p.position.x, player.position.y - p.position.y) < player.radius + p.radius) {
-                pellets.splice(i, 1);
-                pilulasDisplay.textContent = `${originalPelletsCount - pellets.length} / ${originalPelletsCount}`;
-            }
-        }
-        player.draw();
-        ghost.draw();
-    }
-
-    function verificarFimDeJogo() {
-        if (pellets.length === 0) {
-            vitoria();
-        }
-        if (Math.hypot(player.position.x - ghost.position.x, player.position.y - ghost.position.y) < player.radius + ghost.radius) {
-            gameOver("O fantasma te pegou!");
-        }
-    }
-
-    function executarLogicaUsuario() {
-        if (!userLogicFunction) return;
-        player.velocity = { x: 0, y: 0 };
-        const labirinto = {
-            podeMoverParaCima: () => !colideComParede({ ...player, position: { x: player.position.x, y: player.position.y - playerSpeed } }),
-            podeMoverParaBaixo: () => !colideComParede({ ...player, position: { x: player.position.x, y: player.position.y + playerSpeed } }),
-            podeMoverParaEsquerda: () => !colideComParede({ ...player, position: { x: player.position.x - playerSpeed, y: player.position.y } }),
-            podeMoverParaDireita: () => !colideComParede({ ...player, position: { x: player.position.x + playerSpeed, y: player.position.y } })
-        };
-        const elementos = {
-            pacman: { posicaoX: player.position.x, posicaoY: player.position.y },
-            powerups: pellets.map(p => ({ posicaoX: p.position.x, posicaoY: p.position.y })),
-        };
-        const acoes = {
-            moverParaCima: () => player.velocity = { x: 0, y: -playerSpeed },
-            moverParaBaixo: () => player.velocity = { x: 0, y: playerSpeed },
-            moverParaEsquerda: () => player.velocity = { x: -playerSpeed, y: 0 },
-            moverParaDireita: () => player.velocity = { x: playerSpeed, y: 0 }
-        };
-        try {
-            userLogicFunction(elementos, acoes, labirinto);
-        } catch (e) {
-            console.error("Erro no código do usuário:", e);
-            gameOver("Erro no seu código!");
-        }
-    }
-
-    function aplicarCodigoDoUsuario() {
-        if (primeiraExecucao) {
-            tentativas = 0;
-            primeiraExecucao = false;
-        }
+    
+    function executarCodigoDoUsuario() {
         tentativas++;
-        tentativasDisplay.textContent = tentativas;
-
+        isUsingUserCode = true;
+        startNewRun();
+    }
+    
+    function compilarCodigoDoUsuario() {
         try {
             const codigoDoUsuario = editor.getValue();
-            let codigoFinal;
+            return new Function('sensores', 'acoes', codigoDoUsuario);
+        } catch (e) {
+            alert("Erro de sintaxe no seu código: " + e.message);
+            isUsingUserCode = false; // Volta ao modo padrão se o código quebrar.
+            return null; // Retorna nulo para indicar falha na compilação
+        }
+    }
 
-            if (codigoDoUsuario.trim() === CODIGO_PADRAO_EDITOR.trim()) {
-                codigoFinal = 'acoes.moverParaDireita();';
-            } else {
-                codigoFinal = `
-                    if (elementos.powerups.length === 0) { return; }
-                    const alvo = elementos.powerups[0];
-                    const pacman = elementos.pacman;
-                    const irParaDireita = alvo.posicaoX > pacman.posicaoX;
-                    const irParaEsquerda = alvo.posicaoX < pacman.posicaoX;
-                    const irParaBaixo = alvo.posicaoY > pacman.posicaoY;
-                    const irParaCima = alvo.posicaoY < pacman.posicaoY;
-                    ${codigoDoUsuario}
-                `;
-            }
-            userLogicFunction = new Function('elementos', 'acoes', 'labirinto', codigoFinal);
-        } catch (error) {
-            alert("Erro de sintaxe no seu código: " + error.message);
+    function gameOver() {
+        clearInterval(gameLoopId);
+        gameLoopId = null;
+        tentarNovamenteBtn.style.display = 'block';
+    }
+    
+    function vitoria() {
+        clearInterval(gameLoopId);
+        document.querySelector('.vitoria-conteiner').style.display = 'flex';
+    }
+
+    function gameTick() {
+        const sensores = criarSensores();
+        const acoes = {
+            moverParaCima:    () => { pacman.nextDir = 'up'; },
+            moverParaBaixo:   () => { pacman.nextDir = 'down'; },
+            moverParaEsquerda:() => { pacman.nextDir = 'left'; },
+            moverParaDireita: () => { pacman.nextDir = 'right'; },
+        };
+
+        try {
+            if (logicFunction) logicFunction(sensores, acoes);
+        } catch(e) {
+            gameOver("Erro ao executar sua lógica: " + e.message);
             return;
         }
-        inicializarJogo();
-        gameIntervalId = setInterval(gameStep, 200);
+        
+        moverPacman();
+
+        if (gameLoopId) {
+            coletarPilula();
+            draw();
+            if (pilulasColetadas >= totalPilulas) vitoria();
+        }
     }
 
-    function desenharEstadoInicial() { c.clearRect(0, 0, canvas.width, canvas.height); boundaries.forEach(b => b.draw()); pellets.forEach(p => p.draw()); player.draw(); ghost.draw(); }
-    function colideComParede(entidade) { return boundaries.some(parede => circleCollidesWithRectangle(entidade, parede)); }
-    function circleCollidesWithRectangle(circle, rectangle) { const closestX = Math.max(rectangle.position.x, Math.min(circle.position.x, rectangle.position.x + rectangle.width)); const closestY = Math.max(rectangle.position.y, Math.min(circle.position.y, rectangle.position.y + rectangle.height)); const dX = circle.position.x - closestX; const dY = circle.position.y - closestY; return (dX * dX + dY * dY) < (circle.radius * circle.radius); }
-    function gameOver(message) { if (isGameOver) return; isGameOver = true; clearInterval(gameIntervalId); pauseButton.textContent = 'Tentar Novamente'; pauseButton.style.display = 'block'; }
-    function vitoria() { if (isGameOver) return; isGameOver = true; clearInterval(gameIntervalId); vitoriaContainer.style.display = 'flex'; }
+    function moverPacman() {
+        if (!checarColisao(pacman.x, pacman.y, pacman.nextDir)) {
+            pacman.dir = pacman.nextDir;
+        }
 
-    // ===== PONTO DE ENTRADA DO SCRIPT =====
-    function iniciarDemonstracao() {
-        tentativasDisplay.textContent = '0';
-        userLogicFunction = new Function('elementos', 'acoes', 'labirinto', 'acoes.moverParaDireita();');
-        inicializarJogo();
-        gameIntervalId = setInterval(gameStep, 200);
+        if (checarColisao(pacman.x, pacman.y, pacman.dir)) {
+            gameOver();
+            return;
+        }
+        
+        switch (pacman.dir) {
+            case 'up': pacman.y--; break;
+            case 'down': pacman.y++; break;
+            case 'left': pacman.x--; break;
+            case 'right': pacman.x++; break;
+        }
     }
 
-    pauseButton.addEventListener('click', aplicarCodigoDoUsuario);
-    document.getElementById('botao-dica').addEventListener('click', () => {
-        document.getElementById('texto-dica').style.display = 'block';
-    });
+    function coletarPilula() {
+        if (map[pacman.y]?.[pacman.x] === 2) {
+            map[pacman.y][pacman.x] = 0;
+            pilulasColetadas++;
+            atualizarUI();
+        }
+    }
+    
+    function checarColisao(x, y, dir) {
+        let nextX = x, nextY = y;
+        switch (dir) {
+            case 'up': nextY--; break;
+            case 'down': nextY++; break;
+            case 'left': nextX--; break;
+            case 'right': nextX++; break;
+        }
+        if (nextY < 0 || nextY >= tileCountY || nextX < 0 || nextX >= tileCountX) return true;
+        return map[nextY][nextX] === 1;
+    }
+    
+    function criarSensores() {
+        const encontrarPilulaMaisProxima = () => {
+            let maisProxima = null, menorDistancia = Infinity;
+            for (let y = 0; y < tileCountY; y++) {
+                for (let x = 0; x < tileCountX; x++) {
+                    if (map[y][x] === 2) {
+                        const distancia = Math.abs(pacman.x - x) + Math.abs(pacman.y - y);
+                        if (distancia < menorDistancia) {
+                            menorDistancia = distancia;
+                            maisProxima = { x, y };
+                        }
+                    }
+                }
+            }
+            return maisProxima || {x: pacman.x, y: pacman.y};
+        };
 
-    iniciarDemonstracao();
+        return {
+            pacman: { x: pacman.x, y: pacman.y, dir: pacman.dir },
+            pilulaMaisProxima: encontrarPilulaMaisProxima(),
+            podeMoverParaCima: !checarColisao(pacman.x, pacman.y, 'up'),
+            podeMoverParaBaixo: !checarColisao(pacman.x, pacman.y, 'down'),
+            podeMoverParaEsquerda: !checarColisao(pacman.x, pacman.y, 'left'),
+            podeMoverParaDireita: !checarColisao(pacman.x, pacman.y, 'right'),
+        };
+    }
+
+    function atualizarUI() {
+        const pilulasDisplay = document.getElementById('pilulas-coletadas');
+        const tentativasDisplay = document.getElementById('tentativas-jogador');
+        if (pilulasDisplay) pilulasDisplay.textContent = `${pilulasColetadas} / ${totalPilulas}`;
+        if (tentativasDisplay) tentativasDisplay.textContent = tentativas;
+    }
+    
+    function draw() {
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        const cellWidth = canvas.width / tileCountX, cellHeight = canvas.height / tileCountY;
+
+        for (let y = 0; y < tileCountY; y++) {
+            for (let x = 0; x < tileCountX; x++) {
+                const cellX = x * cellWidth, cellY = y * cellHeight;
+                if (map[y]?.[x] === 1) {
+                    ctx.fillStyle = '#0000FF';
+                    ctx.fillRect(cellX, cellY, cellWidth, cellHeight);
+                } else if (map[y]?.[x] === 2) {
+                    ctx.fillStyle = 'white';
+                    ctx.beginPath();
+                    ctx.arc(cellX + cellWidth / 2, cellY + cellHeight / 2, cellWidth / 8, 0, 2 * Math.PI);
+                    ctx.fill();
+                }
+            }
+        }
+        
+        const pacmanX = pacman.x * cellWidth + cellWidth / 2;
+        const pacmanY = pacman.y * cellHeight + cellHeight / 2;
+        const radius = cellWidth / 2.5;
+        const time = new Date();
+        const mouthAngle = Math.abs(Math.sin(time.getMilliseconds() / 200)) * 0.2;
+        let startAngle = 0, endAngle = 0;
+
+        switch (pacman.dir) {
+            case 'right': startAngle = 0.25 * Math.PI - mouthAngle; endAngle = 1.75 * Math.PI + mouthAngle; break;
+            case 'left': startAngle = 1.25 * Math.PI - mouthAngle; endAngle = 0.75 * Math.PI + mouthAngle; break;
+            case 'up': startAngle = 1.75 * Math.PI - mouthAngle; endAngle = 1.25 * Math.PI + mouthAngle; break;
+            case 'down': startAngle = 0.75 * Math.PI - mouthAngle; endAngle = 0.25 * Math.PI + mouthAngle; break;
+        }
+
+        ctx.fillStyle = 'yellow';
+        ctx.beginPath();
+        ctx.arc(pacmanX, pacmanY, radius, startAngle, endAngle);
+        ctx.lineTo(pacmanX, pacmanY);
+        ctx.closePath();
+        ctx.fill();
+    }
+    
+    inicializar();
 });

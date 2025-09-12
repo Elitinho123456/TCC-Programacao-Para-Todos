@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fase 4: A Rota Perfeita</title>
     <link rel="stylesheet" href="fase4.css">
-    <link rel="website icon" type="png" href="imagem-level-1/playerV.png">
+    <!-- Sugiro usar um ícone do Pac-Man para esta fase -->
+    <link rel="website icon" type="png" href="./imagem-level-4/pacman-icon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
@@ -26,34 +27,34 @@
             </div>
             
             <p id="info-fase-descricao">
-                Sua missão é completar a lógica de navegação do Pac-Man. O jogo já preparou algumas variáveis para você!
+                Sua missão é guiar o Pac-Man para coletar <strong>todas</strong> as pílulas do labirinto, completando a função que define sua lógica de movimento.
             </p>
 
             <ul>
-                <strong>VARIÁVEIS PRONTAS (true/false):</strong>
-                <li>`irParaDireita`</li>
-                <li>`irParaEsquerda`</li>
-                <li>`irParaCima`</li>
-                <li>`irParaBaixo`</li>
+                <strong>SENSORES (Informações):</strong>
+                <li><code>sensores.pacman</code>: Posição {x, y} atual.</li>
+                <li><code>sensores.pilulaMaisProxima</code>: Posição {x, y} da pílula mais perto.</li>
+                <li><code>sensores.podeMoverParaCima</code>: Verdadeiro ou falso.</li>
+                <li><code>sensores.podeMoverParaDireita</code>: Verdadeiro ou falso.</li>
             </ul>
              <ul>
-                <strong>SENSORES DISPONÍVEIS:</strong>
-                <li>`labirinto.podeMoverParaDireita()`</li>
-                <li>`labirinto.podeMoverParaEsquerda()`</li>
-                <li>`labirinto.podeMoverParaCima()`</li>
-                <li>`labirinto.podeMoverParaBaixo()`</li>
+                <strong>AÇÕES (Comandos):</strong>
+                <li><code>acoes.moverParaCima()</code></li>
+                <li><code>acoes.moverParaBaixo()</code></li>
+                <li><code>acoes.moverParaEsquerda()</code></li>
+                <li><code>acoes.moverParaDireita()</code></li>
             </ul>
 
             <button id="botao-dica">Ver Dica</button>
             <p id="texto-dica" style="display:none;">
-                <strong>Dica:</strong> Complete o `if` que já está no editor. Use o nome de uma ação (`acoes.mover...`) para dizer ao Pac-Man o que fazer em cada situação.
+                <strong>Dica:</strong> Pense em uma ordem de prioridade. É melhor verificar o movimento horizontal (esquerda/direita) primeiro ou o vertical (cima/baixo)? Use <code>else if</code> para encadear suas verificações e garantir que o Pac-Man tome apenas uma decisão por vez.
             </p>
         </aside>
 
         <main class="conteudo-principal">
             <div class="box" id="box">
-                <canvas></canvas>
-                <button class="pause" id="pause">Tentar Novamente</button>
+                <canvas id="canvas"></canvas>
+                <button class="tentar-novamente-btn" id="tentar-novamente-btn">Tentar Novamente</button>
                 <div class="vitoria-conteiner">
                     <h1 class="mensagemV">PARABÉNS! <br> VOCÊ COMPLETOU O JOGO!</h1>
                     <a href="../Home/home.html"><button class="Pfase">Voltar para o Início</button></a>
@@ -64,21 +65,17 @@
         
         <aside class="aba-lateral-direita">
             <h2>Progresso</h2>
-            <h3>Pílulas coletadas: <span id="pilulas-coletadas">0</span></h3>
+            <h3>Pílulas coletadas: <span id="pilulas-coletadas">0 / 0</span></h3>
             <h3>Tentativas: <span id="tentativas-jogador">0</span></h3>
-
-            <ul>
-                <strong>AÇÕES DISPONÍVEIS:</strong>
-                <li>`acoes.moverParaDireita()`</li>
-                <li>`acoes.moverParaEsquerda()`</li>
-                <li>`acoes.moverParaCima()`</li>
-                <li>`acoes.moverParaBaixo()`</li>
-            </ul>
 
             <h3>Como Funciona?</h3>
             <p>
-                O jogo define o alvo e calcula a direção para você nas <strong>variáveis prontas</strong>. Seu trabalho é usar essas variáveis junto com os <strong>sensores</strong> para escolher a <strong>ação</strong> correta.
+                A cada instante (um 'tick' do jogo), seu código dentro da função <code>definirProximoMovimento</code> é executado. Ele recebe <strong>sensores</strong> com o estado atual do jogo e deve chamar uma das <strong>ações</strong> para decidir o próximo movimento.
             </p>
+            <p>
+                 O Pac-Man seguirá sua instrução se não houver uma parede no caminho. Crie uma estratégia inteligente para não ficar preso!
+            </p>
+            <img src="./imagem-level-4/pacman.gif" class="personagem-lateral">
         </aside>
     </div>
 

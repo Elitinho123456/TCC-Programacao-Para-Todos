@@ -236,8 +236,8 @@ footer a:hover {
     font-family: "Press Start 2P", cursive;
 }
 
-.pause {
-    display: none;
+.tentar-novamente-btn {
+    display: none; /* Começa escondido! */
     position: absolute;
     top: 50%;
     left: 50%;
@@ -245,7 +245,7 @@ footer a:hover {
     padding: 15px 30px;
     font-size: 24px;
     color: white;
-    background-color: #e52521;
+    background-color: #e52521; /* Vermelho para "Tentar Novamente" */
     border: 5px solid white;
     border-radius: 10px;
     box-shadow:
@@ -258,15 +258,10 @@ footer a:hover {
     font-family: "Press Start 2P", cursive;
 }
 
-.pause:hover {
+.tentar-novamente-btn:hover {
     background-color: #ff1d1a;
     transform: translate(-50%, -50%) scale(1.05);
 }
-
-.pause:active {
-    transform: translate(-50%, -50%) scale(0.95);
-}
-
 
 /* Estilos para o personagem lateral */
 .personagem-lateral {
