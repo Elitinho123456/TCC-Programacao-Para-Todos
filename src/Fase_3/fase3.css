@@ -12,7 +12,6 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    /* Fonte alterada */
     font-family: "Slabo 13px", serif;
     background: linear-gradient(90deg, rgb(30, 30, 30) 0%, rgb(15, 15, 15) 50%, rgb(30, 30, 30) 100%);
     color: #f0f0f0;
@@ -37,17 +36,11 @@ body {
     border-radius: 8px;
     width: 400px;
     flex-shrink: 0;
-    /* Estender barras laterais até o fim da página (ajustado para ocupar o espaço disponível) */
     height: 100%;
-    /* Isso fará com que as barras laterais ocupem a altura total do container-geral */
     display: flex;
-    /* Adicionado para permitir flex-direction column e push content down */
     flex-direction: column;
-    /* Conteúdo interno se organiza em coluna */
-
     overflow-y: auto;
     overflow-x: hidden;
-
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4);
     word-wrap: break-word;
 }
@@ -61,6 +54,17 @@ body {
     margin-bottom: 15px;
     padding-bottom: 10px;
     border-bottom: 1px solid #555;
+    font-family: "Press Start 2P", cursive;
+}
+
+#titulo-jogo {
+    font-size: 1.5em;
+    color: #FFD700;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #FFD700;
+    text-shadow: 2px 2px 0 #000;
     font-family: "Press Start 2P", cursive;
 }
 
@@ -130,14 +134,17 @@ p#texto-dica {
     font-size: 1em;
 }
 
-
 .conteudo-principal {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    min-width: 320px;
+    min-width: 400px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 10px;
+    width: 100%;
 }
 
 .box {
@@ -161,7 +168,7 @@ p#texto-dica {
 }
 
 #meu-editor-codigo .cm-comment {
-    color: #ebedf7; /* Estilo para comentários */
+    color: #ebedf7;
 }
 
 .CodeMirror {
@@ -169,19 +176,6 @@ p#texto-dica {
     font-family: monospace;
     font-size: 14px;
 }
-
-#titulo-jogo {
-    font-size: 1.5em;
-    color: #FFD700;
-    text-align: center;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #FFD700;
-    text-shadow: 2px 2px 0 #000;
-    font-family: "Press Start 2P", cursive;
-
-}
-
 
 /* Estilização do Rodapé */
 footer {
@@ -212,7 +206,6 @@ footer p {
 
 footer a {
     color: #c00000;
-    /* Cor verde para os links */
     text-decoration: none;
     font-weight: bold;
 }
@@ -221,116 +214,56 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* ESTILOS DOS ELEMENTOS DO JOGO */
-.nuvem {
-    position: absolute;
-    top: 5%;
-    width: 550px;
-    animation: nuvem-pass 10s infinite linear;
-}
-
-.nuvem-invertida {
-    transform: scaleX(-1);
-}
-
-.desafio {
-    position: absolute;
-    width: 140px;
-    height: 140px;
-    right: 50%;
-    bottom: 80px;
-}
-
-.bandeira {
-    position: absolute;
-    bottom: 80px;
-    width: 100px;
-    height: auto;
-    right: 5%;
-    bottom: 72px;
-}
-
-.tiles {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 150%;
-    height: 80px;
-    background-color: #78c850;
-    border-top: 2px solid #508830;
-}
-
-.player {
-    width: 80px;
-    height: 100px;
-    position: absolute;
-    bottom: 75px;
-    animation: player-animation 5s infinite linear;
-}
-
-.divPlayer {
-    width: 100px;
-    height: 100px;
-}
-
-.pause {
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 15px 30px;
-    font-size: 24px;
-    color: white;
-    background-color: #e52521;
-    border: 5px solid white;
+/* Estilos dos botões de navegação */
+.botoesNav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin: 25px 0;
+    padding: 10px 0;
+    background-color: rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    box-shadow:
-        0 0 0 5px #e52521,
-        0 0 0 10px white,
-        0 0 0 15px #e52521;
-    text-shadow: 3px 3px 0 #000;
+}
+
+.nav-btn {
+    background-color: #2a2a2a;
+    color: #FFD700;
+    border: 2px solid #FFD700;
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    font-size: 26px;
     cursor: pointer;
-    z-index: 100;
-    animation: pulse 0.5s infinite alternate;
-    font-family: "Press Start 2P", cursive;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+    text-decoration: none;
 }
 
-.pause:hover {
-    background-color: #ff1d1a;
-    transform: translate(-50%, -50%) scale(1.05);
+.nav-btn:hover:not(:disabled) {
+    background-color: #FFD700;
+    color: #2a2a2a;
+    transform: translateY(-4px) scale(1.1);
+    box-shadow: 0px 6px 12px rgba(255, 215, 0, 0.3);
 }
 
-.pause:active {
-    transform: translate(-50%, -50%) scale(0.95);
+.nav-btn:active:not(:disabled) {
+    transform: translateY(1px) scale(1.05);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
-.pause1 {
-    position: absolute;
-    right: 1px;
-    top: 25em;
-    transform: translate(-50%, -50%);
-    padding: 8px 20px;
-    font-size: 20px;
-    color: white;
-    background-color: #aa1b1b;
-    border: 5px solid white;
-    border-radius: 10px;
-    text-shadow: 2px 2px 0 #000;
-    cursor: pointer;
-    z-index: 100;
-    animation: pulse 0.5s infinite alternate;
+.nav-btn:disabled {
+    background-color: #444;
+    color: #888;
+    border-color: #666;
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 
-.pause1:hover {
-    background-color: #45a049;
-    transform: translate(-50%, -50%) scale(1.05);
-}
-
-.pause1:active {
-    transform: translate(-50%, -50%) scale(0.95);
-}
-
+/* Estilos do container de vitória */
 .vitoria-conteiner {
     display: none;
     position: absolute;
@@ -381,103 +314,46 @@ footer a:hover {
     transform: scale(0.95);
 }
 
-/* Container que agrupa os botões */
-.botoesNav {
-    display: flex;
-    /* Usa Flexbox para alinhar os botões facilmente */
-    justify-content: space-around;
-    /* Distribui os botões com espaço igual ao redor */
-    align-items: center;
-    /* Alinha os botões verticalmente ao centro */
-    width: 100%;
-    /* Garante que o container ocupe toda a largura da barra lateral */
-    margin: 25px 0;
-    /* Adiciona um espaço vertical para separar dos outros elementos */
-    padding: 10px 0;
-    /* Adiciona um preenchimento interno */
-    background-color: rgba(0, 0, 0, 0.2);
-    /* Fundo sutil para destacar a área */
+.pause {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px 30px;
+    font-size: 24px;
+    color: white;
+    background-color: #e52521;
+    border: 5px solid white;
     border-radius: 10px;
-    /* Bordas arredondadas no container */
-}
-
-/* Estilo geral para cada botão de navegação */
-.nav-btn {
-    background-color: #2a2a2a;
-    /* Cor de fundo escura */
-    color: #FFD700;
-    /* Cor do ícone (amarelo do tema) */
-    border: 2px solid #FFD700;
-    /* Borda com a cor de destaque */
-    border-radius: 50%;
-    /* Deixa os botões perfeitamente redondos */
-    width: 55px;
-    /* Largura fixa */
-    height: 55px;
-    /* Altura fixa */
-    font-size: 26px;
-    /* Tamanho do ícone/texto dentro do botão */
+    box-shadow:
+        0 0 0 5px #e52521,
+        0 0 0 10px white,
+        0 0 0 15px #e52521;
+    text-shadow: 3px 3px 0 #000;
     cursor: pointer;
-    /* Mostra o cursor de "mãozinha" */
-    display: flex;
-    /* Necessário para centralizar o conteúdo com flexbox */
-    align-items: center;
-    /* Centraliza verticalmente */
-    justify-content: center;
-    /* Centraliza horizontalmente */
-    transition: all 0.3s ease-in-out;
-    /* Transição suave para todas as propriedades */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
-    /* Sombra para dar profundidade */
-    text-decoration: none;
-    /* Remove sublinhado de links */
+    z-index: 100;
+    animation: pulse 0.5s infinite alternate;
+    font-family: "Press Start 2P", cursive;
 }
 
-/* Efeito ao passar o mouse sobre o botão (desde que não esteja desabilitado) */
-.nav-btn:hover:not(:disabled) {
-    background-color: #FFD700;
-    /* Inverte as cores: fundo amarelo */
-    color: #2a2a2a;
-    /* Cor do ícone escura */
-    transform: translateY(-4px) scale(1.1);
-    /* Efeito de flutuar e aumentar de tamanho */
-    box-shadow: 0px 6px 12px rgba(255, 215, 0, 0.3);
-    /* Sombra amarela para efeito de "brilho" */
+.pause:hover {
+    background-color: #ff1d1a;
+    transform: translate(-50%, -50%) scale(1.05);
 }
 
-/* Efeito ao clicar no botão (desde que não esteja desabilitado) */
-.nav-btn:active:not(:disabled) {
-    transform: translateY(1px) scale(1.05);
-    /* Simula o botão sendo pressionado */
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
-    /* Diminui a sombra ao ser pressionado */
+.pause:active {
+    transform: translate(-50%, -50%) scale(0.95);
 }
 
-/* Estilo para o botão quando ele está desabilitado */
-.nav-btn:disabled {
-    background-color: #444;
-    /* Fundo acinzentado */
-    color: #888;
-    /* Ícone acinzentado e sem vida */
-    border-color: #666;
-    /* Borda acinzentada */
-    cursor: not-allowed;
-    /* Cursor que indica que não é clicável */
-    opacity: 0.7;
-    /* Deixa o botão um pouco transparente */
-}
-
-
-/* ANIMAÇÕES KEYFRAMES */
+/* Animações */
 @keyframes float {
     0% {
         transform: translateY(0);
     }
-
     50% {
         transform: translateY(-10px);
     }
-
     100% {
         transform: translateY(0);
     }
@@ -490,7 +366,6 @@ footer a:hover {
             0 0 0 10px white,
             0 0 0 15px #e52521;
     }
-
     to {
         box-shadow:
             0 0 0 5px #e52521,
@@ -498,131 +373,4 @@ footer a:hover {
             0 0 0 15px #e52521,
             0 0 20px 10px rgba(229, 37, 33, 0.5);
     }
-}
-
-@keyframes player-animation {
-    from {
-        left: -10%;
-    }
-
-    to {
-        left: 110%;
-    }
-}
-
-@keyframes nuvem-pass {
-    from {
-        right: -60%;
-    }
-
-    to {
-        right: 110%;
-    }
-}
-
-@keyframes game-over {
-    0% {
-        bottom: 75px;
-        opacity: 1;
-        width: 100px;
-    }
-
-    30% {
-        bottom: 145px;
-        transform: rotate(-15deg);
-    }
-
-    60% {
-        bottom: 115px;
-        transform: rotate(15deg);
-    }
-
-    70% {
-        bottom: 80;
-        transform: rotate(25deg);
-    }
-
-    80% {
-        bottom: 30px;
-        transform: rotate(30deg);
-    }
-
-    100% {
-        bottom: -120px;
-        opacity: 0;
-        transform: rotate(25deg);
-    }
-}
-
-/* NOVO KEYFRAME PARA O LOOP DO SONIC */
-@keyframes sonic-loop {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        /* Começa na posição normal, sem rotação */
-    }
-
-    25% {
-        transform: translateY(-50px) rotate(90deg);
-        /* Sobe e gira 90 graus */
-    }
-
-    50% {
-        transform: translateY(-80px) rotate(180deg);
-        /* Atinge o ponto mais alto e gira 180 graus */
-    }
-
-    75% {
-        transform: translateY(-50px) rotate(270deg);
-        /* Desce e gira 270 graus */
-    }
-
-    100% {
-        transform: translateY(0) rotate(360deg);
-        /* Volta à posição inicial e completa a rotação */
-    }
-}
-
-/* Aplica a animação ao .player */
-.player-looping {
-    /* Criaremos uma nova classe para ativar o loop */
-    animation: sonic-loop 1s ease-in-out infinite;
-    /* 1 segundo de duração, suaviza o início/fim, repete infinitamente */
-}
-
-.tile {
-    width: 40px;
-    height: 40px;
-    box-sizing: border-box;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.parede {
-    background-color: #222;
-}
-
-.pilula {
-    background-color: gold;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    margin: auto;
-}
-
-.fantasma {
-    background-color: crimson;
-    border-radius: 50%;
-}
-
-.caminho {
-    background-color: #eee;
-}
-
-#pacman {
-    width: 30px;
-    height: 30px;
-    background-color: yellow;
-    border-radius: 50%;
-    z-index: 10;
-    grid-column: 1;
-    grid-row: 1;
 }

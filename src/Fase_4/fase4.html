@@ -4,86 +4,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fase 4: Pac-Man Lógico</title>
-
+    <title>Fase 4: A Rota Perfeita</title>
     <link rel="stylesheet" href="fase4.css">
     <link rel="website icon" type="png" href="imagem-level-1/playerV.png">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
-
     <script src="fase4.js"></script>
 </head>
 
 <body>
-
     <div class="container-geral">
-
         <aside class="aba-lateral-esquerda">
             <h2 id="titulo-jogo">AVENTURA DO CÓDIGO</h2>
-            <h3 id="titulo-fase">Fase 4/4:<br>Um Labirinto de Repetições!</h3>
-
+            <h3 id="titulo-fase">Desafio Final:<br>A Rota Perfeita</h3>
             <div class="botoesNav">
-
-                <button class="nav-btn" id="btn-prev" title="Fase anterior"
-                    onclick="location.href='../Fase_3/fase3.html'">&lt;</button>
-                <button class="nav-btn" id="btn-home" title="Home"
-                    onclick="location.href='../Home/home.html'">&#8962;</button>
+                <button class="nav-btn" id="btn-prev" title="Fase anterior" onclick="location.href='../Fase_3/fase3.html'">&lt;</button>
+                <button class="nav-btn" id="btn-home" title="Home" onclick="location.href='../Home/home.html'">&#8962;</button>
                 <button class="nav-btn" id="btn-next" title="Próxima fase" disabled>&gt;</button>
-
             </div>
-
-            <p id="info-fase-descricao">Laço de Repetição</p>
+            
+            <p id="info-fase-descricao">
+                Sua missão é completar a lógica de navegação do Pac-Man. O jogo já preparou algumas variáveis para você!
+            </p>
 
             <ul>
-                <li><strong>Pac-Man:</strong> `elementos.pacman`</li>
-                <li><strong>PowerUps:</strong> `elementos.powerups`</li>
-                <li><strong>Fantasma:</strong> `elementos.fantasma`</li>
+                <strong>VARIÁVEIS PRONTAS (true/false):</strong>
+                <li>`irParaDireita`</li>
+                <li>`irParaEsquerda`</li>
+                <li>`irParaCima`</li>
+                <li>`irParaBaixo`</li>
+            </ul>
+             <ul>
+                <strong>SENSORES DISPONÍVEIS:</strong>
+                <li>`labirinto.podeMoverParaDireita()`</li>
+                <li>`labirinto.podeMoverParaEsquerda()`</li>
+                <li>`labirinto.podeMoverParaCima()`</li>
+                <li>`labirinto.podeMoverParaBaixo()`</li>
             </ul>
 
-            <p>Use a lógica de laços de repetição para guiar o Pac-Man até os PowerUps e evitar os fantasmas!</p>
             <button id="botao-dica">Ver Dica</button>
-            <p id="texto-dica" style="display:none;">Sem ideia, vai na fé, boa sorte garoto!</p>
+            <p id="texto-dica" style="display:none;">
+                <strong>Dica:</strong> Complete o `if` que já está no editor. Use o nome de uma ação (`acoes.mover...`) para dizer ao Pac-Man o que fazer em cada situação.
+            </p>
         </aside>
 
         <main class="conteudo-principal">
-
             <div class="box" id="box">
                 <canvas></canvas>
-                <div class="vitoria-conteiner">
-                    <h1 class="mensagemV">Você conseguiu!!</h1>
-                    <a href="../Fase_4/fase4.html"><button class="Pfase">Próxima fase!!!</button></a>
-                </div>
                 <button class="pause" id="pause">Tentar Novamente</button>
+                <div class="vitoria-conteiner">
+                    <h1 class="mensagemV">PARABÉNS! <br> VOCÊ COMPLETOU O JOGO!</h1>
+                    <a href="../Home/home.html"><button class="Pfase">Voltar para o Início</button></a>
+                </div>
             </div>
-
             <div id="meu-editor-codigo"></div>
-
         </main>
-
+        
         <aside class="aba-lateral-direita">
             <h2>Progresso</h2>
-            <h3>Tentativas Realizadas</h3>
-            <p>Número de Tentativas: <span id="tentativas-jogador">0</span></p>
-            <h3>Como funciona?</h3>
-            <p>O Pac-Man deve coletar todos os PowerUps enquanto evita os fantasmas. Use laços de repetição para
-                mover o Pac-Man em direção aos PowerUps e desviar dos fantasmas!
-                Seu objetivo é "sobreviver" até o final do Timer!</p>
-        </aside>
+            <h3>Pílulas coletadas: <span id="pilulas-coletadas">0</span></h3>
+            <h3>Tentativas: <span id="tentativas-jogador">0</span></h3>
 
+            <ul>
+                <strong>AÇÕES DISPONÍVEIS:</strong>
+                <li>`acoes.moverParaDireita()`</li>
+                <li>`acoes.moverParaEsquerda()`</li>
+                <li>`acoes.moverParaCima()`</li>
+                <li>`acoes.moverParaBaixo()`</li>
+            </ul>
+
+            <h3>Como Funciona?</h3>
+            <p>
+                O jogo define o alvo e calcula a direção para você nas <strong>variáveis prontas</strong>. Seu trabalho é usar essas variáveis junto com os <strong>sensores</strong> para escolher a <strong>ação</strong> correta.
+            </p>
+        </aside>
     </div>
 
     <footer>
         <img src="/public/IFMS.png" alt="Logo do IFMS" class="footer-logo-ifms">
-        <p>Desenvolvido por: <a href="https://github.com/Ferhsx" target="_blank" rel="noopener noreferrer">Ferculos</a>
-            & <a href="https://github.com/Elitinho123456" target="_blank" rel="noopener noreferrer">Elitinho123456</a> -
-            <a href="https://github.com/Elitinho123456/TCC-Programacao-Para-Todos" target="_blank"
-                rel="noopener noreferrer">GitHub</a> — um projeto do IFMS.
-        </p>
+        <p>Desenvolvido por: <a href="https://github.com/Ferhsx" target="_blank" rel="noopener noreferrer">Ferculos</a> & <a href="https://github.com/Elitinho123456" target="_blank" rel="noopener noreferrer">Elitinho123456</a> - <a href="https://github.com/Elitinho123456/TCC-Programacao-Para-Todos" target="_blank" rel="noopener noreferrer">GitHub</a> — um projeto do IFMS.</p>
     </footer>
-
 </body>
-
 </html>

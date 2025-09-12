@@ -219,7 +219,7 @@ p#texto-dica {
     margin-bottom: 30px;
     font-family: "Press Start 2P", cursive;
 }
-#tentar-novamente-btn {
+.pause {
     display: none;
     position: absolute;
     top: 50%;
@@ -231,11 +231,24 @@ p#texto-dica {
     background-color: #e52521;
     border: 5px solid white;
     border-radius: 10px;
-    box-shadow: 0 0 0 5px #e52521, 0 0 0 10px white, 0 0 0 15px #e52521;
+    box-shadow:
+        0 0 0 5px #e52521,
+        0 0 0 10px white,
+        0 0 0 15px #e52521;
     text-shadow: 3px 3px 0 #000;
     cursor: pointer;
     z-index: 100;
+    animation: pulse 0.5s infinite alternate;
     font-family: "Press Start 2P", cursive;
+}
+
+.pause:hover {
+    background-color: #ff1d1a;
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+.pause:active {
+    transform: translate(-50%, -50%) scale(0.95);
 }
 .personagem-lateral {
     display: block;

@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const velocidadeNecessariaDisplay = document.getElementById('velocidade-necessaria-display');
     const botaoDica = document.getElementById('botao-dica');
     const textoDica = document.getElementById('texto-dica');
-    const tentarNovamenteBtn = document.getElementById('tentar-novamente-btn');
+    const tentarNovamenteBtn = document.getElementById('pause');
 
     // ============= VARIÁVEIS DE ESTADO E JOGO =============
     let gameLoopId;

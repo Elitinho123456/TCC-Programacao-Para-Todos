@@ -39,10 +39,8 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
-
     overflow-y: auto;
     overflow-x: hidden;
-
     box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4);
     word-wrap: break-word;
 }
@@ -56,6 +54,17 @@ body {
     margin-bottom: 15px;
     padding-bottom: 10px;
     border-bottom: 1px solid #555;
+    font-family: "Press Start 2P", cursive;
+}
+
+#titulo-jogo {
+    font-size: 1.5em;
+    color: #FFD700;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #FFD700;
+    text-shadow: 2px 2px 0 #000;
     font-family: "Press Start 2P", cursive;
 }
 
@@ -114,14 +123,18 @@ p#texto-dica {
     font-size: 1em;
 }
 
-
 .conteudo-principal {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    min-width: 320px;
+    min-width: 400px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 10px;
+    width: 100%;
+    position: relative;
 }
 
 .box {
@@ -132,13 +145,17 @@ p#texto-dica {
     position: relative;
     background-color: #252525;
     overflow: hidden;
+    margin: 0 auto;
 }
 
 canvas {
     width: 100%;
     height: 100%;
+    background-color: #000;
+    display: block;
 }
 
+/* ESTILO DO EDITOR DE CÓDIGO (PADRONIZADO) */
 #meu-editor-codigo {
     width: 100%;
     max-width: 900px;
@@ -149,30 +166,13 @@ canvas {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 
-#meu-editor-codigo .cm-comment {
-    color: #ebedf7; /* Estilo para comentários */
-}
-
 .CodeMirror {
     height: 100% !important;
     font-family: monospace;
     font-size: 14px;
 }
 
-#titulo-jogo {
-    font-size: 1.5em;
-    color: #FFD700;
-    text-align: center;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #FFD700;
-    text-shadow: 2px 2px 0 #000;
-    font-family: "Press Start 2P", cursive;
-
-}
-
-
-/* Estilização do Rodapé */
+/* Estilos do Footer */
 footer {
     display: flex;
     align-items: center;
@@ -201,7 +201,6 @@ footer p {
 
 footer a {
     color: #c00000;
-    /* Cor verde para os links */
     text-decoration: none;
     font-weight: bold;
 }
@@ -210,56 +209,31 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* ESTILOS DOS ELEMENTOS DO JOGO */
-.nuvem {
+/* Estilos de Vitória e Derrota */
+.vitoria-conteiner {
+    display: none;
     position: absolute;
-    top: 5%;
-    width: 550px;
-    animation: nuvem-pass 10s infinite linear;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0.85);
+    border-radius: 15px;
+    text-align: center;
+    z-index: 100;
+    width: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.nuvem-invertida {
-    transform: scaleX(-1);
-}
-
-.desafio {
-    position: absolute;
-    width: 140px;
-    height: 140px;
-    right: 50%;
-    bottom: 80px;
-}
-
-.bandeira {
-    position: absolute;
-    bottom: 80px;
-    width: 100px;
-    height: auto;
-    right: 5%;
-    bottom: 72px;
-}
-
-.tiles {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 150%;
-    height: 80px;
-    background-color: #78c850;
-    border-top: 2px solid #508830;
-}
-
-.player {
-    width: 80px;
-    height: 100px;
-    position: absolute;
-    bottom: 75px;
-    animation: player-animation 5s infinite linear;
-}
-
-.divPlayer {
-    width: 100px;
-    height: 100px;
+.mensagemV {
+    color: #FFD700;
+    font-size: 24px;
+    text-shadow: 3px 3px 0 #000, 0 0 10px #FFD700;
+    margin-bottom: 30px;
+    animation: float 2s ease-in-out infinite;
+    font-family: "Press Start 2P", cursive;
 }
 
 .pause {
@@ -281,7 +255,6 @@ footer a:hover {
     text-shadow: 3px 3px 0 #000;
     cursor: pointer;
     z-index: 100;
-    animation: pulse 0.5s infinite alternate;
     font-family: "Press Start 2P", cursive;
 }
 
@@ -294,80 +267,18 @@ footer a:hover {
     transform: translate(-50%, -50%) scale(0.95);
 }
 
-.pause1 {
-    position: absolute;
-    right: 1px;
-    top: 25em;
-    transform: translate(-50%, -50%);
-    padding: 8px 20px;
-    font-size: 20px;
-    color: white;
-    background-color: #aa1b1b;
-    border: 5px solid white;
-    border-radius: 10px;
-    text-shadow: 2px 2px 0 #000;
-    cursor: pointer;
-    z-index: 100;
-    animation: pulse 0.5s infinite alternate;
-}
 
-.pause1:hover {
-    background-color: #45a049;
-    transform: translate(-50%, -50%) scale(1.05);
-}
-
-.pause1:active {
-    transform: translate(-50%, -50%) scale(0.95);
-}
-
-.vitoria-conteiner {
-    display: none;
-    position: absolute;
-    top: 25%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 30px;
-    background-color: rgba(0, 0, 0, 0.75);
-    border-radius: 15px;
-    text-align: center;
-    z-index: 101;
-    width: auto;
-}
-
-.mensagemV {
-    color: #FFD700;
-    font-size: 24px;
-    text-shadow: 3px 3px 0 #000, 0 0 10px #FFD700;
-    margin-bottom: 30px;
-    animation: float 2s ease-in-out infinite;
-    font-family: "Press Start 2P", cursive;
-}
-
-.Pfase {
-    padding: 15px 30px;
-    font-size: 18px;
-    color: white;
-    background-color: #4caf50;
-    border: 5px solid white;
-    border-radius: 10px;
-    box-shadow:
-        0 0 0 5px #4caf50,
-        0 0 0 10px white,
-        0 0 0 15px #4caf50;
-    text-shadow: 2px 2px 0 #000;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-block;
-    transform: none;
-}
-
-.Pfase:hover {
-    background-color: #45a049;
-    transform: scale(1.05);
-}
-
-.Pfase:active {
-    transform: scale(0.95);
+/* Estilos para o personagem lateral */
+.personagem-lateral {
+    display: block;
+    margin: 25px auto auto auto;
+    width: 120px;
+    height: auto;
+    border-radius: 5%;
+    background: radial-gradient(circle at 60% 40%, #ffd7001a 60%, #ffd7000f 100%);
+    box-shadow: 0 0 25px 5px #ffd70044;
+    border: 4px solid #FFD700;
+    animation: float 3s ease-in-out infinite;
 }
 
 /* Container que agrupa os botões */
@@ -382,6 +293,19 @@ footer a:hover {
     border-radius: 10px;
 }
 
+/* Estilo para o container dos botões de navegação */
+.botoesNav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin: 25px 0;
+    padding: 10px 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+/* Estilo geral para cada botão de navegação */
 .nav-btn {
     background-color: #2a2a2a;
     color: #FFD700;
@@ -399,6 +323,7 @@ footer a:hover {
     text-decoration: none;
 }
 
+/* Efeito ao passar o mouse sobre o botão (desde que não esteja desabilitado) */
 .nav-btn:hover:not(:disabled) {
     background-color: #FFD700;
     color: #2a2a2a;
@@ -406,15 +331,30 @@ footer a:hover {
     box-shadow: 0px 6px 12px rgba(255, 215, 0, 0.3);
 }
 
+/* Efeito ao clicar no botão (desde que não esteja desabilitado) */
 .nav-btn:active:not(:disabled) {
     transform: translateY(1px) scale(1.05);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
+/* Estilo para o botão quando ele está desabilitado */
 .nav-btn:disabled {
     background-color: #444;
     color: #888;
     border-color: #666;
     cursor: not-allowed;
     opacity: 0.7;
+}
+
+#btn-home {
+    font-size: 1.6em;
+}
+
+#btn-prev, #btn-next {
+    font-weight: bold;
+}
+
+#btn-prev:hover, #btn-next:hover, #btn-home:hover {
+    background-color: #FFD700;
+    color: #2a2a2a;
 }
