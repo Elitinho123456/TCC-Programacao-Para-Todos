@@ -14,9 +14,9 @@ window.addEventListener('load', () => {
     const map = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1],
-        [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-        [1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 2, 1, 1, 1, 2, 2, 1, 2, 2, 1, 1, 1, 2, 1],
+        [1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1],
+        [1, 2, 1, 1, 1, 2, 2, 1, 2, 2, 1, 1, 1, 2, 1],
         [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     ];
@@ -26,25 +26,20 @@ window.addEventListener('load', () => {
     let isUsingUserCode = false;
 
     const editor = CodeMirror(document.getElementById('meu-editor-codigo'), {
-        value: `// O Pac-Man bateu na parede!
-    // Complete o código abaixo usando 'if' e 'else if'.
-    // Você tem acesso aos 'sensores' e pode chamar as 'acoes'.
-    
-    // Dica: Use 'sensores.pilulaMaisProxima.x > sensores.pacman.x'
-    // para verificar se a pílula está à direita.
-    
-    // Se a pílula está à direita do Pac-Man...
-    if (sensores.pilulaMaisProxima.x > sensores.pacman.x) {
-        acoes.moverParaDireita();
-    }
-    // Senão, se a pílula está à esquerda...
-    else if (????? ) {
-        // Chame a ação para mover para a esquerda!
-    }
-    
-    // Agora, adicione a lógica para CIMA e BAIXO!
-    // Lembre-se de usar 'else if' para conectar as condições.
-    `,
+        value: `// Guie o Pac-Man para coletar todas as pílulas!
+// Use condições compostas com && (E) ou || (OU)
+// Exemplo: if (condição1 && condição2) { ... }
+
+// Se a pílula está à direita E pode mover para direita
+if (sensores.pilulaMaisProxima.x > sensores.pacman.x && sensores.podeMoverParaDireita) {
+    acoes.moverParaDireita();
+}
+// Senão, se a pílula está à esquerda E pode mover para esquerda
+else if (sensores.pilulaMaisProxima.x < sensores.pacman.x && sensores.podeMoverParaEsquerda) {
+    acoes.moverParaEsquerda();
+}
+// Adicione mais condições para cima e para baixo
+`,
         mode: "javascript",
         theme: "dracula",
         lineNumbers: true,

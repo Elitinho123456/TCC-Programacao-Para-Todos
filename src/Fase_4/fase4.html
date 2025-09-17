@@ -27,27 +27,18 @@
             </div>
             
             <p id="info-fase-descricao">
-                Sua missão é guiar o Pac-Man para coletar <strong>todas</strong> as pílulas do labirinto, completando a função que define sua lógica de movimento.
+                <strong>Objetivo:</strong> Guie o Pac-Man para coletar todas as pílulas!
             </p>
 
-            <ul>
-                <strong>SENSORES (Informações):</strong>
-                <li><code>sensores.pacman</code>: Posição {x, y} atual.</li>
-                <li><code>sensores.pilulaMaisProxima</code>: Posição {x, y} da pílula mais perto.</li>
-                <li><code>sensores.podeMoverParaCima</code>: Verdadeiro ou falso.</li>
-                <li><code>sensores.podeMoverParaDireita</code>: Verdadeiro ou falso.</li>
-            </ul>
-             <ul>
-                <strong>AÇÕES (Comandos):</strong>
-                <li><code>acoes.moverParaCima()</code></li>
-                <li><code>acoes.moverParaBaixo()</code></li>
-                <li><code>acoes.moverParaEsquerda()</code></li>
-                <li><code>acoes.moverParaDireita()</code></li>
-            </ul>
+            <div class="dica-rapida">
+                <strong>Dica Rápida:</strong>
+                <p>Use condições compostas com <code>&&</code> (E) para tomar decisões inteligentes!</p>
+                <button id="botao-dica">Ver Mais Dicas</button>
+            </div>
 
-            <button id="botao-dica">Ver Dica</button>
             <p id="texto-dica" style="display:none;">
-                <strong>Dica:</strong> Pense em uma ordem de prioridade. É melhor verificar o movimento horizontal (esquerda/direita) primeiro ou o vertical (cima/baixo)? Use <code>else if</code> para encadear suas verificações e garantir que o Pac-Man tome apenas uma decisão por vez.
+                Exemplo de condição composta:<br>
+                <code>if (condição1 && condição2) { ... }</code>
             </p>
         </aside>
 
@@ -70,10 +61,13 @@
 
             <h3>Como Funciona?</h3>
             <p>
-                A cada instante (um 'tick' do jogo), seu código dentro da função <code>definirProximoMovimento</code> é executado. Ele recebe <strong>sensores</strong> com o estado atual do jogo e deve chamar uma das <strong>ações</strong> para decidir o próximo movimento.
+                Nesta fase, você deve usar <strong>condições compostas</strong> para guiar o Pac-Man. Isso significa combinar múltiplas condições usando operadores lógicos como <code>&&</code> (E) e <code>||</code> (OU).
             </p>
             <p>
-                 O Pac-Man seguirá sua instrução se não houver uma parede no caminho. Crie uma estratégia inteligente para não ficar preso!
+                O desafio é criar uma lógica que considere tanto a posição da pílula mais próxima quanto a possibilidade de movimento em cada direção.
+            </p>
+            <p>
+                Dica: Comece verificando a direção da pílula E se é possível se mover nessa direção!
             </p>
             <img src="./imagem-level-4/pacman.gif" class="personagem-lateral">
         </aside>
