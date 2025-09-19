@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fase 4: A Rota Perfeita</title>
     <link rel="stylesheet" href="fase4.css">
-    <!-- Sugiro usar um ícone do Pac-Man para esta fase -->
     <link rel="website icon" type="png" href="./imagem-level-4/pacman-icon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
@@ -21,25 +20,42 @@
             <h2 id="titulo-jogo">Code Junior</h2>
             <h3 id="titulo-fase">Desafio Final:<br>A Rota Perfeita</h3>
             <div class="botoesNav">
-                <button class="nav-btn" id="btn-prev" title="Fase anterior" onclick="location.href='../Fase_3/fase3.html'">&lt;</button>
-                <button class="nav-btn" id="btn-home" title="Home" onclick="location.href='../Home/home.html'">&#8962;</button>
+                <button class="nav-btn" id="btn-prev" title="Fase anterior"
+                    onclick="location.href='../Fase_3/fase3.html'">&lt;</button>
+                <button class="nav-btn" id="btn-home" title="Home"
+                    onclick="location.href='../Home/home.html'">&#8962;</button>
                 <button class="nav-btn" id="btn-next" title="Próxima fase" disabled>&gt;</button>
             </div>
-            
+
             <p id="info-fase-descricao">
-                <strong>Objetivo:</strong> Guie o Pac-Man para coletar todas as pílulas!
+                O Pac-Man está faminto e quer ele colete todas as frutinhas do labirinto!
+                Para isso, você precisará criar uma lógica inteligente usando as estruturas condicionais <code>if</code>
+                (se) e <code>else if</code> (senão se). Seu código irá decidir para onde o Pac-Man deve se mover a cada
+                passo, evitando as paredes.
             </p>
+
+            <h4><strong>Os Sensores do Pac-Man</strong></h4>
+            <p>
+                Seu código recebe um objeto <code>sensores</code> com informações vitais em tempo real. As mais
+                importantes para este desafio são:
+            </p>
+            <ul>
+                <li><code>sensores.pilulaMaisProxima</code>: Informa as coordenadas (x, y) da pílula mais perto.</li>
+                <li><code>sensores.podeMoverPara...</code>: Retorna <code>true</code> ou <code>false</code> se o caminho
+                    em uma direção (Cima, Baixo, Esquerda, Direita) está livre.</li>
+            </ul>
 
             <div class="dica-rapida">
-                <strong>Dica Rápida:</strong>
-                <p>Use condições compostas com <code>&&</code> (E) para tomar decisões inteligentes!</p>
-                <button id="botao-dica">Ver Mais Dicas</button>
+                <button id="botao-dica">Ver Dica</button>
+                <p id="texto-dica" style="display:none;">
+                    Pense na lógica em português: "<strong>SE</strong> a pílula está à direita <strong>E</strong> o caminho
+                    para a direita está livre, <strong>ENTÃO</strong> mova para a direita".<br><br>
+                    Em código, isso se parece com:<br>
+                    <code>if (sensores.pilulaMaisProxima.x > sensores.pacman.x && sensores.podeMoverParaDireita) { ... }</code>
+                </p>
             </div>
 
-            <p id="texto-dica" style="display:none;">
-                Exemplo de condição composta:<br>
-                <code>if (condição1 && condição2) { ... }</code>
-            </p>
+            
         </aside>
 
         <main class="conteudo-principal">
@@ -53,7 +69,7 @@
             </div>
             <div id="meu-editor-codigo"></div>
         </main>
-        
+
         <aside class="aba-lateral-direita">
             <h2>Progresso</h2>
             <h3>Pílulas coletadas: <span id="pilulas-coletadas">0 / 0</span></h3>
@@ -61,13 +77,17 @@
 
             <h3>Como Funciona?</h3>
             <p>
-                Nesta fase, você deve usar <strong>condições compostas</strong> para guiar o Pac-Man. Isso significa combinar múltiplas condições usando operadores lógicos como <code>&&</code> (E) e <code>||</code> (OU).
+                O segredo para vencer é usar <strong>condições compostas</strong>. Uma condição simples seria apenas
+                verificar se o Pac-Man pode ir para a direita. Uma condição composta é mais poderosa, pois verifica duas
+                ou mais coisas de uma vez usando o operador <code>&&</code> (E).
             </p>
+
+            <h3><strong>Estratégia Vencedora</strong></h3>
             <p>
-                O desafio é criar uma lógica que considere tanto a posição da pílula mais próxima quanto a possibilidade de movimento em cada direção.
-            </p>
-            <p>
-                Dica: Comece verificando a direção da pílula E se é possível se mover nessa direção!
+                A lógica mais eficiente é combinar essas duas informações. A cada passo, seu código deve perguntar, por
+                exemplo: "A pílula mais próxima está acima de mim <strong>E</strong> eu posso me mover para cima?". Se a
+                resposta for sim, execute a ação para subir. Caso contrário, teste as outras direções com
+                <code>else if</code>.
             </p>
             <img src="./imagem-level-4/pacman.gif" class="personagem-lateral">
         </aside>
@@ -75,7 +95,12 @@
 
     <footer>
         <img src="/public/IFMS.png" alt="Logo do IFMS" class="footer-logo-ifms">
-        <p>Desenvolvido por: <a href="https://github.com/Ferhsx" target="_blank" rel="noopener noreferrer">Ferculos</a> & <a href="https://github.com/Elitinho123456" target="_blank" rel="noopener noreferrer">Elitinho123456</a> - <a href="https://github.com/Elitinho123456/TCC-Programacao-Para-Todos" target="_blank" rel="noopener noreferrer">GitHub</a> — um projeto do IFMS.</p>
+        <p>Desenvolvido por: <a href="https://github.com/Ferhsx" target="_blank" rel="noopener noreferrer">Ferculos</a>
+            & <a href="https://github.com/Elitinho123456" target="_blank" rel="noopener noreferrer">Elitinho123456</a> -
+            <a href="https://github.com/Elitinho123456/TCC-Programacao-Para-Todos" target="_blank"
+                rel="noopener noreferrer">GitHub</a> — um projeto do IFMS.
+        </p>
     </footer>
 </body>
+
 </html>

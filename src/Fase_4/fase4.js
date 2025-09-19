@@ -247,6 +247,16 @@ else if (sensores.pilulaMaisProxima.x < sensores.pacman.x && sensores.podeMoverP
         ctx.closePath();
         ctx.fill();
     }
+
+    const botaoDica = document.getElementById('botao-dica');
+    const textoDica = document.getElementById('texto-dica');
+    if (botaoDica && textoDica) {
+        botaoDica.addEventListener('click', () => {
+            const isHidden = textoDica.style.display === 'none' || textoDica.style.display === '';
+            textoDica.style.display = isHidden ? 'block' : 'none';
+            botaoDica.textContent = isHidden ? 'Esconder Dica' : 'Ver Dica';
+        });
+    }
     
     inicializar();
 });
