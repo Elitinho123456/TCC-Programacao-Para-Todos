@@ -300,10 +300,11 @@ footer a:hover {
 }
 
 
+/* Pop-up de Vitória */
 .vitoria-conteiner {
     display: none;
     position: absolute;
-    top: 25%;
+    top: 50%; 
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 30px;
@@ -313,16 +314,13 @@ footer a:hover {
     z-index: 101;
     width: auto;
 }
-
 .mensagemV {
     color: #FFD700;
     font-size: 24px;
     text-shadow: 3px 3px 0 #000, 0 0 10px #FFD700;
     margin-bottom: 30px;
-    animation: float 2s ease-in-out infinite;
     font-family: "Press Start 2P", cursive;
 }
-
 .Pfase {
     padding: 15px 30px;
     font-size: 18px;
@@ -349,7 +347,6 @@ footer a:hover {
 .Pfase:active {
     transform: scale(0.95);
 }
-
 /* Container que agrupa os botões */
 .botoesNav {
     display: flex;
@@ -419,19 +416,6 @@ footer a:hover {
 
 
 /* ANIMAÇÕES KEYFRAMES */
-@keyframes float {
-    0% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
-}
 
 @keyframes pulse {
     from {
@@ -503,38 +487,11 @@ footer a:hover {
         transform: rotate(25deg);
     }
 }
-
-/* NOVO KEYFRAME PARA O LOOP DO SONIC */
-@keyframes sonic-loop {
-    0% {
-        transform: translateY(0) rotate(0deg);
-        /* Começa na posição normal, sem rotação */
+@keyframes vitoria {
+    from {
+        transform: translateX(0);
     }
-
-    25% {
-        transform: translateY(-50px) rotate(90deg);
-        /* Sobe e gira 90 graus */
+    to {
+        transform: translateX(100px);
     }
-
-    50% {
-        transform: translateY(-80px) rotate(180deg);
-        /* Atinge o ponto mais alto e gira 180 graus */
-    }
-
-    75% {
-        transform: translateY(-50px) rotate(270deg);
-        /* Desce e gira 270 graus */
-    }
-
-    100% {
-        transform: translateY(0) rotate(360deg);
-        /* Volta à posição inicial e completa a rotação */
-    }
-}
-
-/* Aplica a animação ao .player */
-.player-looping {
-    /* Criaremos uma nova classe para ativar o loop */
-    animation: sonic-loop 1s ease-in-out infinite;
-    /* 1 segundo de duração, suaviza o início/fim, repete infinitamente */
 }

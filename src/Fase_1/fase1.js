@@ -49,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function ativaGameOver() {
-
         const playerPosition = player.offsetLeft;
 
         if (playerMorto) return;
@@ -59,13 +58,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         player.style.animation = 'game-over 1.5s ease-out forwards';
         player.style.left = `${playerPosition}px`;
-
-        // Atualização do sprite
         player.src = '/src/Fase_1/imagem-level-1/playerT.png';
         player.style.width = '100px';
         player.style.height = '100px';
 
-        pauseButton.style.display = 'block';
+        setTimeout(() => {
+            pauseButton.style.display = 'block';
+        }, 1500); 
     }
 
     player.addEventListener('animationend', function (event) {
@@ -75,8 +74,36 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function ativaVitoria() {
+        if (!gameStarted) return;
+        
         gameStarted = false;
-        vitoriaContainer.style.display = 'flex';
+        
+        // 1. CAPTURA a posição exata (em pixels) em que o jogador está durante a animação.
+        const currentLeft = window.getComputedStyle(player).left;
+        const currentBottom = window.getComputedStyle(player).bottom;
+    
+        // 2. APLICA essa posição como um estilo direto. Isso "congela" o jogador no lugar.
+        player.style.left = currentLeft;
+        player.style.bottom = currentBottom;
+    
+        // 3. AGORA, com o jogador já travado na posição correta, removemos a animação.
+        // Ele não vai mais saltar para o início.
+        player.style.animation = 'none';
+        
+        // 4. Força o navegador a processar as mudanças de estilo acima antes da próxima.
+        void player.offsetWidth; 
+        
+        // 5. Adiciona uma transição suave apenas para a propriedade 'left'.
+        player.style.transition = 'left 1s ease-out';
+        
+        // 6. Calcula a nova posição (100 pixels à frente) e a aplica para iniciar a transição.
+        const finalLeft = parseInt(currentLeft, 10) + 250;
+        player.style.left = finalLeft + 'px';
+        
+        // 7. Mostra a mensagem de vitória quando a transição terminar.
+        setTimeout(() => {
+            vitoriaContainer.style.display = 'block';
+        }, 1000); // 1000ms = 1 segundo (duração da transição)
     }
 
     function resetGame() {

@@ -28,39 +28,37 @@
             </div>
 
             <p id="info-fase-descricao">
-                O Pac-Man está faminto e quer ele colete todas as frutinhas do labirinto!
-                Para isso, você precisará criar uma lógica inteligente usando as estruturas condicionais <code>if</code>
-                (se) e <code>else if</code> (senão se). Seu código irá decidir para onde o Pac-Man deve se mover a cada
-                passo, evitando as paredes.
+                O Pac-Man quer ajuda para coletar todas as pílulas! Use a lógica de
+                <code>if / else if</code> para criar uma rota inteligente e desviar das paredes.
             </p>
 
-            <h4><strong>Os Sensores do Pac-Man</strong></h4>
+            <h4><strong>Ferramentas Disponíveis</strong></h4>
             <p>
-                Seu código recebe um objeto <code>sensores</code> com informações vitais em tempo real. As mais
-                importantes para este desafio são:
+                Seu código tem acesso a dois objetos mágicos. Os detalhes de como usá-los estão nos comentários do
+                editor!
             </p>
             <ul>
-                <li><code>sensores.pilulaMaisProxima</code>: Informa as coordenadas (x, y) da pílula mais perto.</li>
-                <li><code>sensores.podeMoverPara...</code>: Retorna <code>true</code> ou <code>false</code> se o caminho
-                    em uma direção (Cima, Baixo, Esquerda, Direita) está livre.</li>
+                <li><code>sensores</code>: Informa onde o Pac-Man está e para onde ele pode ir.</li>
+                <li><code>acoes</code>: Contém as funções para mover o Pac-Man.</li>
             </ul>
 
             <div class="dica-rapida">
                 <button id="botao-dica">Ver Dica</button>
                 <p id="texto-dica" style="display:none;">
-                    Pense na lógica em português: "<strong>SE</strong> a pílula está à direita <strong>E</strong> o caminho
-                    para a direita está livre, <strong>ENTÃO</strong> mova para a direita".<br><br>
-                    Em código, isso se parece com:<br>
-                    <code>if (sensores.pilulaMaisProxima.x > sensores.pacman.x && sensores.podeMoverParaDireita) { ... }</code>
+                    A lógica é: "<strong>SE</strong> a pílula está à direita <strong>E</strong> o caminho está livre,
+                    <strong>ENTÃO</strong> mova para a direita".<br><br>
+                    <code>if (condicao_1 && condicao_2) { acao; }</code>
                 </p>
             </div>
 
-            
         </aside>
 
         <main class="conteudo-principal">
             <div class="box" id="box">
                 <canvas id="canvas"></canvas>
+
+                <img id="pacman-sprite" style="position: absolute; display: none;">
+
                 <button class="tentar-novamente-btn" id="tentar-novamente-btn">Tentar Novamente</button>
                 <div class="vitoria-conteiner">
                     <h1 class="mensagemV">PARABÉNS! <br> VOCÊ COMPLETOU O JOGO!</h1>
@@ -75,22 +73,28 @@
             <h3>Pílulas coletadas: <span id="pilulas-coletadas">0 / 0</span></h3>
             <h3>Tentativas: <span id="tentativas-jogador">0</span></h3>
 
-            <h3>Como Funciona?</h3>
+            <!-- EXPLICAÇÃO MAIS CONCISA -->
+            <h3>Estratégia Chave</h3>
             <p>
-                O segredo para vencer é usar <strong>condições compostas</strong>. Uma condição simples seria apenas
-                verificar se o Pac-Man pode ir para a direita. Uma condição composta é mais poderosa, pois verifica duas
-                ou mais coisas de uma vez usando o operador <code>&&</code> (E).
+                O segredo é combinar duas perguntas em uma só usando o operador <code>&&</code> (E):
             </p>
-
-            <h3><strong>Estratégia Vencedora</strong></h3>
+            <ul>
+                <li>Onde está a pílula mais próxima?</li>
+                <li>O caminho naquela direção está livre?</li>
+            </ul>
             <p>
-                A lógica mais eficiente é combinar essas duas informações. A cada passo, seu código deve perguntar, por
-                exemplo: "A pílula mais próxima está acima de mim <strong>E</strong> eu posso me mover para cima?". Se a
-                resposta for sim, execute a ação para subir. Caso contrário, teste as outras direções com
-                <code>else if</code>.
+                Se a resposta para <strong>ambas</strong> as perguntas for "sim", você encontrou o movimento certo!
+                Teste todas as quatro direções com <code>if</code> e <code>else if</code>.
             </p>
             <img src="./imagem-level-4/pacman.gif" class="personagem-lateral">
         </aside>
+    </div>
+
+    <div id="recursos-escondidos" style="position: absolute; left: -9999px;">
+        <img id="pacman-gif" src="./imagem-level-4/pacman.gif">
+        <img id="pacman-gif-left" src="./imagem-level-4/pacman(left).gif">
+        <img id="pacman-gif-up" src="./imagem-level-4/pacman(up).gif">
+        <img id="pacman-gif-down" src="./imagem-level-4/pacman(down).gif">
     </div>
 
     <footer>

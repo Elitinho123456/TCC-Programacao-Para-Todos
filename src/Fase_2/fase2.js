@@ -40,9 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let gameLoopId;
     let posicaoX = 0;
     let velocidadeAtual = 0;
+    const escala = 10;
 
     const jogo = {
-        fatorAceleracao: 0.5
+        fatorAceleracao: 0.5 
     };
 
     let isGameOver = false;
@@ -253,25 +254,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function executarCodigo() {
-        jogo.fatorAceleracao = 0.5; // Reseta a aceleração para o padrão
+        // 1. Reseta a aceleração para o valor padrão JÁ ESCALADO
+        jogo.fatorAceleracao = 0.5 / escala; 
         resetPlayer();
-
+    
         try {
             const codigoDoUsuario = editor.getValue();
-            console.log("Executando código do sandbox...");
-
+    
             const elementos = {
                 playerContainer: playerContainer,
                 bandeira: bandeira
             };
             const acoes = {};
-
-            // Executa o código do usuário para modificar o objeto 'jogo'
+    
             const funcaoDoUsuario = new Function('jogo', 'elementos', 'acoes', `'use strict';\n${codigoDoUsuario}`);
             funcaoDoUsuario(jogo, elementos, acoes);
-
-            console.log("Código executado! Novo fator de aceleração inicial:", jogo.fatorAceleracao);
-
+    
+            jogo.fatorAceleracao = jogo.fatorAceleracao / escala;
+    
+    
         } catch (e) {
             alert("Ocorreu um erro no seu código:\n" + e.message);
             gameOver();
