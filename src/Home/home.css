@@ -224,6 +224,10 @@ main {
     /* Garante que a imagem cubra todo o espaço */
 }
 
+#fase1 .fase-foto img {
+    object-position: 0% 50%; 
+}
+
 .fase-titulo {
     font-size: 1.1em;
     font-weight: bold;

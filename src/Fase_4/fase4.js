@@ -83,7 +83,7 @@ if (sensores.pilulaEstaADireita && sensores.podeMoverParaDireita) {
         resetGame();
         logicFunction = isUsingUserCode ? compilarCodigoDoUsuario() : logicaPadrao;
         if (logicFunction) {
-            gameLoopId = setInterval(gameTick, 150); // Um pouco mais lento para ver melhor
+            gameLoopId = setInterval(gameTick, 250); // Um pouco mais lento para ver melhor
         }
     }
 
