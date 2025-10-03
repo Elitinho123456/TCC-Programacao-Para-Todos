@@ -1,3 +1,25 @@
+// Inicializa a música de fundo
+// Variável global para o áudio
+let bgMusic;
+
+// Função global para alternar o mudo
+function toggleMute() {
+    if (!bgMusic) {
+        bgMusic = document.getElementById('bgMusic');
+        if (!bgMusic) return;
+        bgMusic.volume = 0.1;
+    }
+
+    bgMusic.muted = !bgMusic.muted;
+    const muteBtn = document.getElementById('mute-btn');
+    if (muteBtn) {
+        muteBtn.textContent = bgMusic.muted ? '🔇' : '🔊';
+    }
+}
+
+// Adiciona o event listener para o botão de mudo
+bgMusic = document.getElementById('bgMusic');
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // ============= Editor de Codigo =============
@@ -50,8 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 x: Math.floor(Math.random() * boardWidth),
                 y: Math.floor(Math.random() * boardHeight)
             };
-        } while (snake && (snake.some(segment => segment.x === newFoodPosition.x && segment.y === newFoodPosition.y) || 
-                          newFoodPosition.y === snake[0].y));
+        } while (snake && (snake.some(segment => segment.x === newFoodPosition.x && segment.y === newFoodPosition.y) ||
+            newFoodPosition.y === snake[0].y));
         return newFoodPosition;
     }
     // A comida será gerada após a inicialização da serpente
@@ -120,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         snake = [{ x: 4, y: 12 }];
         nextDirection = 'right';
         isGameOver = false;
-        
+
         // Só gera a comida se ela ainda não existir (primeira vez)
         if (!food) {
             food = generateFoodPosition();
@@ -284,6 +306,34 @@ document.addEventListener('DOMContentLoaded', () => {
         if (tentativasDisplay) {
             tentativasDisplay.textContent = tentativas;
         }
+    }
+
+    // Inicializa a música de fundo
+    bgMusic = document.getElementById('bgMusic');
+
+    if (bgMusic) {
+        bgMusic.volume = 0.1;
+
+        // Tenta reproduzir a música quando o usuário interagir com a página
+        function startMusic() {
+            const playPromise = bgMusic.play();
+
+            // Em navegadores que não permitem autoplay, isso irá capturar a rejeição
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log('A reprodução automática foi impedida. O usuário precisa interagir primeiro.');
+                });
+            }
+        }
+
+        // Tenta iniciar a música quando o usuário clicar pela primeira vez
+        function initAudio() {
+            startMusic();
+            // Remove o event listener após o primeiro clique para não ativar várias vezes
+            document.removeEventListener('click', initAudio);
+        }
+
+        document.addEventListener('click', initAudio);
     }
 
     const style = document.createElement('style');

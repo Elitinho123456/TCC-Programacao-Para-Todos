@@ -12,6 +12,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
     <script src="fase4.js"></script>
+    <audio id="bgMusic" autoplay loop>
+        <source src="../../public/pacman-music.mp3" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
 </head>
 
 <body>
@@ -53,6 +57,13 @@
 
         </aside>
 
+        <div id="btn-mute">
+            <button id="mute-btn">🔇</button>
+            <script>
+                document.getElementById('mute-btn').addEventListener('click', toggleMute);
+            </script>
+        </div>
+
         <main class="conteudo-principal">
             <div class="box" id="box">
                 <canvas id="canvas"></canvas>
@@ -62,7 +73,7 @@
                 <button class="tentar-novamente-btn" id="tentar-novamente-btn">Tentar Novamente</button>
                 <div class="vitoria-conteiner">
                     <h1 class="mensagemV">PARABÉNS! <br> VOCÊ COMPLETOU O JOGO!</h1>
-                    <a href="../Home/home.html"><button class="Pfase">Voltar para o Início</button></a>
+                    <a  href="../Home/home.html"><button class="Pfase">Voltar para o Início</button></a>
                 </div>
             </div>
             <div id="meu-editor-codigo"></div>

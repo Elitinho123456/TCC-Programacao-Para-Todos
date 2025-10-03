@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parabéns! - Jogo Concluído</title>
+    <link rel="stylesheet" href="creditos.css">
+</head>
+<audio id="creditosAudio" loop>
+    <source src="imagem-level-Parabéns/obrigado.mp3" type="audio/mp3">
+    Seu navegador não suporta o elemento de áudio.
+</audio>
+<script>
+    // Função para tocar o áudio após interação do usuário
+    function playAudio() {
+        const audio = document.getElementById('creditosAudio');
+        const playPromise = audio.play();
+
+        //define o volume do audio
+        audio.volume = 0.3;
+        
+        // Em navegadores que não permitem autoplay, mostra um botão
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log('Autoplay não permitido:', error);
+                const playButton = document.createElement('button');
+                playButton.textContent = 'Tocar Música';
+                playButton.style.position = 'fixed';
+                playButton.style.bottom = '20px';
+                playButton.style.left = '50%';
+                playButton.style.transform = 'translateX(-50%)';
+                playButton.style.padding = '10px 20px';
+                playButton.style.fontSize = '1.2em';
+                playButton.style.zIndex = '1000';
+                playButton.addEventListener('click', () => {
+                    audio.play();
+                    playButton.remove();
+                });
+                document.body.appendChild(playButton);
+            });
+        }
+    }
+
+    // Tenta tocar quando a página carregar
+    document.addEventListener('DOMContentLoaded', playAudio);
+    
+    // Tenta tocar quando o usuário interagir com a página
+    document.addEventListener('click', function playOnInteraction() {
+        playAudio();
+        document.removeEventListener('click', playOnInteraction);
+    });
+
+    // Handle secret section reveal on down arrow key press
+    let secretRevealed = false;
+    
+    document.addEventListener('keydown', function(event) {
+        // Only trigger if down arrow with the shift key is pressed and secret isn't already revealed
+        if (event.key === 'ArrowDown' && event.shiftKey && !secretRevealed) {
+            event.preventDefault(); // Prevent default page scrolling
+            const secretSection = document.querySelector('.secret-section');
+            if (secretSection) {
+                secretSection.classList.add('visible');
+                secretRevealed = true;
+                
+                // Calculate position to scroll to (slightly above the section)
+                setTimeout(() => {
+                    const yOffset = -50; // Adjust this value as needed
+                    const y = secretSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                }, 100);
+            }
+        }
+    });
+</script>
+<body>
+    <div class="credits-container">
+        <div class="credits-content">
+        
+            <h1>Parabéns!</h1>
+            <h2>Você completou todas as fases!</h2>
+            
+            <div class="credits-scroll">
+                <div class="credit-section">
+                    <h3>Desenvolvimento</h3>
+                    <p>Equipe de Desenvolvimento de Jogos Educacionais</p>
+                    <p>Programação: Ferculos & Elitinho123456</p>
+                    <p>Design: Ferculos & Elitinho123456</p>
+                    <p>Arte: Ferculos & Elitinho123456</p>
+                </div>
+
+                <div class="credit-section">
+                    <h3>Agradecimentos Especiais</h3>
+                    <p>Aos nossos incríveis jogadores por embarcarem nessa jornada de aprendizado!</p>
+                    <p>Aos professores e educadores que acreditam no poder dos jogos educacionais. Em principal o Diego Barros e Silva, que apoiou e nos ajudou durante todo o projeto.</p>
+                    <p>A todos que apoiaram e testaram o jogo durante o desenvolvimento.</p>
+                    <p>Muito obrigado; Lorrainy, Welligton, Diego, Guilherme Terenciane, Maxmiller, Cezinha, Rogerio, em resumo obrigado professores e a minha namorada.</p>
+                </div>
+
+                <div class="credit-section">
+                    <h3>Sobre o Jogo</h3>
+                    <p>Este jogo foi desenvolvido como parte de um projeto educacional para ensinar programação de forma lúdica e interativa.</p>
+                    <p>Cada fase foi cuidadosamente projetada para apresentar conceitos de programação de forma gradual e acessível.</p>
+                    <p>Não vou mentir, era para ser bem mais complexo, mas foi o que deu.</p>
+                </div>
+
+                <div class="credit-section">
+                    <h3>Créditos de Mídia</h3>
+                    <p>Músicas: Não tem musica kkkk Até agora... Equipe E - Ordem Paranormal</p>
+                    <p>Efeitos Sonoros: Não tem efeitos sonoros kkkk</p>
+                    <p>Ícones: não temos também olha que legal</p>
+                </div>
+
+
+                <div class="final-thanks">
+                    <h2>Muito Obrigado por Jogar!</h2>
+                    <p>Esperamos que tenha se divertido aprendendo programação conosco!</p>
+                    <button onclick="window.location.href='../Home/home.html'" class="back-home">Voltar para o Início</button>
+                </div>
+
+                <!-- Secret Section -->
+                <div class="secret-section">
+                    <div class="secret-content">
+                        <h2>🎉 Segredo Descoberto eeeehhhhh! 🎉</h2>
+                        <p>Parabéns por ter encontrado essa mensagem secreta!</p>
+                        <p>Você é um dos poucos que chegaram até aqui. Aqui está um algo que deveria ser especial:</p>
+                        <div class="secret-message">
+                            <p>Tem tempos que é dificil, mas tenho tentado todo dia, fazer esse projeto mesmo que simple foi divertido para mim.</p>
+                            <p>Todas as pessoas no mundo, que não fazem mal ao outro, são incríveis, tenha amor por si e por todos obrigado. ❤️</p>
+                            <p>Espero que o Welligton não veja ksksksk</p>
+                            <p>Com carinho,<br>Fernando</p>
+                        </div>
+                        <p class="secret-note">(Agora você pode voltar para o início ou continuar apreciando os créditos)</p>
+                        <button onclick="window.location.href='../Home/home.html'" class="back-home">Voltar para o Início</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Side decorations -->
+        <div class="side-decor left">
+            <div class="decoration"><img src="imagem-level-Parabéns/lor.png" alt="love"></div>
+            <div class="decoration"><img src="imagem-level-Parabéns/eri.png" alt="Professor"></div>
+            <div class="decoration"><img src="imagem-level-Parabéns/cezi.png" alt="Professor"></div>
+            <div class="decoration"><img src="imagem-level-Parabéns/max (1).png" alt="Professor"></div>
+            <div class="decoration"><img src="imagem-level-Parabéns/rog.png" alt="Professor"></div>
+            <div class="decoration"><img src="imagem-level-Parabéns/tere.png" alt="Professor"></div>
+            <div class="decoration"><img src="imagem-level-Parabéns/diego.png" alt="Professor"></div>
+        </div>
+
+        <div class="side-decor right">
+            <div class="decoration"><img src="imagem-level-Parabéns/lor.png" alt="love"></div>
+            <div class="decoration"><img src="imagem-level-Parabéns/eri.png" alt="Professor"></div>
+            <div class="decoration"><img src="imagem-level-Parabéns/cezi.png" alt="Professor"></div>
+            <div class="decoration"><img src="imagem-level-Parabéns/max (1).png" alt="Professor"></div>
+            <div class="decoration"><img src="imagem-level-Parabéns/rog.png" alt="Professor"></div>
+            <div class="decoration"><img src="imagem-level-Parabéns/tere.png" alt="Professor"></div>
+            <div class="decoration"><img src="imagem-level-Parabéns/diego.png" alt="Professor"></div>
+        </div>
+    </div>
+</body>
+</html>

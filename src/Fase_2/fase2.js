@@ -1,4 +1,52 @@
+// Variável global para o áudio
+let bgMusic;
+
+// Função global para alternar o mudo
+function toggleMute() {
+    if (!bgMusic) {
+        bgMusic = document.getElementById('bgMusic');
+        if (!bgMusic) return;
+        bgMusic.volume = 0.5;
+    }
+
+    bgMusic.muted = !bgMusic.muted;
+    const muteBtn = document.getElementById('mute-btn');
+    if (muteBtn) {
+        muteBtn.textContent = bgMusic.muted ? '🔇' : '🔊';
+    }
+}
+
+// Adiciona o event listener para o botão de mudo
+bgMusic = document.getElementById('bgMusic');
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Adiciona o event listener para o botão de mudo
+    bgMusic = document.getElementById('bgMusic');
+    
+    if (bgMusic) {
+        bgMusic.volume = 0.5;
+
+        // Tenta reproduzir a música quando o usuário interagir com a página
+        function startMusic() {
+            const playPromise = bgMusic.play();
+
+            // Em navegadores que não permitem autoplay, isso irá capturar a rejeição
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log('A reprodução automática foi impedida. O usuário precisa interagir primeiro.');
+                });
+            }
+        }
+
+        // Tenta iniciar a música quando o usuário clicar pela primeira vez
+        function initAudio() {
+            startMusic();
+            // Remove o event listener após o primeiro clique para não ativar várias vezes
+            document.removeEventListener('click', initAudio);
+        }
+
+        document.addEventListener('click', initAudio);
+    }
 
     // ============= Editor de Codigo =============
     const code = document.getElementById('meu-editor-codigo');
@@ -43,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const escala = 10;
 
     const jogo = {
-        fatorAceleracao: 0.5 
+        fatorAceleracao: 0.5
     };
 
     let isGameOver = false;
@@ -71,8 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (jogo.fatorAceleracao >= 21) {
                 // Quanto maior o fator, mais rápido e mais longe ele sobe
                 gameOver();
-                const distancia = Math.min(jogo.fatorAceleracao * 15, 1200); 
-                const duracaoSubida = Math.max(300, 2000 - (jogo.fatorAceleracao * 20)); 
+                const distancia = Math.min(jogo.fatorAceleracao * 15, 1200);
+                const duracaoSubida = Math.max(300, 2000 - (jogo.fatorAceleracao * 20 ));
 
                 x_offset = 80;
                 y_offset = (-progresso * distancia);
@@ -209,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================================================
     function vitoria() {
         // Impede vitória se fatorAceleracao for absurdo
-        if (jogo.fatorAceleracao >= 21) return; // ou o valor que você definir como "alto demais"
+        if (jogo.fatorAceleracao >= 21) return;
         if (isGameOver) return;
         isGameOver = true;
         cancelAnimationFrame(gameLoopId);
@@ -236,6 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         velocidadeNecessariaDisplay.textContent = velocidadeNecessaria;
         velocidadeAtualDisplay.textContent = 0;
+        jogo.fatorAceleracao = 0.5 / escala;
 
         playerContainer.style.left = `${posicaoX}px`;
         playerContainer.style.bottom = '72px';
@@ -255,24 +304,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function executarCodigo() {
         // 1. Reseta a aceleração para o valor padrão JÁ ESCALADO
-        jogo.fatorAceleracao = 0.5 / escala; 
+        jogo.fatorAceleracao = 0.5 / escala;
         resetPlayer();
-    
+
         try {
             const codigoDoUsuario = editor.getValue();
-    
+
             const elementos = {
                 playerContainer: playerContainer,
                 bandeira: bandeira
             };
             const acoes = {};
-    
+
             const funcaoDoUsuario = new Function('jogo', 'elementos', 'acoes', `'use strict';\n${codigoDoUsuario}`);
             funcaoDoUsuario(jogo, elementos, acoes);
-    
+
             jogo.fatorAceleracao = jogo.fatorAceleracao / escala;
-    
-    
+
+
         } catch (e) {
             alert("Ocorreu um erro no seu código:\n" + e.message);
             gameOver();

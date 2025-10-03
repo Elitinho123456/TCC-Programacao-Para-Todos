@@ -13,6 +13,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
     <script src="fase2.js"></script>
+    <audio id="bgMusic" autoplay loop>
+        <source src="../../public/sonic-music.mp3" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
 </head>
 
 <body>
@@ -47,6 +51,13 @@
                 </p>
             </div>
         </aside>
+
+        <div id="btn-mute">
+            <button id="mute-btn">🔇</button>
+            <script>
+                document.getElementById('mute-btn').addEventListener('click', toggleMute);
+            </script>
+        </div>
 
         <main class="conteudo-principal">
             <div class="box">

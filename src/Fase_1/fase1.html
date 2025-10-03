@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="fase1.css">
     <link rel="website icon" type="png" href="imagem-level-1/playerV.png">
     <script src="fase1.js"></script>
+    <audio id="bgMusic" autoplay loop>
+        <source src="/public/mario-music.mp3" type="audio/mp3">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
 
@@ -48,6 +52,13 @@
             <p id="texto-dica" style="display:none;">Tente trocar a posição do player ou do obstaculo, usando talvez
                 'style.top' ou 'bottom'.</p>
         </aside>
+
+        <div id="btn-mute">
+            <button id="mute-btn">🔇</button>
+            <script>
+                document.getElementById('mute-btn').addEventListener('click', toggleMute);
+            </script>
+        </div>
 
         <main class="conteudo-principal">
 

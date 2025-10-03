@@ -1,3 +1,21 @@
+// Variável global para o áudio
+let bgMusic;
+
+// Função global para alternar o mudo
+function toggleMute() {
+    if (!bgMusic) {
+        bgMusic = document.getElementById('bgMusic');
+        if (!bgMusic) return;
+        bgMusic.volume = 0.5;
+    }
+
+    bgMusic.muted = !bgMusic.muted;
+    const muteBtn = document.getElementById('mute-btn');
+    if (muteBtn) {
+        muteBtn.textContent = bgMusic.muted ? '🔇' : '🔊';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
 
     const player = document.querySelector('.player');
@@ -143,6 +161,33 @@ document.addEventListener('DOMContentLoaded', function () {
         requestAnimationFrame(gameLoop);
     }
 
+    // Adiciona o event listener para o botão de mudo
+    bgMusic = document.getElementById('bgMusic');
+    
+    if (bgMusic) {
+        bgMusic.volume = 0.5;
+
+        // Tenta reproduzir a música quando o usuário interagir com a página
+        function startMusic() {
+            const playPromise = bgMusic.play();
+
+            // Em navegadores que não permitem autoplay, isso irá capturar a rejeição
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log('A reprodução automática foi impedida. O usuário precisa interagir primeiro.');
+                });
+            }
+        }
+
+        // Tenta iniciar a música quando o usuário clicar pela primeira vez
+        function initAudio() {
+            startMusic();
+            // Remove o event listener após o primeiro clique para não ativar várias vezes
+            document.removeEventListener('click', initAudio);
+        }
+
+        document.addEventListener('click', initAudio);
+    }
     resetGame();
     gameLoop();
 
